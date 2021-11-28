@@ -3,7 +3,6 @@ FROM node:12.22.6
 WORKDIR /usr/soundgiph-backend/
 
 COPY package.json ./
-COPY yarn.lock ./
 
 ENV MODE production 
 ENV HOST 0.0.0.0
