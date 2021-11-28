@@ -9,7 +9,7 @@ var httpServer = createServer(function(req,res){
     res.end(JSON.stringify(fetchAll()));
 });
 
-httpServer.listen(8080, () => {
+httpServer.listen(3000, () => {
     console.log("Serving http")
 })
 
