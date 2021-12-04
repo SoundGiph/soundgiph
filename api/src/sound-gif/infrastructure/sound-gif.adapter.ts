@@ -31,7 +31,15 @@ export class SoundGifAdapter implements SoundGifPort {
     return await this.soundGifRepository.find({
       where: {
         createdAt: 'DESC',
-        createdAt: 'ASC',
+      },
+    });
+  }
+
+  public async findMostShared(): Promise<SoundGifEntity[]> {
+    this.logger.error(`FindAddressAdapter > findMostShared > start`);
+    return await this.soundGifRepository.find({
+      where: {
+        sharedCount: 'DESC',
       },
     });
   }
