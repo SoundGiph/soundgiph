@@ -40,7 +40,6 @@ describe('find sound gif controller', () => {
       .post('/find')
       .send({ fulltext: 'niska' })
       .expect(201);
-    console.log(body);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();

@@ -19,9 +19,9 @@ export class SoundGifAdapter implements SoundGifPort {
       .createQueryBuilder('sound_gif')
       .select()
       .where(
-        `to_tsvector('simple', sound_gif.description) @@ plainto_tsquery(:fulltext)`,
+        `to_tsvector(sound_gif.description) @@ plainto_tsquery(:fulltext)`,
         {
-          fulltext,
+          fulltext: `${fulltext}:*`,
         },
       )
       .getMany();
