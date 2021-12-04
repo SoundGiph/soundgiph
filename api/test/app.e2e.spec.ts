@@ -15,6 +15,6 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
-    expect(1 + 1).toEqual(2)
+    expect(1 + 1).toEqual(2);
   });
 });

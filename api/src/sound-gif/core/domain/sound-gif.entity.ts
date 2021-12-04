@@ -3,7 +3,7 @@ import { Base } from '../../../common/entities/base.entity';
 
 @Entity('sound_gif')
 export class SoundGifEntity extends Base {
-  id!: string & { brand: 'addressId' };
+  id!: string & { brand: 'soundGifId' };
 
   @Index({ fulltext: true })
   @Column({ nullable: true })

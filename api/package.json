@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "start:dev:db": "./start-db.sh",
     "typeorm:dev": " ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig.ts",
+    "migration:dev": "yarn typeorm:dev migration:run",
     "migration:create:dev": "yarn typeorm:dev migration:create",
     "migration:generate:dev": "yarn typeorm:dev migration:generate",
     "schema-log:dev": "yarn typeorm:dev schema:log"
@@ -32,6 +33,7 @@
     "@nestjs/platform-express": "^8.1.1",
     "@nestjs/typeorm": "^8.0.2",
     "dotenv": "^10.0.0",
+    "faker": "^5.5.3",
     "nodemon": "^2.0.15",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
@@ -44,6 +46,7 @@
     "@nestjs/schematics": "^8.0.4",
     "@nestjs/testing": "^8.1.1",
     "@types/express": "^4.17.13",
+    "@types/faker": "^5.5.9",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.1",
     "@types/supertest": "^2.0.11",
