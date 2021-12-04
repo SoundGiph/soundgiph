@@ -30,6 +30,7 @@ export class SoundGifAdapter implements SoundGifPort {
     this.logger.error(`FindAddressAdapter > findMostRecent > start`);
     return await this.soundGifRepository.find({
       where: {
+        createdAt: 'DESC',
         createdAt: 'ASC',
       },
     });
