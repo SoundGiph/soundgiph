@@ -8,9 +8,9 @@ import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound
 
 const soundGifFixtures = [
   soundGifFixtureFactory({ sharedCount: 5, description: 'sch' }),
-  soundGifFixtureFactory({ personalityName: 'hamza' }),
-  soundGifFixtureFactory({ audioTitle: 'niska méchant' }),
-  soundGifFixtureFactory({ description: 'sex' }),
+  soundGifFixtureFactory({ sharedCount: 4, personalityName: 'hamza' }),
+  soundGifFixtureFactory({ sharedCount: 3, audioTitle: 'niska méchant' }),
+  soundGifFixtureFactory({ sharedCount: 2, description: 'sex' }),
   soundGifFixtureFactory({ description: 'bonjour' }),
 ];
 describe('find most shared sound gif controller', () => {
@@ -35,7 +35,7 @@ describe('find most shared sound gif controller', () => {
   afterAll(async () => {
     await app.close();
   });
-  it('should find sound gif', async () => {
+  it('should find most shared sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
       .get('/findMostShared')
       .expect(200);

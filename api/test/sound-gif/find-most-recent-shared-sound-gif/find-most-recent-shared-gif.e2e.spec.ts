@@ -41,7 +41,7 @@ describe('find most recent sound gif controller', () => {
   afterAll(async () => {
     await app.close();
   });
-  it('should find sound gif', async () => {
+  it('should find most recent sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
       .get('/findMostRecent')
       .expect(200);

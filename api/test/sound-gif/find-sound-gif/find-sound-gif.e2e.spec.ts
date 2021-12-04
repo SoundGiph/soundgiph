@@ -38,7 +38,7 @@ describe('find sound gif controller', () => {
   it('should find sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
       .post('/find')
-      .send({ fulltext: 'bon' })
+      .send({ fulltext: 'bonjour' })
       .expect(201);
     console.log('body => ', body);
     expect(error).toBeFalsy();

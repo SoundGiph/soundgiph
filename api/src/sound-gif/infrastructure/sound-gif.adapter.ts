@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Like, Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { SoundGifPort } from '../core/application/ports/sound-gif.ports';
 import { SoundGifEntity } from '../core/domain/sound-gif.entity';
 
@@ -16,11 +16,11 @@ export class SoundGifAdapter implements SoundGifPort {
       `FindAddressAdapter > find > called with fulltext: ${fulltext}`,
     );
     return await this.soundGifRepository.find({
-      where: {
-        description: ILike(fulltext),
-        personalityName: ILike(fulltext),
-        audioTitle: ILike(fulltext),
-      },
+      where: [
+        { description: ILike(`%${fulltext}%`) },
+        { personalityName: ILike(`%${fulltext}%`) },
+        { audioTitle: ILike(`%${fulltext}%`) },
+      ],
     });
   }
 
