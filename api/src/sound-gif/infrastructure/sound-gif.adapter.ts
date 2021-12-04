@@ -10,7 +10,9 @@ export class SoundGifAdapter implements SoundGifPort {
   ) {}
 
   public async find(fulltext: string): Promise<SoundGifEntity[]> {
-    this.logger.error(`FindAddressAdapter > called with fulltext: ${fulltext}`);
+    this.logger.error(
+      `FindAddressAdapter > find > called with fulltext: ${fulltext}`,
+    );
     return await this.soundGifRepository
       .createQueryBuilder()
       .select()
@@ -22,5 +24,14 @@ export class SoundGifAdapter implements SoundGifPort {
         searchTerm: `%${fulltext}%`,
       })
       .getMany();
+  }
+
+  public async findMostRecent(): Promise<SoundGifEntity[]> {
+    this.logger.error(`FindAddressAdapter > findMostRecent > start`);
+    return await this.soundGifRepository.find({
+      where: {
+        createdAt: 'ASC',
+      },
+    });
   }
 }
