@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SoundGifPort } from '../core/application/ports/sound-gif.ports';
 import { SoundGifEntity } from '../core/domain/sound-gif.entity';
@@ -6,6 +7,7 @@ import { SoundGifEntity } from '../core/domain/sound-gif.entity';
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
   constructor(
+    @InjectRepository(SoundGifEntity)
     private readonly soundGifRepository: Repository<SoundGifEntity>,
   ) {}
 
@@ -14,31 +16,30 @@ export class SoundGifAdapter implements SoundGifPort {
       `FindAddressAdapter > find > called with fulltext: ${fulltext}`,
     );
     return await this.soundGifRepository
-      .createQueryBuilder()
+      .createQueryBuilder('sound_gif')
       .select()
-      .where('description ILIKE :searchTerm', { searchTerm: `%${fulltext}%` })
-      .andWhere('personalityName ILIKE :searchTerm', {
-        searchTerm: `%${fulltext}%`,
-      })
-      .andWhere('audioTitle ILIKE :searchTerm', {
-        searchTerm: `%${fulltext}%`,
-      })
+      .where(
+        `to_tsvector('simple', sound_gif.description) @@ plainto_tsquery(:fulltext)`,
+        {
+          fulltext,
+        },
+      )
       .getMany();
   }
 
   public async findMostRecent(): Promise<SoundGifEntity[]> {
-    this.logger.log(`FindAddressAdapter > findMostRecent > start`);
+    this.logger.log('FindAddressAdapter > findMostRecent > start');
     return await this.soundGifRepository.find({
-      where: {
+      order: {
         createdAt: 'DESC',
       },
     });
   }
 
   public async findMostShared(): Promise<SoundGifEntity[]> {
-    this.logger.log(`FindAddressAdapter > findMostShared > start`);
+    this.logger.log('FindAddressAdapter > findMostShared > start');
     return await this.soundGifRepository.find({
-      where: {
+      order: {
         sharedCount: 'DESC',
       },
     });

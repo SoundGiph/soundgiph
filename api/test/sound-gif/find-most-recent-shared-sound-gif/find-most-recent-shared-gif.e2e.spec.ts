@@ -6,14 +6,20 @@ import { AppModule } from '../../../src/app/app.module';
 import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.entity';
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
 
+const today = new Date();
+const date = new Date();
+const yesterday = new Date(date.setDate(date.getDate() - 7));
 const soundGifFixtures = [
-  soundGifFixtureFactory({ description: 'sch' }),
-  soundGifFixtureFactory({ personalityName: 'hamza' }),
-  soundGifFixtureFactory({ audioTitle: 'niska méchant' }),
-  soundGifFixtureFactory({ description: 'sex' }),
-  soundGifFixtureFactory({ description: 'bonjour' }),
+  soundGifFixtureFactory({
+    createdAt: yesterday,
+    description: 'sch',
+  }),
+  soundGifFixtureFactory({ createdAt: yesterday, personalityName: 'hamza' }),
+  soundGifFixtureFactory({ createdAt: yesterday, audioTitle: 'niska méchant' }),
+  soundGifFixtureFactory({ createdAt: yesterday, description: 'sex' }),
+  soundGifFixtureFactory({ createdAt: today, description: 'bonjour' }),
 ];
-describe('find sound gif controller', () => {
+describe('find most recent sound gif controller', () => {
   let app: NestApplication;
   let connection: Connection;
 
@@ -37,12 +43,12 @@ describe('find sound gif controller', () => {
   });
   it('should find sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/find')
-      .send({ fulltext: 'niska' })
-      .expect(201);
-    console.log(body);
+      .get('/findMostRecent')
+      .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();
+    expect(body.length).toStrictEqual(5);
+    expect(body[0].description).toStrictEqual('bonjour');
   });
 });

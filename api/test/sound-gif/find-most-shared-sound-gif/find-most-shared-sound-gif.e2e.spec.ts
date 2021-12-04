@@ -7,13 +7,13 @@ import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.ent
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
 
 const soundGifFixtures = [
-  soundGifFixtureFactory({ description: 'sch' }),
+  soundGifFixtureFactory({ sharedCount: 5, description: 'sch' }),
   soundGifFixtureFactory({ personalityName: 'hamza' }),
   soundGifFixtureFactory({ audioTitle: 'niska méchant' }),
   soundGifFixtureFactory({ description: 'sex' }),
   soundGifFixtureFactory({ description: 'bonjour' }),
 ];
-describe('find sound gif controller', () => {
+describe('find most shared sound gif controller', () => {
   let app: NestApplication;
   let connection: Connection;
 
@@ -37,12 +37,12 @@ describe('find sound gif controller', () => {
   });
   it('should find sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/find')
-      .send({ fulltext: 'niska' })
-      .expect(201);
-    console.log(body);
+      .get('/findMostShared')
+      .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();
+    expect(body.length).toStrictEqual(5);
+    expect(body[0].description).toStrictEqual('sch');
   });
 });
