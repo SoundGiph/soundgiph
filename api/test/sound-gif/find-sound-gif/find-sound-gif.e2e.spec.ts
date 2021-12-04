@@ -5,6 +5,7 @@ import { Connection } from 'typeorm';
 import { AppModule } from '../../../src/app/app.module';
 import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.entity';
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
+import { SoundGifAdapter } from '../../../src/sound-gif/infrastructure/sound-gif.adapter';
 
 const soundGifFixtures = [
   soundGifFixtureFactory({ description: 'sch' }),
@@ -27,7 +28,7 @@ describe('find sound gif controller', () => {
     if (process.env.NODE_ENV !== 'production') {
       connection = app.get(Connection);
       await connection.synchronize(true);
-      await connection.getRepository('sound_gif').save(soundGifFixtures);
+      await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
     }
   });
 
