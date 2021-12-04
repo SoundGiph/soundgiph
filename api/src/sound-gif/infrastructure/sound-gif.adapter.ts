@@ -10,7 +10,7 @@ export class SoundGifAdapter implements SoundGifPort {
   ) {}
 
   public async find(fulltext: string): Promise<SoundGifEntity[]> {
-    this.logger.error(
+    this.logger.log(
       `FindAddressAdapter > find > called with fulltext: ${fulltext}`,
     );
     return await this.soundGifRepository
@@ -27,7 +27,7 @@ export class SoundGifAdapter implements SoundGifPort {
   }
 
   public async findMostRecent(): Promise<SoundGifEntity[]> {
-    this.logger.error(`FindAddressAdapter > findMostRecent > start`);
+    this.logger.log(`FindAddressAdapter > findMostRecent > start`);
     return await this.soundGifRepository.find({
       where: {
         createdAt: 'DESC',
@@ -36,7 +36,7 @@ export class SoundGifAdapter implements SoundGifPort {
   }
 
   public async findMostShared(): Promise<SoundGifEntity[]> {
-    this.logger.error(`FindAddressAdapter > findMostShared > start`);
+    this.logger.log(`FindAddressAdapter > findMostShared > start`);
     return await this.soundGifRepository.find({
       where: {
         sharedCount: 'DESC',
