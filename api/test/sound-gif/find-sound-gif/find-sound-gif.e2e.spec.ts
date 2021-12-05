@@ -24,18 +24,15 @@ describe('find sound gif controller', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-
-    if (process.env.NODE_ENV !== 'production') {
-      connection = app.get(Connection);
-      await connection.synchronize(true);
-      await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
-    }
+    connection = app.get(Connection);
+    await connection.synchronize(true);
+    await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
   });
 
   afterAll(async () => {
     await app.close();
   });
-  it('should find sound gif', async () => {
+  it('should find sound gif with fulltext', async () => {
     const { body, error } = await request(app.getHttpServer())
       .post('/find')
       .send({ fulltext: 'nis' })
@@ -44,5 +41,15 @@ describe('find sound gif controller', () => {
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();
     expect(body[0].audioTitle).toStrictEqual('niska méchant');
+  });
+
+  it('should find all sound gif without fulltext', async () => {
+    const { body, error } = await request(app.getHttpServer())
+      .post('/find')
+      .send({ fulltext: '' })
+      .expect(201);
+    expect(error).toBeFalsy();
+    expect(body).toBeDefined();
+    expect(body.length).toStrictEqual(5);
   });
 });

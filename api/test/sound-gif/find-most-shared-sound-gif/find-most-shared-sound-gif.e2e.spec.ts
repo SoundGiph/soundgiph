@@ -24,12 +24,9 @@ describe('find most shared sound gif controller', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-
-    if (process.env.NODE_ENV !== 'production') {
-      connection = app.get(Connection);
-      await connection.synchronize(true);
-      await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
-    }
+    connection = app.get(Connection);
+    await connection.synchronize(true);
+    await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
   });
 
   afterAll(async () => {

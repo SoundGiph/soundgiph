@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { SoundGifPort } from '../core/application/ports/sound-gif.ports';
 import { SoundGifEntity } from '../core/domain/sound-gif.entity';
 
@@ -11,17 +11,11 @@ export class SoundGifAdapter implements SoundGifPort {
     private readonly soundGifRepository: Repository<SoundGifEntity>,
   ) {}
 
-  public async find(fulltext: string): Promise<SoundGifEntity[]> {
+  public async find(whereOptions: FindManyOptions): Promise<SoundGifEntity[]> {
     this.logger.log(
-      `FindAddressAdapter > find > called with fulltext: ${fulltext}`,
+      `FindAddressAdapter > find > called with whereOptions: ${whereOptions}`,
     );
-    return await this.soundGifRepository.find({
-      where: [
-        { description: ILike(`%${fulltext}%`) },
-        { personalityName: ILike(`%${fulltext}%`) },
-        { audioTitle: ILike(`%${fulltext}%`) },
-      ],
-    });
+    return await this.soundGifRepository.find(whereOptions);
   }
 
   public async findMostRecent(): Promise<SoundGifEntity[]> {
