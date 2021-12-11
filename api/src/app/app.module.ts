@@ -16,7 +16,10 @@ import { SoundGifModule } from '../sound-gif/sound-gif.module';
         port: configService.get<number>('POSTGRES_PORT', 5432),
         username: configService.get('POSTGRES_USER', 'soundgif'),
         password: configService.get('POSTGRES_PASSWORD', 'soundgif'),
-        database: configService.get('POSTGRES_DATABASE', 'soundgif'),
+        database:
+          configService.get('ENV', 'dev') === 'test'
+            ? configService.get('POSTGRES_DATABASE_TEST', 'soundgif-test')
+            : configService.get('POSTGRES_DATABASE', 'soundgif'),
         entities: ['src/**/*.entity{.ts,.js}'],
         synchronize: true,
         migrationsTableName: 'migration',
