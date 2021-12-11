@@ -43,9 +43,9 @@ describe('find most recent sound gif controller', () => {
       .get('/findMostRecent')
       .expect(200);
     expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(Boolean(body.length)).toBeTruthy();
-    expect(body.length).toStrictEqual(5);
-    expect(body[0].description).toStrictEqual('bonjour');
+    expect(body.soundGifs).toBeDefined();
+    expect(Boolean(body.soundGifs.length)).toBeTruthy();
+    expect(body.soundGifs.length).toStrictEqual(5);
+    expect(body.soundGifs[0].description).toStrictEqual('bonjour');
   });
 });

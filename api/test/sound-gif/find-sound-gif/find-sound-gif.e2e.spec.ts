@@ -38,9 +38,9 @@ describe('find sound gif controller', () => {
       .send({ fulltext: 'nis' })
       .expect(201);
     expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(Boolean(body.length)).toBeTruthy();
-    expect(body[0].audioTitle).toStrictEqual('niska méchant');
+    expect(body.soundGifs).toBeDefined();
+    expect(Boolean(body.soundGifs.length)).toBeTruthy();
+    expect(body.soundGifs[0].audioTitle).toStrictEqual('niska méchant');
   });
 
   it('should find all sound gif without fulltext', async () => {
@@ -49,7 +49,7 @@ describe('find sound gif controller', () => {
       .send({ fulltext: '' })
       .expect(201);
     expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(body.length).toStrictEqual(5);
+    expect(body.soundGifs).toBeDefined();
+    expect(body.soundGifs.length).toStrictEqual(5);
   });
 });

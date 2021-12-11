@@ -3,7 +3,10 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FindManyOptions, ILike } from 'typeorm';
 import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 import { SoundGifPort } from '../../ports/sound-gif.ports';
-import { FindSoundGifQuery } from './find-sound-gif.query';
+import {
+  FindMostSharedSoundGifQueryResult,
+  FindSoundGifQuery,
+} from './find-sound-gif.query';
 
 @QueryHandler(FindSoundGifQuery)
 export class FindSoundGifQueryHandler
@@ -16,7 +19,7 @@ export class FindSoundGifQueryHandler
 
   public async execute({
     payload,
-  }: FindSoundGifQuery): Promise<SoundGifEntity[]> {
+  }: FindSoundGifQuery): Promise<FindMostSharedSoundGifQueryResult> {
     const { fulltext } = payload;
     const whereOptions: FindManyOptions = Boolean(fulltext)
       ? {
@@ -27,6 +30,7 @@ export class FindSoundGifQueryHandler
           ],
         }
       : {};
-    return await this.findSoundGifPort.find(whereOptions);
+    const soundGifs = await this.findSoundGifPort.find(whereOptions);
+    return new FindMostSharedSoundGifQueryResult(soundGifs);
   }
 }

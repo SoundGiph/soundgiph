@@ -18,6 +18,6 @@ describe('FindSoundGifQuery', () => {
 
   it('should call SoundGifPort, 1 time with fulltext', async () => {
     await findSoundGifQueryHandler.execute(findSoundGifQuery);
-    expect(SoundGifPort.find).toHaveBeenNthCalledWith(1, payload.fulltext);
+    expect(SoundGifPort.find).toHaveBeenCalledTimes(1);
   });
 });

@@ -2,7 +2,10 @@ import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 import { SoundGifPort } from '../../ports/sound-gif.ports';
-import { FindMostSharedSoundGifQuery } from './find-most-shared-sound-gif.query';
+import {
+  FindMostSharedSoundGifQuery,
+  FindMostSharedSoundGifQueryResult,
+} from './find-most-shared-sound-gif.query';
 
 @QueryHandler(FindMostSharedSoundGifQuery)
 export class FindMostSharedSoundGifQueryHandler
@@ -13,7 +16,8 @@ export class FindMostSharedSoundGifQueryHandler
     private readonly findSoundGifPort: Pick<SoundGifPort, 'findMostShared'>,
   ) {}
 
-  public async execute(): Promise<SoundGifEntity[]> {
-    return await this.findSoundGifPort.findMostShared();
+  public async execute(): Promise<FindMostSharedSoundGifQueryResult> {
+    const soundGifs = await this.findSoundGifPort.findMostShared();
+    return new FindMostSharedSoundGifQueryResult(soundGifs);
   }
 }
