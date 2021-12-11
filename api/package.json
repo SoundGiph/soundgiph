@@ -26,6 +26,7 @@
     "schema-log:dev": "yarn typeorm:dev schema:log"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.8.0",
     "@nestjs/common": "^8.1.1",
     "@nestjs/config": "^1.1.5",
     "@nestjs/core": "^8.1.1",

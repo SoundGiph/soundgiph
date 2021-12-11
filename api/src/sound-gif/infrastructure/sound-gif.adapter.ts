@@ -13,13 +13,13 @@ export class SoundGifAdapter implements SoundGifPort {
 
   public async find(whereOptions: FindManyOptions): Promise<SoundGifEntity[]> {
     this.logger.log(
-      `FindAddressAdapter > find > called with whereOptions: ${whereOptions}`,
+      `SoundGifAdapter > find > called with whereOptions: ${whereOptions}`,
     );
     return await this.soundGifRepository.find(whereOptions);
   }
 
   public async findMostRecent(): Promise<SoundGifEntity[]> {
-    this.logger.log('FindAddressAdapter > findMostRecent > start');
+    this.logger.log('SoundGifAdapter > findMostRecent > start');
     return await this.soundGifRepository.find({
       order: {
         createdAt: 'DESC',
@@ -28,7 +28,7 @@ export class SoundGifAdapter implements SoundGifPort {
   }
 
   public async findMostShared(): Promise<SoundGifEntity[]> {
-    this.logger.log('FindAddressAdapter > findMostShared > start');
+    this.logger.log('SoundGifAdapter > findMostShared > start');
     return await this.soundGifRepository.find({
       order: {
         sharedCount: 'DESC',
