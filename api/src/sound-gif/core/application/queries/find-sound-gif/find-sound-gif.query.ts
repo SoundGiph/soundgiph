@@ -1,11 +1,11 @@
 import { IQuery, IQueryResult } from '@nestjs/cqrs';
 import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 
-export type FindDTO = {
+export type FindSoundGifPayload = {
   fulltext: string;
 };
 export class FindSoundGifQuery implements IQuery {
-  constructor(public readonly payload: { fulltext: string }) {}
+  constructor(public readonly payload: FindSoundGifPayload) {}
 }
 
 export class FindMostSharedSoundGifQueryResult implements IQueryResult {

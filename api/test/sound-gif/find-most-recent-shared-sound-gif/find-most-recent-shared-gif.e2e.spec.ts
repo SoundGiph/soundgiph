@@ -30,9 +30,11 @@ describe('find most recent sound gif controller', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
-    connection = app.get(Connection);
-    await connection.synchronize(true);
-    await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
+    if (process.env.NODE_ENV === 'test') {
+      connection = app.get(Connection);
+      await connection.synchronize(true);
+      await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
+    }
   });
 
   afterAll(async () => {

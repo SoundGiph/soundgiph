@@ -1,4 +1,5 @@
+import { AzureStoragePresenter } from './azure-blob-storage.presenter';
+
 export const AzureBlobStorageInterface = {
-  resolvers: [],
-  controllers: [],
+  presenters: [AzureStoragePresenter],
 };

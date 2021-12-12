@@ -1,7 +1,5 @@
-const AzureBlobStorageQueryHandler: any[] = [];
-const AzureBlobStorageCommandHandler: any[] = [];
+import { UploadFileToAzureStorageCommandHandler } from './commands/upload-file-to-azure-storage/upload-file-to-azure-storage.command-handler';
 
-export const AzureBlobStorageApplications = [
-  ...AzureBlobStorageQueryHandler,
-  ...AzureBlobStorageCommandHandler,
-];
+const AzureBlobStorageCommandHandler = [UploadFileToAzureStorageCommandHandler];
+
+export const AzureBlobStorageApplications = [...AzureBlobStorageCommandHandler];
