@@ -15,7 +15,7 @@ export class SoundGifEntity extends Base {
 
   @Index({ fulltext: true })
   @Column({ nullable: false })
-  audioTitle!: string;
+  title!: string;
 
   @Column({ nullable: false })
   audioUrl!: string;
@@ -26,3 +26,8 @@ export class SoundGifEntity extends Base {
   @Column({ nullable: false, default: 0 })
   sharedCount!: number;
 }
+
+export type SoundGifEntityMandatoryFields = Pick<
+  SoundGifEntity,
+  'title' | 'audioUrl' | 'imageUrl'
+>;

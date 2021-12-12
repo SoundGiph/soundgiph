@@ -12,11 +12,11 @@ export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
     this.logger.log(`AzureBlobStorageAdapter > connect > start`);
     const azureStorageKey = this.configService.get<string>(
       'AZURE_STORAGE_KEY',
-      undefined,
+      '',
     );
     const azureStorageUrl = this.configService.get<string>(
       'AZURE_STORAGE_URL',
-      undefined,
+      '',
     );
     if (!azureStorageKey || !azureStorageUrl) {
       throw new Error(AZURE_BLOB_STORAGE_NO_CREDENTIALS);

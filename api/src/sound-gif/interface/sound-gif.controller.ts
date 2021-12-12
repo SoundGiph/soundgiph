@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
+import {
+  CreateSoundGifCommand,
+  CreateSoundGifCommandResult,
+  CreateSoundGifPayload,
+} from '../core/application/commands/create-sound-gif/create-sound-gif.command';
 import { FindMostRecentSoundGifQuery } from '../core/application/queries/find-most-recent-sound-gif/find-most-recent-sound-gif.query';
 import { FindMostSharedSoundGifQuery } from '../core/application/queries/find-most-shared-sound-gif/find-most-shared-sound-gif.query';
 import {
@@ -20,6 +25,27 @@ export class SoundGifController {
         fulltext,
       }),
     );
+  }
+
+  @Post('/create')
+  async create(
+    @Body() payload: CreateSoundGifPayload,
+  ): Promise<SoundGifEntity> {
+    const { title, audioFile, imageFile, description, personalityName } =
+      payload;
+    const { createdSoundGif } = await this.queryBus.execute<
+      CreateSoundGifCommand,
+      CreateSoundGifCommandResult
+    >(
+      new CreateSoundGifCommand({
+        title,
+        audioFile,
+        imageFile,
+        description,
+        personalityName,
+      }),
+    );
+    return createdSoundGif;
   }
 
   @Get('/findMostRecent')

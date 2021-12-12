@@ -1,13 +1,13 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AzureBlobStoragePort } from '../../ports/azure-blob-storage.port';
 import {
   UploadFileToAzureStorageCommand,
   UploadFileToAzureStorageCommandResult,
 } from './upload-file-to-azure-storage.command';
 
-@QueryHandler(UploadFileToAzureStorageCommand)
+@CommandHandler(UploadFileToAzureStorageCommand)
 export class UploadFileToAzureStorageCommandHandler
-  implements IQueryHandler<UploadFileToAzureStorageCommand>
+  implements ICommandHandler<UploadFileToAzureStorageCommand>
 {
   constructor(private readonly azureBlobStoragePort: AzureBlobStoragePort) {}
 

@@ -9,7 +9,7 @@ export const soundGifFixtureFactory = (
     id: uuid.v4(),
     personalityName: `${faker.name.findName()} ${faker.name.lastName()}`,
     description: faker.random.words(),
-    audioTitle: faker.name.title(),
+    title: faker.name.title(),
     audioUrl: faker.internet.url(),
     imageUrl: faker.internet.url(),
     ...partialSoundGif,

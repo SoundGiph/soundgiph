@@ -31,6 +31,9 @@ describe('uploadFileToAzureStorage', () => {
     await uploadFileToAzureStorageQueryHandler.execute(
       uploadFileToAzureStorageQuery,
     );
+    AzureStoragePort.upload.mockImplementationOnce(() => {
+      return { fileUrl: 'https://blobUrl.com' };
+    });
     expect(AzureStoragePort.upload).toHaveBeenCalledTimes(1);
   });
 });

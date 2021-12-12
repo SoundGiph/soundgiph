@@ -8,6 +8,6 @@ export class FindSoundGifQuery implements IQuery {
   constructor(public readonly payload: FindSoundGifPayload) {}
 }
 
-export class FindMostSharedSoundGifQueryResult implements IQueryResult {
+export class FindSoundGifQueryResult implements IQueryResult {
   constructor(public readonly soundGifs: SoundGifEntity[]) {}
 }

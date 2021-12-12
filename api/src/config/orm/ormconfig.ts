@@ -8,7 +8,7 @@ export const ORMConfig: ConnectionOptions = {
   port: 5432,
   username: 'soundgif',
   password: 'soundgif',
-  database: 'soundgif',
+  database: process.env.ENV === 'test' ? 'soundgif-test' : 'soundgif',
   entities: ['src/**/*.entity{.ts,.js}'],
   migrationsTableName: 'migration',
   migrations: ['src/migration/*.ts'],

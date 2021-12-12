@@ -1,4 +1,4 @@
-import { ICommand, IQueryResult } from '@nestjs/cqrs';
+import { ICommand } from '@nestjs/cqrs';
 
 export type UploadFileToAzureStoragePayload = {
   file: File;
@@ -10,6 +10,6 @@ export class UploadFileToAzureStorageCommand implements ICommand {
   constructor(public readonly payload: UploadFileToAzureStoragePayload) {}
 }
 
-export class UploadFileToAzureStorageCommandResult implements IQueryResult {
+export class UploadFileToAzureStorageCommandResult {
   constructor(public readonly fileUrl: string) {}
 }

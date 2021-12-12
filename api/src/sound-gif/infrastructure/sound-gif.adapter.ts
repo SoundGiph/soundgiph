@@ -2,7 +2,10 @@ import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
 import { SoundGifPort } from '../core/application/ports/sound-gif.ports';
-import { SoundGifEntity } from '../core/domain/sound-gif.entity';
+import {
+  SoundGifEntity,
+  SoundGifEntityMandatoryFields,
+} from '../core/domain/sound-gif.entity';
 
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
@@ -34,5 +37,12 @@ export class SoundGifAdapter implements SoundGifPort {
         sharedCount: 'DESC',
       },
     });
+  }
+
+  public async create(
+    payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields,
+  ): Promise<SoundGifEntity> {
+    this.logger.log(`SoundGifAdapter > create > called with ${payload}`);
+    return await this.soundGifRepository.save(payload);
   }
 }

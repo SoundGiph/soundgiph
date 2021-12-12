@@ -4,7 +4,7 @@ import { FindManyOptions, ILike } from 'typeorm';
 import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 import { SoundGifPort } from '../../ports/sound-gif.ports';
 import {
-  FindMostSharedSoundGifQueryResult,
+  FindSoundGifQueryResult,
   FindSoundGifQuery,
 } from './find-sound-gif.query';
 
@@ -19,18 +19,18 @@ export class FindSoundGifQueryHandler
 
   public async execute({
     payload,
-  }: FindSoundGifQuery): Promise<FindMostSharedSoundGifQueryResult> {
+  }: FindSoundGifQuery): Promise<FindSoundGifQueryResult> {
     const { fulltext } = payload;
     const whereOptions: FindManyOptions = Boolean(fulltext)
       ? {
           where: [
             { description: ILike(`%${fulltext}%`) },
             { personalityName: ILike(`%${fulltext}%`) },
-            { audioTitle: ILike(`%${fulltext}%`) },
+            { title: ILike(`%${fulltext}%`) },
           ],
         }
       : {};
     const soundGifs = await this.findSoundGifPort.find(whereOptions);
-    return new FindMostSharedSoundGifQueryResult(soundGifs);
+    return new FindSoundGifQueryResult(soundGifs);
   }
 }
