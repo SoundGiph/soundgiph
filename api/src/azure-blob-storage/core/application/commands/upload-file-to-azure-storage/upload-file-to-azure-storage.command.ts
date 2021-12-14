@@ -1,7 +1,7 @@
 import { ICommand } from '@nestjs/cqrs';
 
 export type UploadFileToAzureStoragePayload = {
-  file: File;
+  file: Express.Multer.File;
   fileName: string;
   containerName: string;
 };

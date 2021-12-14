@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { Blob } from 'buffer';
 import { AzureStoragePresenter } from '../../../../../azure-blob-storage/interface/azure-blob-storage.presenter';
 import { CreateSoundGifCommand } from './create-sound-gif.command';
-import { CreateSoundGifCommandHandler } from './create-sound-gif.command.-handler';
+import { CreateSoundGifCommandHandler } from './create-sound-gif.command-handler';
 
 const configService = new ConfigService();
 
@@ -21,8 +21,8 @@ blob['name'] = title;
 
 const payload = {
   title,
-  audioFile: <File>blob,
-  imageFile: <File>blob,
+  audioFile: blob as unknown as Express.Multer.File,
+  imageFile: blob as unknown as Express.Multer.File,
   containerName: 'images',
 };
 

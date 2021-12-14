@@ -1,6 +1,8 @@
+import { Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AzureStoragePresenter } from '../../../../../azure-blob-storage/interface/azure-blob-storage.presenter';
+import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 import { SoundGifPort } from '../../ports/sound-gif.ports';
 import {
   CreateSoundGifCommand,
@@ -13,6 +15,7 @@ export class CreateSoundGifCommandHandler
 {
   constructor(
     private readonly configService: ConfigService,
+    @Inject(SoundGifEntity)
     private readonly createSoundGifPort: Pick<SoundGifPort, 'create'>,
     private readonly azureStoragePresenter: AzureStoragePresenter,
   ) {}

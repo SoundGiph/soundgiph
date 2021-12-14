@@ -9,7 +9,7 @@ import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound
 const soundGifFixtures = [
   soundGifFixtureFactory({ sharedCount: 5, description: 'sch' }),
   soundGifFixtureFactory({ sharedCount: 4, personalityName: 'hamza' }),
-  soundGifFixtureFactory({ sharedCount: 3, audioTitle: 'niska méchant' }),
+  soundGifFixtureFactory({ sharedCount: 3, title: 'niska méchant' }),
   soundGifFixtureFactory({ sharedCount: 2, description: 'sex' }),
   soundGifFixtureFactory({ description: 'bonjour' }),
 ];

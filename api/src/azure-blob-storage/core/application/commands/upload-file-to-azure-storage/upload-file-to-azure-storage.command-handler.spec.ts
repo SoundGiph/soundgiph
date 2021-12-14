@@ -12,7 +12,7 @@ blob['lastModifiedDate'] = '';
 blob['name'] = fileName;
 
 const payload = {
-  file: <File>blob,
+  file: blob as unknown as Express.Multer.File,
   fileName,
   containerName: 'images',
 };

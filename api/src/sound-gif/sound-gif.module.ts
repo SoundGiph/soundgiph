@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AzureBlobStorageModule } from '../azure-blob-storage/azure-blob-storage.module';
@@ -13,6 +14,7 @@ import { SoundGifInterface } from './interface/sound-gif.interface';
       SoundGifEntity,
       ...SoundGifInfrastructure.repositories,
     ]),
+    ConfigModule,
     CqrsModule,
     AzureBlobStorageModule,
   ],

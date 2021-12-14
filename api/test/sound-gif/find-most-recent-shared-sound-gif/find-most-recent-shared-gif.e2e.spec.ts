@@ -15,7 +15,7 @@ const soundGifFixtures = [
     description: 'sch',
   }),
   soundGifFixtureFactory({ createdAt: yesterday, personalityName: 'hamza' }),
-  soundGifFixtureFactory({ createdAt: yesterday, audioTitle: 'niska méchant' }),
+  soundGifFixtureFactory({ createdAt: yesterday, title: 'niska méchant' }),
   soundGifFixtureFactory({ createdAt: yesterday, description: 'sex' }),
   soundGifFixtureFactory({ createdAt: today, description: 'bonjour' }),
 ];

@@ -8,7 +8,7 @@ export class AzureStoragePresenter {
   constructor(public readonly commandBus: CommandBus) {}
 
   public async upload(
-    file: File,
+    file: Express.Multer.File,
     fileName: string,
     containerName: string,
   ): Promise<string> {
