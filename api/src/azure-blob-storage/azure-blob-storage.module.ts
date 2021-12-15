@@ -6,11 +6,11 @@ import { AzureBlobStorageInfrastructure } from './infrastructure/azure-blob-stor
 import { AzureBlobStorageInterface } from './interface/azure-blob-storage.interface';
 
 @Module({
-  imports: [ConfigModule.forRoot(), CqrsModule],
+  imports: [ConfigModule, CqrsModule],
   providers: [
-    ...AzureBlobStorageInterface.presenters,
     ...AzureBlobStorageInfrastructure.providers,
     ...AzureBlobStorageApplications,
+    ...AzureBlobStorageInterface.presenters,
   ],
   exports: [...AzureBlobStorageInterface.presenters],
 })

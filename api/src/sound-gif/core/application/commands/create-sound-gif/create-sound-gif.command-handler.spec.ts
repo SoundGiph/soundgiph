@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Blob } from 'buffer';
-import { AzureStoragePresenter } from '../../../../../azure-blob-storage/interface/azure-blob-storage.presenter';
+import { AzureBlobStoragePresenter } from '../../../../../azure-blob-storage/interface/azure-blob-storage.presenter';
 import { CreateSoundGifCommand } from './create-sound-gif.command';
 import { CreateSoundGifCommandHandler } from './create-sound-gif.command-handler';
 
@@ -34,7 +34,7 @@ describe('createSoundGifCommand', () => {
   const createSoundGifCommandHandler = new CreateSoundGifCommandHandler(
     configService,
     createSoundGifPort,
-    azureStoragePresenter as unknown as AzureStoragePresenter,
+    azureStoragePresenter as unknown as AzureBlobStoragePresenter,
   );
 
   it('should create a soundgif', async () => {

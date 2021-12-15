@@ -4,8 +4,8 @@ import {
   UploadFileToAzureStorageCommandResult,
 } from '../core/application/commands/upload-file-to-azure-storage/upload-file-to-azure-storage.command';
 
-export class AzureStoragePresenter {
-  constructor(public readonly commandBus: CommandBus) {}
+export class AzureBlobStoragePresenter {
+  constructor(private readonly commandBus: CommandBus) {}
 
   public async upload(
     file: Express.Multer.File,

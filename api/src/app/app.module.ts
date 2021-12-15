@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AzureBlobStorageModule } from '../azure-blob-storage/azure-blob-storage.module';
 import { SnakeNamingStrategy } from '../config/orm/snake-naming-config';
 import { SoundGifModule } from '../sound-gif/sound-gif.module';
 @Module({
   imports: [
     SoundGifModule,
+    AzureBlobStorageModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -31,7 +33,5 @@ import { SoundGifModule } from '../sound-gif/sound-gif.module';
       }),
     }),
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

@@ -1,5 +1,5 @@
-import { AzureStoragePresenter } from './azure-blob-storage.presenter';
+import { AzureBlobStoragePresenter } from './azure-blob-storage.presenter';
 
 export const AzureBlobStorageInterface = {
-  presenters: [AzureStoragePresenter],
+  presenters: [AzureBlobStoragePresenter],
 };

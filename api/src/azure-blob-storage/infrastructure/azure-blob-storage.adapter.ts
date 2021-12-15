@@ -6,7 +6,7 @@ import { AzureBlobStoragePort } from '../core/application/ports/azure-blob-stora
 
 const TEST_ENVIRONMENT = 'test';
 export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
-  constructor(public readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
   private readonly logger = new Logger();
 
   private connect(containerName: string): ContainerClient {

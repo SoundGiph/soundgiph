@@ -6,7 +6,7 @@ import {
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { QueryBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import {
   CreateSoundGifCommand,
@@ -33,7 +33,10 @@ type CreateSoundGifRequestFilesPayload = {
 };
 @Controller()
 export class SoundGifController {
-  constructor(private readonly queryBus: QueryBus) {}
+  constructor(
+    private readonly queryBus: QueryBus,
+    private readonly commandBus: CommandBus,
+  ) {}
 
   @Post('/create')
   @UseInterceptors(
@@ -48,7 +51,7 @@ export class SoundGifController {
     @Body()
     payload: CreateSoundGifRequestPayload,
   ): Promise<SoundGifEntity> {
-    const { createdSoundGif } = await this.queryBus.execute<
+    const { createdSoundGif } = await this.commandBus.execute<
       CreateSoundGifCommand,
       CreateSoundGifCommandResult
     >(

@@ -10,19 +10,12 @@ import { SoundGifInterface } from './interface/sound-gif.interface';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      SoundGifEntity,
-      ...SoundGifInfrastructure.repositories,
-    ]),
+    TypeOrmModule.forFeature([SoundGifEntity]),
     ConfigModule,
     CqrsModule,
     AzureBlobStorageModule,
   ],
-  providers: [
-    ...SoundGifInterface.resolvers,
-    ...SoundGifInfrastructure.providers,
-    ...SoundGifApplications,
-  ],
+  providers: [...SoundGifInfrastructure.providers, ...SoundGifApplications],
   controllers: [...SoundGifInterface.controllers],
   exports: [],
 })
