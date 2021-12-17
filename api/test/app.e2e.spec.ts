@@ -14,7 +14,7 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    expect(1 + 1).toEqual(2)
+  it('random test', () => {
+    expect(1 + 1).toEqual(2);
   });
 });

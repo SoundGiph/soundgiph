@@ -3,5 +3,4 @@ import { SoundGifAdapter } from './sound-gif.adapter';
 
 export const SoundGifInfrastructure = {
   providers: [{ provide: SoundGifEntity, useClass: SoundGifAdapter }],
-  repositories: [],
 };
