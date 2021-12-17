@@ -45,7 +45,7 @@ export class CreateSoundGifController {
     '',
   );
 
-  @Post('/create')
+  @Post('/createSoundGif')
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'imageFile', maxCount: 1 },

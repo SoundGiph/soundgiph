@@ -15,7 +15,7 @@ export class UploadFileToAzureStorageCommandHandler
     payload,
   }: UploadFileToAzureStorageCommand): Promise<UploadFileToAzureStorageCommandResult> {
     const { file, fileName, containerName } = payload;
-    const blobName = fileName + new Date().getTime();
+    const blobName = `${fileName}-${new Date().getTime()}`;
     const uploadedFileUrl = await this.azureBlobStoragePort.upload(
       file,
       blobName,
