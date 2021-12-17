@@ -1,10 +1,11 @@
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AZURE_BLOB_STORAGE_NO_CREDENTIALS } from '../../common/errors/errors-constants';
 import { AzureBlobStoragePort } from '../core/application/ports/azure-blob-storage.port';
 
 const TEST_ENVIRONMENT = 'test';
+@Injectable()
 export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
   constructor(private readonly configService: ConfigService) {}
   private readonly logger = new Logger();
@@ -17,7 +18,7 @@ export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
 
     const ENV = this.configService.get<string>('ENV', 'development');
     if (ENV === TEST_ENVIRONMENT) {
-      containerName = `${containerName}-test`;
+      containerName = `${containerName}-${TEST_ENVIRONMENT}`;
     }
     const soundGifAzureBlobStorage = BlobServiceClient.fromConnectionString(
       this.AZURE_STORAGE_URL,

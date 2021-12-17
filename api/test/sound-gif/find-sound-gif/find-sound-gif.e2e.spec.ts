@@ -36,22 +36,22 @@ describe('find sound gif controller', () => {
   });
   it('should find sound gif with fulltext', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/find')
+      .post('/findSoundGif')
       .send({ fulltext: 'nisk' })
       .expect(201);
     expect(error).toBeFalsy();
-    expect(body.soundGifs).toBeDefined();
-    expect(Boolean(body.soundGifs.length)).toBeTruthy();
-    expect(body.soundGifs[0].title).toStrictEqual('niska méchant');
+    expect(body).toBeDefined();
+    expect(Boolean(body.length)).toBeTruthy();
+    expect(body[0].title).toStrictEqual('niska méchant');
   });
 
   it('should find all sound gif without fulltext', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/find')
+      .post('/findSoundGif')
       .send({ fulltext: '' })
       .expect(201);
     expect(error).toBeFalsy();
-    expect(body.soundGifs).toBeDefined();
-    expect(body.soundGifs.length).toStrictEqual(5);
+    expect(body).toBeDefined();
+    expect(body.length).toStrictEqual(5);
   });
 });
