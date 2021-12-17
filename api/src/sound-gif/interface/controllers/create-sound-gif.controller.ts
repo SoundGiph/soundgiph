@@ -14,7 +14,6 @@ import {
   CreateSoundGifCommand,
   CreateSoundGifCommandResult,
 } from '../../core/application/commands/create-sound-gif/create-sound-gif.command';
-import { SoundGifEntity } from '../../core/domain/sound-gif.entity';
 
 type CreateSoundGifRequestPayload = {
   title: string;
@@ -57,31 +56,35 @@ export class CreateSoundGifController {
     files: CreateSoundGifRequestFilesPayload,
     @Body()
     payload: CreateSoundGifRequestPayload,
-  ): Promise<SoundGifEntity> {
-    const { title, description, personalityName } = payload;
-    const { audioFile, imageFile } = files;
-    const audioUrl = await this.azureStoragePresenter.upload(
-      audioFile,
-      title,
-      this.SOUND_CONTAINER,
-    );
-    const imageUrl = await this.azureStoragePresenter.upload(
-      imageFile,
-      title,
-      this.IMAGE_CONTAINER,
-    );
-    const { createdSoundGif } = await this.commandBus.execute<
-      CreateSoundGifCommand,
-      CreateSoundGifCommandResult
-    >(
-      new CreateSoundGifCommand({
+  ): Promise<boolean> {
+    try {
+      const { title, description, personalityName } = payload;
+      const { audioFile, imageFile } = files;
+      const audioUrl = await this.azureStoragePresenter.upload(
+        audioFile,
         title,
-        description,
-        personalityName,
-        audioUrl,
-        imageUrl,
-      }),
-    );
-    return createdSoundGif;
+        this.SOUND_CONTAINER,
+      );
+      const imageUrl = await this.azureStoragePresenter.upload(
+        imageFile,
+        title,
+        this.IMAGE_CONTAINER,
+      );
+      const { createdSoundGif } = await this.commandBus.execute<
+        CreateSoundGifCommand,
+        CreateSoundGifCommandResult
+      >(
+        new CreateSoundGifCommand({
+          title,
+          description,
+          personalityName,
+          audioUrl,
+          imageUrl,
+        }),
+      );
+      return Boolean(createdSoundGif.id);
+    } catch (error) {
+      return false;
+    }
   }
 }

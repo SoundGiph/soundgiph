@@ -37,7 +37,7 @@ export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
       `AzureBlobStorageAdapter > upload > called with fileName: ${fileName} and containerName: ${containerName}`,
     );
     const containerClient = this.connect(containerName);
-    const blob = new Blob([file.buffer]);
+    const blob = new ArrayBuffer(file.size);
     const blockBlobClient = containerClient.getBlockBlobClient(fileName);
     await blockBlobClient.uploadData(blob);
     return blockBlobClient.url;
