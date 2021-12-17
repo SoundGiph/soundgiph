@@ -14,6 +14,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "clean:dists": "rm -rf ./dist",
+    "clean-install": "rm -rf ./dist && rm -rf ./node_modules && yarn",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
