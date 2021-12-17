@@ -17,6 +17,5 @@ import { SoundGifInterface } from './interface/sound-gif.interface';
   ],
   providers: [...SoundGifInfrastructure.providers, ...SoundGifApplications],
   controllers: [...SoundGifInterface.controllers],
-  exports: [],
 })
 export class SoundGifModule {}

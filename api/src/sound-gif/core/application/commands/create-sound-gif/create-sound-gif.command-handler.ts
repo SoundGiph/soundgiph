@@ -17,34 +17,12 @@ export class CreateSoundGifCommandHandler
     private readonly configService: ConfigService,
     @Inject(SoundGifEntity)
     private readonly createSoundGifPort: Pick<SoundGifPort, 'create'>,
-    private readonly azureStoragePresenter: AzureBlobStoragePresenter,
   ) {}
-
-  IMAGE_CONTAINER = this.configService.get<string>(
-    'AZURE_IMAGE_CONTAINER_NAME',
-    '',
-  );
-
-  SOUND_CONTAINER = this.configService.get<string>(
-    'AZURE_SOUND_CONTAINER_NAME',
-    '',
-  );
 
   public async execute({
     payload,
   }: CreateSoundGifCommand): Promise<CreateSoundGifCommandResult> {
-    const { title, audioFile, imageFile, description, personalityName } =
-      payload;
-    const audioUrl = await this.azureStoragePresenter.upload(
-      audioFile,
-      title,
-      this.SOUND_CONTAINER,
-    );
-    const imageUrl = await this.azureStoragePresenter.upload(
-      imageFile,
-      title,
-      this.IMAGE_CONTAINER,
-    );
+    const { title, audioUrl, imageUrl, description, personalityName } = payload;
     const createdSoundGif = await this.createSoundGifPort.create({
       title,
       audioUrl,

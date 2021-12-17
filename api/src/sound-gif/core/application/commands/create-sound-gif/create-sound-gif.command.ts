@@ -3,8 +3,8 @@ import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 
 export type CreateSoundGifPayload = {
   title: string;
-  audioFile: Express.Multer.File;
-  imageFile: Express.Multer.File;
+  audioUrl: string;
+  imageUrl: string;
   description?: string;
   personalityName?: string;
 };
