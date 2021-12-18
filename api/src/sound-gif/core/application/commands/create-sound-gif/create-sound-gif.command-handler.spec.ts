@@ -19,7 +19,8 @@ const payload = {
   title,
   audioUrl: faker.internet.url(),
   imageUrl: faker.internet.url(),
-  containerName: 'images',
+  tags: [],
+  description: 'niska',
 };
 
 describe('createSoundGifCommand', () => {

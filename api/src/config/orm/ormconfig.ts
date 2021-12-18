@@ -1,7 +1,6 @@
 import { SnakeNamingStrategy } from './snake-naming-config';
 import { ConnectionOptions } from 'typeorm';
 
-console.log(__dirname);
 export const ORMConfig: ConnectionOptions = {
   type: 'postgres',
   host: '127.0.0.1',
@@ -9,6 +8,7 @@ export const ORMConfig: ConnectionOptions = {
   username: 'soundgif',
   password: 'soundgif',
   database: process.env.ENV === 'test' ? 'soundgif-test' : 'soundgif',
+  synchronize: false,
   entities: ['src/**/*.entity{.ts,.js}'],
   migrationsTableName: 'migration',
   migrations: ['src/migration/*.ts'],

@@ -17,8 +17,8 @@ import {
 
 type CreateSoundGifRequestPayload = {
   title: string;
-  description?: string;
-  personalityName?: string;
+  description: string;
+  tags: string[];
 };
 
 type CreateSoundGifRequestFilesPayload = {
@@ -58,7 +58,7 @@ export class CreateSoundGifController {
     payload: CreateSoundGifRequestPayload,
   ): Promise<boolean> {
     try {
-      const { title, description, personalityName } = payload;
+      const { title, description, tags } = payload;
       const { audioFile, imageFile } = files;
       const audioUrl = await this.azureStoragePresenter.upload(
         audioFile,
@@ -77,7 +77,7 @@ export class CreateSoundGifController {
         new CreateSoundGifCommand({
           title,
           description,
-          personalityName,
+          tags,
           audioUrl,
           imageUrl,
         }),
