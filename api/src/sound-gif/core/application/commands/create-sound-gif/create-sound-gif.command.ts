@@ -5,8 +5,8 @@ export type CreateSoundGifPayload = {
   title: string;
   audioUrl: string;
   imageUrl: string;
-  description: string;
-  tags: string[];
+  description?: string;
+  personalityName?: string;
 };
 
 export class CreateSoundGifCommand implements ICommand {

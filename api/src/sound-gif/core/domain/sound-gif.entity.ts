@@ -6,12 +6,12 @@ export class SoundGifEntity extends Base {
   id!: string & { brand: 'soundGifId' };
 
   @Index({ fulltext: true })
-  @Column({ nullable: false })
-  description!: string;
+  @Column({ nullable: true })
+  description!: string | null;
 
   @Index({ fulltext: true })
-  @Column('simple-array', { nullable: false })
-  tags!: string[];
+  @Column({ nullable: true })
+  personalityName!: string | null;
 
   @Index({ fulltext: true })
   @Column({ nullable: false })

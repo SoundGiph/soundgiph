@@ -22,13 +22,13 @@ export class CreateSoundGifCommandHandler
   public async execute({
     payload,
   }: CreateSoundGifCommand): Promise<CreateSoundGifCommandResult> {
-    const { title, audioUrl, imageUrl, description, tags } = payload;
+    const { title, audioUrl, imageUrl, description, personalityName } = payload;
     const createdSoundGif = await this.createSoundGifPort.create({
       title,
       audioUrl,
       imageUrl,
       description,
-      tags,
+      personalityName,
     });
     return new CreateSoundGifCommandResult(createdSoundGif);
   }

@@ -2,9 +2,10 @@ import { NestApplication } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../../src/app/app.module';
+import * as fs from 'fs';
 const audioFile = `${__dirname}/snoop-dogg.mp3`;
 const imageFile = `${__dirname}/snoop-dogg.jpeg`;
-const tags = ['rap', 'snoop', 'dogg'];
+
 describe('create sound gif controller', () => {
   let app: NestApplication;
   beforeAll(async () => {
@@ -23,7 +24,6 @@ describe('create sound gif controller', () => {
     const { body, error } = await request(app.getHttpServer())
       .post('/createSoundGif')
       .field('title', 'snoop dogg')
-      .field('tags', tags)
       .field('description', 'snoop dogg sound')
       .attach('audioFile', audioFile)
       .attach('imageFile', imageFile)
@@ -31,16 +31,5 @@ describe('create sound gif controller', () => {
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(body).toBeTruthy();
-  });
-
-  it('should find the new sound gif', async () => {
-    const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: 'snoop' })
-      .expect(201);
-    expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(body).toBeTruthy();
-    expect(body[0].title).toStrictEqual('snoop dogg');
   });
 });

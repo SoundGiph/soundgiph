@@ -14,12 +14,7 @@ const soundGifFixtures = [
     createdAt: yesterday,
     description: 'sch',
   }),
-  soundGifFixtureFactory({
-    createdAt: yesterday,
-    tags: ['hamza', 'rap'],
-    title: 'hamza sauce god',
-    description: 'hamza sauce god',
-  }),
+  soundGifFixtureFactory({ createdAt: yesterday, personalityName: 'hamza' }),
   soundGifFixtureFactory({ createdAt: yesterday, title: 'niska méchant' }),
   soundGifFixtureFactory({ createdAt: yesterday, description: 'sex' }),
   soundGifFixtureFactory({ createdAt: today, description: 'bonjour' }),

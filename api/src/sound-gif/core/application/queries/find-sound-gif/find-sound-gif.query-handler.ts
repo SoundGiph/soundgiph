@@ -25,6 +25,7 @@ export class FindSoundGifQueryHandler
       ? {
           where: [
             { description: ILike(`%${fulltext}%`) },
+            { personalityName: ILike(`%${fulltext}%`) },
             { title: ILike(`%${fulltext}%`) },
           ],
         }

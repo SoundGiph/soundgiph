@@ -7,7 +7,7 @@ export const soundGifFixtureFactory = (
 ): SoundGifEntity => {
   return Object.assign(new SoundGifEntity(), {
     id: uuid.v4(),
-    tags: [faker.random.word(), faker.random.word()],
+    personalityName: `${faker.name.findName()} ${faker.name.lastName()}`,
     description: faker.random.words(),
     title: faker.name.title(),
     audioUrl: faker.internet.url(),
