@@ -8,7 +8,7 @@ import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound
 
 const soundGifFixtures = [
   soundGifFixtureFactory({ description: 'sch' }),
-  soundGifFixtureFactory({ personalityName: 'hamza' }),
+  soundGifFixtureFactory({ tags: ['hamza', 'rap'] }),
   soundGifFixtureFactory({ title: 'niska méchant' }),
   soundGifFixtureFactory({ description: 'sex' }),
   soundGifFixtureFactory({ description: 'bonjour' }),
