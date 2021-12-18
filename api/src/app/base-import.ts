@@ -11,10 +11,10 @@ export const BaseConfigImports = [
       type: 'postgres',
       host: configService.get('POSTGRES_HOST', 'localhost'),
       port: configService.get<number>('POSTGRES_PORT', 5432),
-      username: configService.get('POSTGRES_USER', 'soundgif'),
+      username: configService.get('POSTGRES_USER', 'postgres'),
       password: configService.get('POSTGRES_PASSWORD', 'soundgif'),
       database:
-        configService.get('ENV', 'dev') === 'test'
+        configService.get('ENV', 'development') === 'test'
           ? configService.get('POSTGRES_TEST_DATABASE', 'soundgif-test')
           : configService.get('POSTGRES_DATABASE', 'soundgif'),
       entities: ['src/**/*.entity{.ts,.js}'],
