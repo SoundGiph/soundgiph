@@ -1,4 +1,7 @@
 {
-  "search": "Chercher un soundgif",
-  "go": "go"
+  "most_recent_soundgif_title": "Ajoutés récemment",
+  "most_shared_soundgif_title": "En tendance",
+  "search": "Chercher un sound gif",
+  "go": "go",
+  "share": "partager"
 }

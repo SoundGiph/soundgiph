@@ -10,7 +10,7 @@ export const soundGifFixtureFactory = (
     tags: [faker.random.word(), faker.random.word()],
     description: faker.company.catchPhrase(),
     title: faker.name.title(),
-    audioUrl: faker.internet.url(),
+    audioUrl: `https://soundgiph.blob.core.windows.net/sounds/AlkpotePute.mp3`,
     imageUrl: faker.image.imageUrl(),
     ...partialSoundGif,
   }) as SoundgifDTO;
