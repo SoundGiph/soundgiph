@@ -15,7 +15,6 @@ import {
   FindSoundGifQueryResult,
 } from '../../core/application/queries/find-sound-gif/find-sound-gif.query';
 import { SoundGifEntity } from '../../core/domain/sound-gif.entity';
-
 @Controller()
 export class FindSoundGifController {
   constructor(private readonly queryBus: QueryBus) {}
