@@ -3,5 +3,9 @@
   "most_shared_soundgif_title": "En tendance",
   "search": "Chercher un sound gif",
   "go": "go",
-  "share": "partager"
+  "share": "partager",
+  "upload": "upload",
+  "errors": {
+    "web_share_api_not_supported": "L'api WebShare n'est pas supporté sur ce navigateur, veuillez essayer sur un autre navigateur"
+  }
 }

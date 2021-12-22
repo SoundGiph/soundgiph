@@ -1,40 +1,47 @@
-import axios from "axios";
 import { Howl } from "howler";
+import { useTranslation } from "next-i18next";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
+import { useGetFileFromUrl } from "../../../hooks/getFileFromUrl/useGetFileFromUrl";
+import { useNotification } from "../../../hooks/notification/useNotification";
 
 export const useSoundGifListRow = (
   soundGif: SoundgifDTO
 ): {
   playSoundGif: () => void;
-  shareSoundGif: () => void;
+  shareSoundGif: () => Promise<void>;
 } => {
-  const { audioUrl, title, description } = soundGif;
+  const { getFileFromUrl } = useGetFileFromUrl();
+  const { notificationError } = useNotification();
+  const { t } = useTranslation();
+  const { audioUrl } = soundGif;
+
   const soundGifToPlay = new Howl({
     src: [audioUrl],
   });
 
-  const playSoundGif = () => {
+  const playSoundGif = (): void => {
     soundGifToPlay.stop();
     soundGifToPlay.play();
   };
 
-  const shareSoundGif = async () => {
+  const shareSoundGif = async (): Promise<void> => {
     try {
-      const { data } = await axios.get<File>(`/api/cors?url=${audioUrl}`);
-      window.alert(navigator.canShare);
+      const data = await getFileFromUrl(audioUrl);
       window.alert(navigator.share);
-      console.log(navigator.canShare && navigator.canShare({ files: [data] }));
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [data] })) {
+      if (data && navigator.share && navigator.canShare && navigator.canShare({ files: [data] })) {
         await navigator.share({
-          title,
-          text: description,
           files: [data],
         });
+      } else {
+        console.log(t("share"));
+        console.log(t("errors.web_share_api_not_supported"));
+        notificationError(t("errors.web_share_api_not_supported"));
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   return {
     shareSoundGif,
     playSoundGif,

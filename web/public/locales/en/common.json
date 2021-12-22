@@ -3,5 +3,9 @@
   "most_shared_soundgif_title": "Most shared",
   "search": "Find a soundgif",
   "go": "go",
-  "share": "share"
+  "share": "share",
+  "upload": "upload",
+  "errors": {
+    "web_share_api_not_supported": "Web share api is not supported on this browser, try with another one"
+  }
 }

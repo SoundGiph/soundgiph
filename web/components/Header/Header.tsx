@@ -1,7 +1,11 @@
+import { useTranslation } from "react-i18next";
+import Konami from "react-konami-code";
+import { CHEAT_CODE } from "../../constants/constants";
+
 export const Header = () => {
+  const { t } = useTranslation();
   return (
     <div className="navbar mb-2 shadow-lg bg-primary text-neutral-content mb-10">
-      <div className="flex-none"></div>
       <div className="flex-1 px-2 mx-2">
         <button className="btn btn-ghost">
           <svg
@@ -17,6 +21,9 @@ export const Header = () => {
           </svg>
         </button>
       </div>
+      <Konami code={CHEAT_CODE}>
+        <button className="btn btn-outline btn-secondary self-end">{t("upload")}</button>
+      </Konami>
       <div className="flex-none"></div>
     </div>
   );

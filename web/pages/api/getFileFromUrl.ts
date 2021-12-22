@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const Cors = async (req: NextApiRequest, res: NextApiResponse) => {
+const getFileFromUrl = async (req: NextApiRequest, res: NextApiResponse) => {
   const { url } = req.query;
   try {
     const { data } = await axios(url as string);
@@ -12,4 +12,4 @@ const Cors = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default Cors;
+export default getFileFromUrl;

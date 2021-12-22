@@ -45,11 +45,7 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-}: {
-  locale?: string | undefined;
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
   return {
     props: {
       soundGifs: [
