@@ -2,8 +2,11 @@ import { NestApplication } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../../src/app/app.module';
-import * as fs from 'fs';
+import * as faker from 'faker';
 
+const audioFile = `${__dirname}/snoop-dogg.mp3`;
+const imageFile = `${__dirname}/snoop-dogg.jpeg`;
+const tags = ['rap', 'snoop', 'dogg'];
 describe('create sound gif controller', () => {
   let app: NestApplication;
   beforeAll(async () => {
@@ -20,28 +23,27 @@ describe('create sound gif controller', () => {
   });
   it('should create sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/create')
-      .set('content-type', 'multipart/form-data')
-      .field({
-        title: 'snopp dogg',
-        description: 'snoop dogg',
-        personalityName: 'snoop dogg',
-      })
-      .attach(
-        'audioFile',
-        fs.readFileSync(`${__dirname}/snoop-dogg.mp3`),
-        'snoop dogg',
-      )
-      .attach(
-        'imageFile',
-        fs.readFileSync(`${__dirname}/snoop-dogg.jpeg`),
-        'snoop dogg',
-      )
-      .expect(200);
+      .post('/createSoundGif')
+      .field('title', faker.random.word())
+      .field('tags', tags)
+      .field('description', 'snoop dogg sound')
+      .attach('audioFile', audioFile)
+      .attach('imageFile', imageFile)
+      .expect(201);
     expect(error).toBeFalsy();
-    expect(body.soundGifs).toBeDefined();
-    expect(Boolean(body.soundGifs.length)).toBeTruthy();
-    expect(body.soundGifs.length).toStrictEqual(5);
-    expect(body.soundGifs[0].description).toStrictEqual('bonjour');
+    expect(body).toBeDefined();
+    expect(body).toBeTruthy();
+  });
+
+  it('should find the new sound gif', async () => {
+    const { body, error } = await request(app.getHttpServer())
+      .post('/findSoundGif')
+      .send({ fulltext: 'snoop' })
+      .expect(201);
+    expect(error).toBeFalsy();
+    expect(body).toBeDefined();
+    expect(body).toBeTruthy();
+    expect(body[0].description).toStrictEqual('snoop dogg sound');
+    console.log(body[0]);
   });
 });

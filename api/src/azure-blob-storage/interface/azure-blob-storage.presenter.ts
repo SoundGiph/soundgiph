@@ -1,11 +1,13 @@
+import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import {
   UploadFileToAzureStorageCommand,
   UploadFileToAzureStorageCommandResult,
 } from '../core/application/commands/upload-file-to-azure-storage/upload-file-to-azure-storage.command';
 
-export class AzureStoragePresenter {
-  constructor(public readonly commandBus: CommandBus) {}
+@Injectable()
+export class AzureBlobStoragePresenter {
+  constructor(private readonly commandBus: CommandBus) {}
 
   public async upload(
     file: Express.Multer.File,

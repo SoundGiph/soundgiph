@@ -43,6 +43,6 @@ export class SoundGifAdapter implements SoundGifPort {
     payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields,
   ): Promise<SoundGifEntity> {
     this.logger.log(`SoundGifAdapter > create > called with ${payload}`);
-    return await this.soundGifRepository.save(payload);
+    return await this.soundGifRepository.create(payload).save();
   }
 }

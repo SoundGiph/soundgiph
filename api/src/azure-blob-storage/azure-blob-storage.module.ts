@@ -1,17 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
-import { AzureBlobStorageApplications } from './core/application/azure-blob-storage.application';
+import { UploadFileToAzureStorageCommandHandler } from './core/application/commands/upload-file-to-azure-storage/upload-file-to-azure-storage.command-handler';
 import { AzureBlobStorageInfrastructure } from './infrastructure/azure-blob-storage.infrastructure';
-import { AzureBlobStorageInterface } from './interface/azure-blob-storage.interface';
+import { AzureBlobStoragePresenter } from './interface/azure-blob-storage.presenter';
 
+const AzureBlobStorageCommandHandler = [UploadFileToAzureStorageCommandHandler];
+const AzureBlobStorageInterface = [AzureBlobStoragePresenter];
 @Module({
-  imports: [ConfigModule.forRoot(), CqrsModule],
+  imports: [ConfigModule, CqrsModule],
   providers: [
-    ...AzureBlobStorageInterface.presenters,
     ...AzureBlobStorageInfrastructure.providers,
-    ...AzureBlobStorageApplications,
+    ...AzureBlobStorageCommandHandler,
+    ...AzureBlobStorageInterface,
   ],
-  exports: [...AzureBlobStorageInterface.presenters],
+  exports: [...AzureBlobStorageInterface],
 })
 export class AzureBlobStorageModule {}

@@ -1,14 +1,10 @@
 import { ConfigService } from '@nestjs/config';
 import { Blob } from 'buffer';
-import { AzureStoragePresenter } from '../../../../../azure-blob-storage/interface/azure-blob-storage.presenter';
+import * as faker from 'faker';
 import { CreateSoundGifCommand } from './create-sound-gif.command';
 import { CreateSoundGifCommandHandler } from './create-sound-gif.command-handler';
 
 const configService = new ConfigService();
-
-const azureStoragePresenter = {
-  upload: jest.fn(),
-};
 
 const createSoundGifPort = {
   create: jest.fn(),
@@ -21,9 +17,10 @@ blob['name'] = title;
 
 const payload = {
   title,
-  audioFile: blob as unknown as Express.Multer.File,
-  imageFile: blob as unknown as Express.Multer.File,
-  containerName: 'images',
+  audioUrl: faker.internet.url(),
+  imageUrl: faker.internet.url(),
+  tags: [],
+  description: 'niska',
 };
 
 describe('createSoundGifCommand', () => {
@@ -34,7 +31,6 @@ describe('createSoundGifCommand', () => {
   const createSoundGifCommandHandler = new CreateSoundGifCommandHandler(
     configService,
     createSoundGifPort,
-    azureStoragePresenter as unknown as AzureStoragePresenter,
   );
 
   it('should create a soundgif', async () => {

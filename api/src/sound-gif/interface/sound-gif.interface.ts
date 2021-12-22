@@ -1,6 +1,6 @@
-import { SoundGifController } from './sound-gif.controller';
+import { CreateSoundGifController } from './controllers/create-sound-gif.controller';
+import { FindSoundGifController } from './controllers/find-sound-gif.controller';
 
 export const SoundGifInterface = {
-  resolvers: [],
-  controllers: [SoundGifController],
+  controllers: [FindSoundGifController, CreateSoundGifController],
 };

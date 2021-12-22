@@ -14,7 +14,12 @@ const soundGifFixtures = [
     createdAt: yesterday,
     description: 'sch',
   }),
-  soundGifFixtureFactory({ createdAt: yesterday, personalityName: 'hamza' }),
+  soundGifFixtureFactory({
+    createdAt: yesterday,
+    tags: ['hamza', 'rap'],
+    title: 'hamza sauce god',
+    description: 'hamza sauce god',
+  }),
   soundGifFixtureFactory({ createdAt: yesterday, title: 'niska méchant' }),
   soundGifFixtureFactory({ createdAt: yesterday, description: 'sex' }),
   soundGifFixtureFactory({ createdAt: today, description: 'bonjour' }),
@@ -42,12 +47,12 @@ describe('find most recent sound gif controller', () => {
   });
   it('should find most recent sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .get('/findMostRecent')
+      .get('/findMostRecentSoundGif')
       .expect(200);
     expect(error).toBeFalsy();
-    expect(body.soundGifs).toBeDefined();
-    expect(Boolean(body.soundGifs.length)).toBeTruthy();
-    expect(body.soundGifs.length).toStrictEqual(5);
-    expect(body.soundGifs[0].description).toStrictEqual('bonjour');
+    expect(body).toBeDefined();
+    expect(Boolean(body.length)).toBeTruthy();
+    expect(body.length).toStrictEqual(5);
+    expect(body[0].description).toStrictEqual('bonjour');
   });
 });

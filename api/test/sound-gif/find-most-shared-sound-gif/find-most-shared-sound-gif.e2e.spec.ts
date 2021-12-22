@@ -8,7 +8,7 @@ import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound
 
 const soundGifFixtures = [
   soundGifFixtureFactory({ sharedCount: 5, description: 'sch' }),
-  soundGifFixtureFactory({ sharedCount: 4, personalityName: 'hamza' }),
+  soundGifFixtureFactory({ sharedCount: 4, tags: ['hamza', 'rap'] }),
   soundGifFixtureFactory({ sharedCount: 3, title: 'niska méchant' }),
   soundGifFixtureFactory({ sharedCount: 2, description: 'sex' }),
   soundGifFixtureFactory({ description: 'bonjour' }),
@@ -36,12 +36,12 @@ describe('find most shared sound gif controller', () => {
   });
   it('should find most shared sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .get('/findMostShared')
+      .get('/findMostSharedSoundGif')
       .expect(200);
     expect(error).toBeFalsy();
-    expect(body.soundGifs).toBeDefined();
-    expect(Boolean(body.soundGifs.length)).toBeTruthy();
-    expect(body.soundGifs.length).toStrictEqual(5);
-    expect(body.soundGifs[0].description).toStrictEqual('sch');
+    expect(body).toBeDefined();
+    expect(Boolean(body.length)).toBeTruthy();
+    expect(body.length).toStrictEqual(5);
+    expect(body[0].description).toStrictEqual('sch');
   });
 });
