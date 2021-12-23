@@ -9,7 +9,7 @@ export const ORMConfig: ConnectionOptions = {
   password: 'soundgif',
   database: process.env.ENV === 'test' ? 'soundgif-test' : 'soundgif',
   synchronize: false,
-  entities: ['src/**/*.entity{.ts,.js}'],
+  entities: ['src/**/*.entity.ts'],
   migrationsTableName: 'migration',
   migrations: ['src/migration/*.ts'],
   namingStrategy: new SnakeNamingStrategy(),
