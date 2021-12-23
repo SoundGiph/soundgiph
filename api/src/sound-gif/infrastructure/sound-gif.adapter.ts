@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { SoundGifPort } from '../core/application/ports/sound-gif.ports';
 import {
   SoundGifEntity,
@@ -28,6 +28,11 @@ export class SoundGifAdapter implements SoundGifPort {
         createdAt: 'DESC',
       },
     });
+  }
+
+  public async findOne(whereOptions: FindOneOptions): Promise<SoundGifEntity> {
+    this.logger.log('SoundGifAdapter > findOne > start');
+    return await this.soundGifRepository.findOne(whereOptions);
   }
 
   public async findMostShared(): Promise<SoundGifEntity[]> {

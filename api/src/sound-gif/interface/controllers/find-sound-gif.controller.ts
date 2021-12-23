@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import 'multer';
+import {
+  FindOneSoundGifQuery,
+  FindOneSoundGifQueryResult,
+} from '../../core/application/queries/find-one-sound-gif/find-one-sound-gif.query';
 import {
   FindMostRecentSoundGifQuery,
   FindMostRecentSoundGifQueryResult,
@@ -49,5 +53,16 @@ export class FindSoundGifController {
       FindMostSharedSoundGifQueryResult
     >(new FindMostSharedSoundGifQuery());
     return soundGifs;
+  }
+
+  @Get('/findOneSoundGif/:id')
+  async findOne(
+    @Param('id') id: SoundGifEntity['id'],
+  ): Promise<SoundGifEntity> {
+    const { soundGif } = await this.queryBus.execute<
+      FindOneSoundGifQuery,
+      FindOneSoundGifQueryResult
+    >(new FindOneSoundGifQuery({ id }));
+    return soundGif;
   }
 }

@@ -5,16 +5,16 @@ export const ORMConfig: ConnectionOptions = {
   type: 'postgres',
   host: '127.0.0.1',
   port: 5432,
-  username: 'soundgif',
+  username: 'postgres',
   password: 'soundgif',
-  database: process.env.ENV === 'test' ? 'soundgif-test' : 'soundgif',
+  database: 'soundgif',
   synchronize: false,
-  entities: ['src/**/*.entity{.ts,.js}'],
+  entities: ['dist/**/*.entity.js'],
   migrationsTableName: 'migration',
-  migrations: ['src/migration/*.ts'],
+  migrations: ['dist/migration/*.js'],
   namingStrategy: new SnakeNamingStrategy(),
   cli: {
-    migrationsDir: 'src/migration',
+    migrationsDir: 'dist/src/migration',
   },
 };
 
