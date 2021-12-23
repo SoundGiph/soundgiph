@@ -5,26 +5,29 @@ import { Connection } from 'typeorm';
 import { AppModule } from '../../../src/app/app.module';
 import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.entity';
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
+import * as uuid from 'uuid';
+
+const soundGifId = uuid.v4();
 
 const soundGifFixtures = [
   soundGifFixtureFactory({
-    id: '1' as SoundGifEntity['id'],
+    id: soundGifId as SoundGifEntity['id'],
     description: 'sch',
   }),
   soundGifFixtureFactory({
-    id: '2' as SoundGifEntity['id'],
+    id: uuid.v4() as SoundGifEntity['id'],
     tags: ['hamza', 'rap'],
   }),
   soundGifFixtureFactory({
-    id: '3' as SoundGifEntity['id'],
+    id: uuid.v4() as SoundGifEntity['id'],
     title: 'niska méchant',
   }),
   soundGifFixtureFactory({
-    id: '4' as SoundGifEntity['id'],
+    id: uuid.v4() as SoundGifEntity['id'],
     description: 'sex',
   }),
   soundGifFixtureFactory({
-    id: '5' as SoundGifEntity['id'],
+    id: uuid.v4() as SoundGifEntity['id'],
     description: 'bonjour',
   }),
 ];
@@ -51,10 +54,10 @@ describe('find one onesound gif controller', () => {
   });
   it('should find one onesound gif with fulltext', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .get('/findOneSoundGif/?id=1')
+      .get(`/findOneSoundGif/${soundGifId}`)
       .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
-    expect(body[0].description).toStrictEqual('sch');
+    expect(body.description).toStrictEqual('sch');
   });
 });

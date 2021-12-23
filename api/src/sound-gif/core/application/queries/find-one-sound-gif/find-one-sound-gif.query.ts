@@ -2,7 +2,7 @@ import { IQuery, IQueryResult } from '@nestjs/cqrs';
 import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 
 export type FindOneSoundGifPayload = {
-  id: string;
+  id: SoundGifEntity['id'];
 };
 export class FindOneSoundGifQuery implements IQuery {
   constructor(public readonly payload: FindOneSoundGifPayload) {}
