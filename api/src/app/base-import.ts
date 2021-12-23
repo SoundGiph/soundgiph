@@ -11,19 +11,28 @@ export const BaseConfigImports = [
       type: 'postgres',
       host: configService.get('POSTGRES_HOST', 'localhost'),
       port: configService.get<number>('POSTGRES_PORT', 5432),
-      username: configService.get('POSTGRES_USER', 'soundgif'),
+      username: configService.get('POSTGRES_USER', 'postgres'),
       password: configService.get('POSTGRES_PASSWORD', 'soundgif'),
       database:
         configService.get('ENV', 'dev') === 'test'
           ? configService.get('POSTGRES_TEST_DATABASE', 'soundgif-test')
           : configService.get('POSTGRES_DATABASE', 'soundgif'),
-      entities: ['src/**/*.entity{.ts,.js}'],
+      entities:
+        configService.get('ENV', 'dev') === 'production'
+          ? ['dist/src/**/*.entity{.ts,.js}']
+          : ['src/**/*.entity{.ts,.js}'],
       synchronize: true,
       migrationsTableName: 'migration',
-      migrations: ['src/migration/*.ts'],
+      migrations:
+        configService.get('ENV', 'dev') === 'production'
+          ? ['dist/src/migration/*.ts']
+          : ['src/migration/*.ts'],
       namingStrategy: new SnakeNamingStrategy(),
       cli: {
-        migrationsDir: 'src/migration',
+        migrationsDir:
+          configService.get('ENV', 'dev') === 'production'
+            ? 'dist/src/migration'
+            : 'src/migration',
       },
     }),
   }),
