@@ -19,19 +19,19 @@ export const BaseConfigImports = [
           : configService.get('POSTGRES_DATABASE', 'soundgif'),
       entities:
         configService.get('ENV', 'dev') === 'production'
-          ? ['dist/src/**/*.entity{.ts,.js}']
+          ? ['dist/**/*.entity{.ts,.js}']
           : ['src/**/*.entity{.ts,.js}'],
       synchronize: true,
       migrationsTableName: 'migration',
       migrations:
         configService.get('ENV', 'dev') === 'production'
-          ? ['dist/src/migration/*.ts']
+          ? ['dist/migration/*.ts']
           : ['src/migration/*.ts'],
       namingStrategy: new SnakeNamingStrategy(),
       cli: {
         migrationsDir:
           configService.get('ENV', 'dev') === 'production'
-            ? 'dist/src/migration'
+            ? 'dist/migration'
             : 'src/migration',
       },
     }),
