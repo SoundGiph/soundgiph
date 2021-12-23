@@ -21,11 +21,15 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
     "start:dev:db": "./start-db.sh",
-    "typeorm:dev": " ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig.ts",
+    "typeorm:dev": " ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig-dev.ts",
     "migration:dev": "yarn typeorm:dev migration:run",
     "migration:create:dev": "yarn typeorm:dev migration:create",
     "migration:generate:dev": "yarn typeorm:dev migration:generate",
-    "schema-log:dev": "yarn typeorm:dev schema:log"
+    "typeorm:prod": " ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig-prod.ts",
+    "migration:prod": "yarn typeorm:prod migration:run",
+    "migration:create:prod": "yarn typeorm:prod migration:create",
+    "migration:generate:prod": "yarn typeorm:prod migration:generate",
+    "schema-log:prod": "yarn typeorm:prod schema:log"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.8.0",
