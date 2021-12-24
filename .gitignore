@@ -26,3 +26,9 @@
 */yarn-error.log*
 */package-lock.json
 */.history
+
+#data
+database/data
+
+#env variables
+.env

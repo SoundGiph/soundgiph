@@ -17,13 +17,22 @@ export const BaseConfigImports = [
         configService.get('ENV', 'development') === 'test'
           ? configService.get('POSTGRES_TEST_DATABASE', 'soundgif-test')
           : configService.get('POSTGRES_DATABASE', 'soundgif'),
-      entities: ['src/**/*.entity{.ts,.js}'],
+      entities:
+        configService.get('ENV', 'dev') === 'production'
+          ? ['dist/**/*.entity{.ts,.js}']
+          : ['src/**/*.entity{.ts,.js}'],
       synchronize: true,
       migrationsTableName: 'migration',
-      migrations: ['src/migration/*.ts'],
+      migrations:
+        configService.get('ENV', 'dev') === 'production'
+          ? ['dist/migration/*.ts']
+          : ['src/migration/*.ts'],
       namingStrategy: new SnakeNamingStrategy(),
       cli: {
-        migrationsDir: 'src/migration',
+        migrationsDir:
+          configService.get('ENV', 'dev') === 'production'
+            ? 'dist/migration'
+            : 'src/migration',
       },
     }),
   }),
