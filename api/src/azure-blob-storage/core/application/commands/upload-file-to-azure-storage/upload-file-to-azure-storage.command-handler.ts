@@ -14,11 +14,12 @@ export class UploadFileToAzureStorageCommandHandler
   public async execute({
     payload,
   }: UploadFileToAzureStorageCommand): Promise<UploadFileToAzureStorageCommandResult> {
-    const { file, fileName, containerName } = payload;
-    const blobName = `${fileName}-${new Date().getTime()}`;
+    const { file, containerName } = payload;
+    console.log('=================');
+    console.log(file);
+    console.log('=================');
     const uploadedFileUrl = await this.azureBlobStoragePort.upload(
       file,
-      blobName,
       containerName,
     );
     return new UploadFileToAzureStorageCommandResult(uploadedFileUrl);

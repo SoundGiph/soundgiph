@@ -28,17 +28,20 @@ export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
     return containerClient;
   }
 
+  //TODO: pourquoi la fonction upload est dans l'adapter et pas dans application/commands
+
   public async upload(
     file: Express.Multer.File,
-    fileName: string,
     containerName: string,
   ): Promise<string> {
     this.logger.log(
-      `AzureBlobStorageAdapter > upload > called with fileName: ${fileName} and containerName: ${containerName}`,
+      `AzureBlobStorageAdapter > upload > called with fileName: ${file[0].originalname} and containerName: ${containerName}`,
     );
     const containerClient = this.connect(containerName);
-    const blob = new ArrayBuffer(file.size);
-    const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+    const blob = file[0].buffer;
+    const blockBlobClient = containerClient.getBlockBlobClient(
+      file[0].originalname,
+    );
     await blockBlobClient.uploadData(blob);
     return blockBlobClient.url;
   }
