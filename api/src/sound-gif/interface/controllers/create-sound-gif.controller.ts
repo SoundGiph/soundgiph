@@ -31,7 +31,7 @@ export class CreateSoundGifController {
   constructor(
     private readonly configService: ConfigService,
     private readonly commandBus: CommandBus,
-    private readonly azureStoragePresenter: AzureBlobStoragePresenter,
+    private readonly azureStoragePresenter: AzureBlobStoragePresenter, //TODO: pourquoi ne pas avoir utiliser le decorator Injector() ?
   ) {}
 
   IMAGE_CONTAINER = this.configService.get<string>(
@@ -60,14 +60,13 @@ export class CreateSoundGifController {
     try {
       const { title, description, tags } = payload;
       const { audioFile, imageFile } = files;
+
       const audioUrl = await this.azureStoragePresenter.upload(
         audioFile,
-        title,
         this.SOUND_CONTAINER,
       );
       const imageUrl = await this.azureStoragePresenter.upload(
         imageFile,
-        title,
         this.IMAGE_CONTAINER,
       );
       const { createdSoundGif } = await this.commandBus.execute<
@@ -84,6 +83,7 @@ export class CreateSoundGifController {
       );
       return Boolean(createdSoundGif.id);
     } catch (error) {
+      console.log(error);
       return false;
     }
   }
