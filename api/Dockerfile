@@ -15,7 +15,6 @@ COPY .env ./
 COPY src ./src
 COPY tsconfig.build.json ./
 COPY tsconfig.json ./
-COPY yarn-error.log ./
 
 RUN yarn build
 
