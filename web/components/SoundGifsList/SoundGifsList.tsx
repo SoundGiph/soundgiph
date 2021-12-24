@@ -8,11 +8,7 @@ type SoundGifsListProps = {
   icon: ReactNode;
 };
 
-export const SoundGifsList: React.FC<SoundGifsListProps> = ({
-  soundGifs,
-  title,
-  icon,
-}) => {
+export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, icon }) => {
   if (!soundGifs) return null;
   return (
     <div className="w-full h-full px-4 py-10 bg-cover card bg-base">
@@ -21,7 +17,7 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({
         <p className="card-title ml-5">{title}</p>
       </div>
       <div className="flex flex-row overflow-x-scroll justify-start">
-        {soundGifs.map((soundGif) => {
+        {soundGifs.map(soundGif => {
           return <SoundGifsListRow soundGif={soundGif} />;
         })}
       </div>

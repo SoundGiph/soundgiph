@@ -6,6 +6,10 @@
   "share": "partager",
   "upload": "upload",
   "errors": {
-    "web_share_api_not_supported": "L'api WebShare n'est pas supporté sur ce navigateur, veuillez essayer sur un autre navigateur"
+    "no_navigator_error": "Erreur, veuillez essayez sur un autre navigateur",
+    "fail_to_web_share_error": "impossible de partager le fichier"
+  },
+  "success": {
+    "copy_audio_url_success": "lien copié"
   }
 }

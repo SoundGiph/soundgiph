@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import Konami from "react-konami-code";
 import { CHEAT_CODE } from "../../constants/constants";
+import { DropDownButtonLanguages } from "../DropDownButtonLanguages/DropDownButtonLanguages";
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -21,10 +22,12 @@ export const Header = () => {
           </svg>
         </button>
       </div>
-      <Konami code={CHEAT_CODE}>
-        <button className="btn btn-outline btn-secondary self-end">{t("upload")}</button>
-      </Konami>
-      <div className="flex-none"></div>
+      <div className="flex-1 justify-end items-center">
+        <DropDownButtonLanguages />
+        <Konami code={CHEAT_CODE} className="ml-2">
+          <button className="btn btn-outline btn-secondary self-end">{t("upload")}</button>
+        </Konami>
+      </div>
     </div>
   );
 };

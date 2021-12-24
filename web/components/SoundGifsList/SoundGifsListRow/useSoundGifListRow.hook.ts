@@ -11,7 +11,7 @@ export const useSoundGifListRow = (
   shareSoundGif: () => Promise<void>;
 } => {
   const { getFileFromUrl } = useGetFileFromUrl();
-  const { notificationError } = useNotification();
+  const { notificationError, notificationSuccess } = useNotification();
   const { t } = useTranslation();
   const { audioUrl } = soundGif;
 
@@ -26,19 +26,24 @@ export const useSoundGifListRow = (
 
   const shareSoundGif = async (): Promise<void> => {
     try {
-      const data = await getFileFromUrl(audioUrl);
-      window.alert(navigator.share);
-      if (data && navigator.share && navigator.canShare && navigator.canShare({ files: [data] })) {
-        await navigator.share({
-          files: [data],
-        });
-      } else {
-        console.log(t("share"));
-        console.log(t("errors.web_share_api_not_supported"));
-        notificationError(t("errors.web_share_api_not_supported"));
+      if (!navigator) {
+        notificationError(t("errors.no_navigator_error"));
+        return;
+      }
+      if (navigator.share) {
+        const data = await getFileFromUrl(audioUrl);
+        if (data) {
+          await navigator.share({
+            files: [data],
+          });
+        }
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(audioUrl);
+        notificationSuccess(t("success.copy_audio_url_success"));
       }
     } catch (error) {
-      console.log(error);
+      window.alert(navigator.clipboard);
+      notificationError(t("errors.fail_to_web_share_error"));
     }
   };
 

@@ -6,6 +6,10 @@
   "share": "share",
   "upload": "upload",
   "errors": {
-    "web_share_api_not_supported": "Web share api is not supported on this browser, try with another one"
+    "no_navigator_error": "Unknown Error, try with an other browser",
+    "fail_to_web_share_error": "impossible to share the file"
+  },
+  "success": {
+    "copy_audio_url_success": "Audio url copied !"
   }
 }
