@@ -3,10 +3,10 @@ import { ConnectionOptions } from 'typeorm';
 
 export const ORMConfig: ConnectionOptions = {
   type: 'postgres',
-  host: '127.0.0.1',
+  host: 'postgres',
   port: 5432,
   username: 'postgres',
-  password: 'soundgif',
+  password: process.env.POSTGRES_PASSWORD,
   database: 'soundgif',
   synchronize: false,
   entities: ['dist/**/*.entity.js'],

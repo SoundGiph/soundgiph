@@ -2,6 +2,8 @@ import { NestApplication } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../../../src/app/app.module';
+import * as faker from 'faker';
+
 const audioFile = `${__dirname}/snoop-dogg.mp3`;
 const imageFile = `${__dirname}/snoop-dogg.jpeg`;
 const tags = ['rap', 'snoop', 'dogg'];
@@ -22,7 +24,7 @@ describe('create sound gif controller', () => {
   it('should create sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
       .post('/createSoundGif')
-      .field('title', 'snoop dogg')
+      .field('title', faker.random.word())
       .field('tags', tags)
       .field('description', 'snoop dogg sound')
       .attach('audioFile', audioFile)
@@ -41,6 +43,7 @@ describe('create sound gif controller', () => {
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(body).toBeTruthy();
-    expect(body[0].title).toStrictEqual('snoop dogg');
+    expect(body[0].description).toStrictEqual('snoop dogg sound');
+    console.log(body[0]);
   });
 });

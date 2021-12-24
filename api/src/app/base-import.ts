@@ -14,7 +14,7 @@ export const BaseConfigImports = [
       username: configService.get('POSTGRES_USER', 'postgres'),
       password: configService.get('POSTGRES_PASSWORD', 'soundgif'),
       database:
-        configService.get('ENV', 'dev') === 'test'
+        configService.get('ENV', 'development') === 'test'
           ? configService.get('POSTGRES_TEST_DATABASE', 'soundgif-test')
           : configService.get('POSTGRES_DATABASE', 'soundgif'),
       entities:

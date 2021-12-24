@@ -1,3 +1,4 @@
+import { SoundGifEntity } from 'src/sound-gif/core/domain/sound-gif.entity';
 import { FindOneSoundGifQuery } from './find-one-sound-gif.query';
 import { FindOneSoundGifQueryHandler } from './find-one-sound-gif.query-handler';
 
@@ -6,7 +7,7 @@ const SoundGifPort = {
 };
 
 const payload = {
-  id: '1',
+  id: '1' as SoundGifEntity['id'],
 };
 
 describe('FindOneSoundGifQuery', () => {

@@ -4,7 +4,7 @@ import 'multer';
 import {
   FindOneSoundGifQuery,
   FindOneSoundGifQueryResult,
-} from 'src/sound-gif/core/application/queries/find-one-sound-gif/find-one-sound-gif.query';
+} from '../../core/application/queries/find-one-sound-gif/find-one-sound-gif.query';
 import {
   FindMostRecentSoundGifQuery,
   FindMostRecentSoundGifQueryResult,
@@ -19,7 +19,6 @@ import {
   FindSoundGifQueryResult,
 } from '../../core/application/queries/find-sound-gif/find-sound-gif.query';
 import { SoundGifEntity } from '../../core/domain/sound-gif.entity';
-
 @Controller()
 export class FindSoundGifController {
   constructor(private readonly queryBus: QueryBus) {}
@@ -57,7 +56,9 @@ export class FindSoundGifController {
   }
 
   @Get('/findOneSoundGif/:id')
-  async findOne(@Param('id') id: string): Promise<SoundGifEntity> {
+  async findOne(
+    @Param('id') id: SoundGifEntity['id'],
+  ): Promise<SoundGifEntity> {
     const { soundGif } = await this.queryBus.execute<
       FindOneSoundGifQuery,
       FindOneSoundGifQueryResult
