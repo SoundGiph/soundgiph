@@ -6,7 +6,7 @@ export const ORMConfig: ConnectionOptions = {
   host: 'postgres',
   port: 5432,
   username: 'postgres',
-  password: 'soundgif',
+  password: process.env.POSTGRES_PASSWORD,
   database: 'soundgif',
   synchronize: false,
   entities: ['dist/**/*.entity.js'],

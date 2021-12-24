@@ -4,6 +4,7 @@
         "nestjs",
         "ormconfig",
         "prebuild",
-        "typeorm"
+        "typeorm",
+        "soundgif"
     ]
 }

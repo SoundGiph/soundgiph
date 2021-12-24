@@ -1,6 +1,6 @@
 FROM node:12.22.0
 
-WORKDIR /usr/vozo-web/
+WORKDIR /usr/soundgif-web/
 
 
 COPY global.d.ts ./

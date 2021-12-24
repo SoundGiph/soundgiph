@@ -1,6 +1,6 @@
 FROM node:12.22.0
 
-WORKDIR /usr/vozo-api/
+WORKDIR /usr/soundgif-api/
 
 
 COPY nest-cli.json ./
