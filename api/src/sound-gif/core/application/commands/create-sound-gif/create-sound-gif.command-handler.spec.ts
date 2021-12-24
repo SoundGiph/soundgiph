@@ -29,7 +29,6 @@ describe('createSoundGifCommand', () => {
   });
   const createSoundGifCommand = new CreateSoundGifCommand(payload);
   const createSoundGifCommandHandler = new CreateSoundGifCommandHandler(
-    configService,
     createSoundGifPort,
   );
 

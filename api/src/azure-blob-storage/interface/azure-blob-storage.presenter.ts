@@ -11,13 +11,12 @@ export class AzureBlobStoragePresenter {
 
   public async upload(
     file: Express.Multer.File,
-    fileName: string,
     containerName: string,
   ): Promise<string> {
     const { fileUrl } = await this.commandBus.execute<
       UploadFileToAzureStorageCommand,
       UploadFileToAzureStorageCommandResult
-    >(new UploadFileToAzureStorageCommand({ file, fileName, containerName }));
+    >(new UploadFileToAzureStorageCommand({ file, containerName }));
     return fileUrl;
   }
 }
