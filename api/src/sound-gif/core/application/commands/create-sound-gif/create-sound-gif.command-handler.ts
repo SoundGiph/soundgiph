@@ -14,7 +14,6 @@ export class CreateSoundGifCommandHandler
   implements ICommandHandler<CreateSoundGifCommand>
 {
   constructor(
-    private readonly configService: ConfigService,
     @Inject(SoundGifEntity)
     private readonly createSoundGifPort: Pick<SoundGifPort, 'create'>,
   ) {}

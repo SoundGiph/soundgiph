@@ -1,21 +1,22 @@
+import { VolumeUpIcon } from "@heroicons/react/solid";
 import { useTranslation } from "react-i18next";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
-import { VolumeUpIcon } from "@heroicons/react/solid";
 import { useSoundGifListRow } from "./useSoundGifListRow.hook";
-import { RWebShare } from "react-web-share";
-import { useEffect, useState } from "react";
 
 type SoundGifsListRowProps = {
   soundGif: SoundgifDTO;
 };
 
 export const SoundGifsListRow: React.FC<SoundGifsListRowProps> = ({ soundGif }) => {
-  const { imageUrl, description } = soundGif;
+  const { imageUrl, description, id } = soundGif;
   const { t } = useTranslation();
   const { playSoundGif, shareSoundGif } = useSoundGifListRow(soundGif);
 
   return (
-    <div className="items-center px-5 py-5 bg-cover bg-primary m-5 justify-between rounded-xl shadow-md image-full">
+    <div
+      key={id}
+      className="items-center px-5 py-5 bg-cover bg-primary m-5 justify-between rounded-xl shadow-md image-full"
+    >
       <div className="card glass card-body text-neutral-content h-full w-full items-center justify-between compact">
         <div className="avatar items-center justify-center">
           <button

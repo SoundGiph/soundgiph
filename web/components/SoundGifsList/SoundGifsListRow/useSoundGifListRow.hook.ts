@@ -1,40 +1,52 @@
-import axios from "axios";
 import { Howl } from "howler";
+import { useTranslation } from "next-i18next";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
+import { useGetFileFromUrl } from "../../../hooks/getFileFromUrl/useGetFileFromUrl";
+import { useNotification } from "../../../hooks/notification/useNotification";
 
 export const useSoundGifListRow = (
   soundGif: SoundgifDTO
 ): {
   playSoundGif: () => void;
-  shareSoundGif: () => void;
+  shareSoundGif: () => Promise<void>;
 } => {
-  const { audioUrl, title, description } = soundGif;
+  const { getFileFromUrl } = useGetFileFromUrl();
+  const { notificationError, notificationSuccess } = useNotification();
+  const { t } = useTranslation();
+  const { audioUrl } = soundGif;
+
   const soundGifToPlay = new Howl({
     src: [audioUrl],
   });
 
-  const playSoundGif = () => {
+  const playSoundGif = (): void => {
     soundGifToPlay.stop();
     soundGifToPlay.play();
   };
 
-  const shareSoundGif = async () => {
+  const shareSoundGif = async (): Promise<void> => {
     try {
-      const { data } = await axios.get<File>(`/api/cors?url=${audioUrl}`);
-      window.alert(navigator.canShare);
-      window.alert(navigator.share);
-      console.log(navigator.canShare && navigator.canShare({ files: [data] }));
-      if (navigator.share && navigator.canShare && navigator.canShare({ files: [data] })) {
-        await navigator.share({
-          title,
-          text: description,
-          files: [data],
-        });
+      if (!navigator) {
+        notificationError(t("errors.no_navigator_error"));
+        return;
+      }
+      if (navigator.share) {
+        const data = await getFileFromUrl(audioUrl);
+        if (data) {
+          await navigator.share({
+            files: [data],
+          });
+        }
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(audioUrl);
+        notificationSuccess(t("success.copy_audio_url_success"));
       }
     } catch (error) {
-      console.log(error);
+      window.alert(navigator.clipboard);
+      notificationError(t("errors.fail_to_web_share_error"));
     }
   };
+
   return {
     shareSoundGif,
     playSoundGif,

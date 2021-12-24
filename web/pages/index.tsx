@@ -10,6 +10,8 @@ import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { soundGifFixtureFactory } from "../domain/sound-gif.fixtures.factory";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ClockIcon, FireIcon } from "@heroicons/react/solid";
+import React from "react";
+import { DropDownButtonLanguages } from "../components/DropDownButtonLanguages/DropDownButtonLanguages";
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -45,11 +47,7 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-}: {
-  locale?: string | undefined;
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
   return {
     props: {
       soundGifs: [
