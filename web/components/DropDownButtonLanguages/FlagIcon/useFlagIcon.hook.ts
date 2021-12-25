@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
 import { FR_FLAG, GB_FLAG } from "../../../constants/constants";
 import { FlagEnum, FlagIconProps } from "./FlagIcon";
 
@@ -7,8 +7,8 @@ export const useFlagIcon = (): {
   otherFlagIcon: FlagIconProps;
   onClickFlagIconItemDropDown: () => void;
 } => {
-  const { i18n } = useTranslation();
-  const isLocaleFr = Boolean(i18n.language === FlagEnum.FR);
+  const {push, locale} = useRouter()
+  const isLocaleFr = Boolean(locale === FlagEnum.FR);
 
   const currentFlagIcon = {
     src: isLocaleFr ? FR_FLAG : GB_FLAG,
@@ -22,9 +22,9 @@ export const useFlagIcon = (): {
 
   const onClickFlagIconItemDropDown = (): void => {
     if (!isLocaleFr) {
-      i18n.changeLanguage(FlagEnum.FR);
+      push("/fr", undefined, { locale: false })
     } else {
-      i18n.changeLanguage(FlagEnum.GB);
+      push("/en", undefined, { locale: false })
     }
   };
 

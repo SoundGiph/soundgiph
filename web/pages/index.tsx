@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { Footer } from "../components/Footer/Footer";
 import { Header } from "../components/Header/Header";
 import { SearchSoundGifInput } from "../components/SearchSoundGifInput/SearchSoundGifInput";

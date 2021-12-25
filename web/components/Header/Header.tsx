@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import Konami from "react-konami-code";
 import { CHEAT_CODE } from "../../constants/constants";
 import { DropDownButtonLanguages } from "../DropDownButtonLanguages/DropDownButtonLanguages";
