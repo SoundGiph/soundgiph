@@ -34,7 +34,7 @@ export const SoundGifsListRow: React.FC<SoundGifsListRowProps> = ({ soundGif }) 
         </div>
         <div className="card-actions w-full flex justify-center">
           <button onClick={shareSoundGif} className="btn glass rounded-full w-full">
-            {t("share")}
+            {t("home.share")}
           </button>
         </div>
       </div>

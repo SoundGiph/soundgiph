@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Konami from "react-konami-code";
 import { CHEAT_CODE } from "../../constants/constants";
+import { CreateSoundGifButtonFormModal } from "../CreateSoundGifButtonFormModal/CreateSoundGifButtonFormModal";
 import { DropDownButtonLanguages } from "../DropDownButtonLanguages/DropDownButtonLanguages";
 
 export const Header = () => {
@@ -23,10 +24,10 @@ export const Header = () => {
         </button>
       </div>
       <div className="flex-1 justify-end items-center">
-        <DropDownButtonLanguages />
-        <Konami code={CHEAT_CODE} className="ml-2">
-          <button className="btn btn-outline btn-secondary self-end">{t("upload")}</button>
+        <Konami code={CHEAT_CODE} className="mr-2">
+          <CreateSoundGifButtonFormModal />
         </Konami>
+        <DropDownButtonLanguages />
       </div>
     </div>
   );

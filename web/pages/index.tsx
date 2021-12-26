@@ -1,17 +1,17 @@
+import { ClockIcon, FireIcon } from "@heroicons/react/solid";
 import type { NextPage } from "next";
 import { GetStaticProps } from "next";
-import Head from "next/head";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
+import React from "react";
+import { CreateSoundGifButtonFormModal } from "../components/CreateSoundGifButtonFormModal/CreateSoundGifButtonFormModal";
 import { Footer } from "../components/Footer/Footer";
 import { Header } from "../components/Header/Header";
 import { SearchSoundGifInput } from "../components/SearchSoundGifInput/SearchSoundGifInput";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { soundGifFixtureFactory } from "../domain/sound-gif.fixtures.factory";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ClockIcon, FireIcon } from "@heroicons/react/solid";
-import React from "react";
-import { DropDownButtonLanguages } from "../components/DropDownButtonLanguages/DropDownButtonLanguages";
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -32,12 +32,12 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
           <SearchSoundGifInput />
           <SoundGifsList
             soundGifs={soundGifs}
-            title={t("most_recent_soundgif_title")}
+            title={t("home.most_recent_soundgif_title")}
             icon={<ClockIcon className="h-6 w-6" />}
           />
           <SoundGifsList
             soundGifs={soundGifs}
-            title={t("most_shared_soundgif_title")}
+            title={t("home.most_shared_soundgif_title")}
             icon={<FireIcon className="h-6 w-6" />}
           />
         </div>
