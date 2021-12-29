@@ -4,7 +4,7 @@ import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useGetFileFromUrl } from "../../../hooks/getFileFromUrl/useGetFileFromUrl";
 import { useNotification } from "../../../hooks/notification/useNotification";
 
-export const useSoundGifListRow = (
+export const useSoundGifItem = (
   soundGif: SoundgifDTO
 ): {
   playSoundGif: () => void;
@@ -13,7 +13,7 @@ export const useSoundGifListRow = (
   const { getFileFromUrl } = useGetFileFromUrl();
   const { notificationError, notificationSuccess } = useNotification();
   const { t } = useTranslation();
-  const { audioUrl } = soundGif;
+  const { audioUrl, id, title } = soundGif;
 
   const soundGifToPlay = new Howl({
     src: [audioUrl],
@@ -25,21 +25,25 @@ export const useSoundGifListRow = (
   };
 
   const shareSoundGif = async (): Promise<void> => {
+    const url = `http://localhost/${id}`
     try {
       if (!navigator) {
         notificationError(t("errors.no_navigator_error"));
         return;
       }
       if (navigator.share) {
-        const data = await getFileFromUrl(audioUrl);
-        if (data) {
-          await navigator.share({
-            files: [data],
-          });
-        }
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(audioUrl);
+        const shareData = {
+            url: url,
+            title: title
+          }
+          await navigator.share(shareData);
+      }
+      else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
         notificationSuccess(t("success.copy_audio_url_success"));
+      }
+      else {
+        alert("cannot share")
       }
     } catch (error) {
       window.alert(navigator.clipboard);

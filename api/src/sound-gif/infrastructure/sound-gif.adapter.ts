@@ -30,8 +30,8 @@ export class SoundGifAdapter implements SoundGifPort {
     });
   }
 
-  public async findOne(whereOptions: FindOneOptions): Promise<SoundGifEntity> {
-    this.logger.log('SoundGifAdapter > findOne > start');
+  public async getOne(whereOptions: FindOneOptions): Promise<SoundGifEntity> {
+    this.logger.log('SoundGifAdapter > getOne > start');
     return await this.soundGifRepository.findOne(whereOptions);
   }
 
