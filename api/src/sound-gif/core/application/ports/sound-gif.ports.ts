@@ -1,4 +1,4 @@
-import { FindManyOptions, GetOneOptions } from 'typeorm';
+import { FindManyOptions, FindOneOptions } from 'typeorm';
 import {
   SoundGifEntity,
   SoundGifEntityMandatoryFields,
@@ -6,7 +6,7 @@ import {
 
 export abstract class SoundGifPort {
   abstract find(whereOptions: FindManyOptions): Promise<SoundGifEntity[]>;
-  abstract getOne(whereOptions: GetOneOptions): Promise<SoundGifEntity>;
+  abstract getOne(whereOptions: FindOneOptions): Promise<SoundGifEntity>;
   abstract findMostRecent(): Promise<SoundGifEntity[]>;
   abstract findMostShared(): Promise<SoundGifEntity[]>;
   abstract create(
