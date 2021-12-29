@@ -54,7 +54,7 @@ describe('find one onesound gif controller', () => {
   });
   it('should find one onesound gif with fulltext', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .get(`/findOneSoundGif/${soundGifId}`)
+      .get(`/getOneSoundGif/${soundGifId}`)
       .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();

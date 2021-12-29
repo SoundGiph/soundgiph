@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
-import { SoundGifsListRow } from "./SoundGifsListRow/SoundGifsListRow";
+import { SoundGifItem } from "./SoundGifItem/SoundGifItem";
 
 type SoundGifsListProps = {
   soundGifs: SoundgifDTO[];
@@ -10,6 +10,7 @@ type SoundGifsListProps = {
 
 export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, icon }) => {
   if (!soundGifs) return null;
+
   return (
     <div className="w-full h-full px-4 py-10 bg-cover card bg-base">
       <div className="flex flex-row justify-space">
@@ -18,7 +19,7 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
       </div>
       <div className="flex flex-row overflow-x-scroll justify-start">
         {soundGifs.map(soundGif => {
-          return <SoundGifsListRow soundGif={soundGif} />;
+          return <SoundGifItem soundGif={soundGif} play={true}/>;
         })}
       </div>
     </div>

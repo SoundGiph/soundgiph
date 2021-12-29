@@ -1,16 +1,19 @@
 import { VolumeUpIcon } from "@heroicons/react/solid";
 import { useTranslation } from "react-i18next";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
-import { useSoundGifListRow } from "./useSoundGifListRow.hook";
+import { useSoundGifItem } from "./useSoundGifItem.hook";
 
-type SoundGifsListRowProps = {
+type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
+  play: boolean
 };
 
-export const SoundGifsListRow: React.FC<SoundGifsListRowProps> = ({ soundGif }) => {
+export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, play }) => {
+
   const { imageUrl, description, id } = soundGif;
   const { t } = useTranslation();
-  const { playSoundGif, shareSoundGif } = useSoundGifListRow(soundGif);
+  const { playSoundGif, shareSoundGif } = useSoundGifItem(soundGif);
+  
 
   return (
     <div
