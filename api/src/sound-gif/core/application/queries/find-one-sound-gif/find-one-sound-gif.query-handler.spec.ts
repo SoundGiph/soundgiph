@@ -1,26 +1,26 @@
 import { SoundGifEntity } from 'src/sound-gif/core/domain/sound-gif.entity';
-import { FindOneSoundGifQuery } from './find-one-sound-gif.query';
-import { FindOneSoundGifQueryHandler } from './find-one-sound-gif.query-handler';
+import { GetOneSoundGifQuery } from './find-one-sound-gif.query';
+import { GetOneSoundGifQueryHandler } from './find-one-sound-gif.query-handler';
 
 const SoundGifPort = {
-  findOne: jest.fn(),
+  getOne: jest.fn(),
 };
 
 const payload = {
   id: '1' as SoundGifEntity['id'],
 };
 
-describe('FindOneSoundGifQuery', () => {
+describe('GetOneSoundGifQuery', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  const findOneSoundGifQuery = new FindOneSoundGifQuery(payload);
-  const findOneSoundGifQueryHandler = new FindOneSoundGifQueryHandler(
+  const getOneSoundGifQuery = new GetOneSoundGifQuery(payload);
+  const getOneSoundGifQueryHandler = new GetOneSoundGifQueryHandler(
     SoundGifPort,
   );
 
   it('should call SoundGifPort, 1 time with fulltext', async () => {
-    await findOneSoundGifQueryHandler.execute(findOneSoundGifQuery);
-    expect(SoundGifPort.findOne).toHaveBeenCalledTimes(1);
+    await getOneSoundGifQueryHandler.execute(getOneSoundGifQuery);
+    expect(SoundGifPort.getOne).toHaveBeenCalledTimes(1);
   });
 });

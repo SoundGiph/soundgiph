@@ -1,13 +1,13 @@
 import { IQuery, IQueryResult } from '@nestjs/cqrs';
 import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 
-export type FindOneSoundGifPayload = {
+export type GetOneSoundGifPayload = {
   id: SoundGifEntity['id'];
 };
-export class FindOneSoundGifQuery implements IQuery {
-  constructor(public readonly payload: FindOneSoundGifPayload) {}
+export class GetOneSoundGifQuery implements IQuery {
+  constructor(public readonly payload: GetOneSoundGifPayload) {}
 }
 
-export class FindOneSoundGifQueryResult implements IQueryResult {
+export class GetOneSoundGifQueryResult implements IQueryResult {
   constructor(public readonly soundGif: SoundGifEntity) {}
 }

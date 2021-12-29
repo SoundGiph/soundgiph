@@ -8,6 +8,8 @@ export const FIND_MOST_RECENT_SOUND_GIF_QUERY = "/findMostRecentSoundGif";
 
 export const FIND_MOST_SHARED_SOUND_GIF_QUERY = "/findMostSharedSoundGif";
 
+export const GET_ONE_SOUND_GIF = "/getOneSoundGif";
+
 export const CREATE_SOUND_GIF = "/createSoundGif";
 
 export const GET_FILE_FROM_URL = "/getFileFromUrl";
@@ -27,3 +29,5 @@ export const GB_FLAG = "http://purecatamphetamine.github.io/country-flag-icons/3
 export const FR = "fr";
 
 export const GB = "en";
+
+export const BASE_URL = ""
