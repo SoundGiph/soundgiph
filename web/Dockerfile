@@ -11,7 +11,10 @@ COPY package.json ./
 COPY postcss.config.js ./
 COPY tailwind.config.js ./
 COPY tsconfig.json ./
+COPY .env ./
+COPY entrypoint.sh ./
 
+RUN chmod +x ./entrypoint.sh
 RUN yarn
 
 COPY components ./components
@@ -22,9 +25,6 @@ COPY domain ./domain
 COPY hooks ./hooks
 COPY pages ./pages
 
+EXPOSE 8080
 
-RUN yarn build
-
-EXPOSE 80
-
-CMD ["yarn", "start"]
+CMD ["./entrypoint.sh"]
