@@ -7,11 +7,9 @@ import { Header } from "../components/Header/Header";
 import { SearchSoundGifInput } from "../components/SearchSoundGifInput/SearchSoundGifInput";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { soundGifFixtureFactory } from "../domain/sound-gif.fixtures.factory";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ClockIcon, FireIcon } from "@heroicons/react/solid";
 import React from "react";
-import { DropDownButtonLanguages } from "../components/DropDownButtonLanguages/DropDownButtonLanguages";
 import { useApi } from "../hooks/api/useApi.hook"
 
 type HomeProps = {
@@ -34,12 +32,12 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
           <SoundGifsList
             soundGifs={soundGifs}
             title={t("most_recent_soundgif_title")}
-            icon={<ClockIcon className="h-6 w-6" />}
+            icon={<ClockIcon className="h-6 w-6 to-blue-400" />}
           />
           <SoundGifsList
             soundGifs={soundGifs}
             title={t("most_shared_soundgif_title")}
-            icon={<FireIcon className="h-6 w-6" />}
+            icon={<FireIcon className="h-6 w-6 to-blue-400" />}
           />
         </div>
       </main>
