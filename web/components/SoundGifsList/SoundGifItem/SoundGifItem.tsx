@@ -1,47 +1,49 @@
-import { PlayIcon } from "@heroicons/react/solid";
+import { PlayIcon, ShareIcon } from "@heroicons/react/solid";
 import { useTranslation } from "react-i18next";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useSoundGifItem } from "./useSoundGifItem.hook";
-import { Tags } from "./Tags"
-import { useEffect } from 'react'
+import { Tags } from "./Tags";
+import { useEffect } from "react";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
 };
 
 export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
-
-  const { imageUrl, description, id, tags } = soundGif;
-  const { t } = useTranslation();
-  const { playSoundGif, shareSoundGif, shareAudioFile } = useSoundGifItem(soundGif);  
+  const { imageUrl, description, id } = soundGif;
+  const { playSoundGif, shareAudioFile } = useSoundGifItem(soundGif);
 
   return (
-    <div
-      key={id}
-      className="px-5 py-5 bg-cover bg-primary m-5 rounded-xl shadow-md image-full border-yellow-400 max-w-xs"
-    >
-      <div className="card card-body text-neutral-content h-full w-full items-center justify-between compact border">
-        <div className="avatar items-center justify-center">
-          <button
-            onClick={playSoundGif}
-            className="absolute self-center m-auto btn btn-ghost btn-circle h-28 w-28 items-center justify-center rounded-full"
-          >
-            <PlayIcon className="h-12 w-28 fill-primary" />
+    <div key={id} className="avatar mr-3 my-5 w-44 h-44 flex items-center justify-center">
+      <div className="w-44 h-44 rounded-lg">
+        <img src={imageUrl} />
+      </div>
+      <div className="absolute z-20 items-center">
+        <button onClick={playSoundGif}>
+          <PlayIcon className="h-14" />
+        </button>
+      </div>
+      <div className="flex z-10 w-full h-1/2 absolute bg-gradient-to-t from-black bottom-0" />
+      <div className=" z-10 flex items-end w-full absolute bottom-2 justify-center">
+        <div className="px-2 flex items-end w-full flex-row justify-between items-center">
+          <p className="font-white text-xs font-bold line-clamp-2 hover:text-clip">{description}</p>
+          <button onClick={shareAudioFile}>
+            <ShareIcon className="h-8" />
           </button>
-          <div className="rounded-full w-52 h-52 hover ring ring-primary ring-offset-base-100 ring-offset-2">
-            <img src={imageUrl} />
-          </div>
-        </div>
-        <div className="text-center mt-8">
-          <p>{description}</p>
-        </div>
-        <Tags tags={tags}/>
-        <div className="card-actions w-full flex justify-center">
-            <button onClick={shareAudioFile} className="btn glass rounded-full w-full">
-              {t("share")}
-            </button>
         </div>
       </div>
     </div>
   );
 };
+
+/*
+    <div className="avatar items-center justify-center">
+        <img src={imageUrl} />
+      </div>
+      <div className="flex-row w-full flex justify-between items-center">
+        <div className="text-center text-xs font-bold">
+          <p>{description}</p>
+        </div>
+        <button onClick={shareAudioFile} className="btn glass rounded-full"></button>
+      </div>
+*/

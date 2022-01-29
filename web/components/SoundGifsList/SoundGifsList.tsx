@@ -12,14 +12,14 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
   if (!soundGifs) return null;
 
   return (
-    <div className="w-full h-full px-4 py-10 bg-cover card bg-base">
+    <div className="w-full h-full px-3 py-5 bg-cover card bg-base">
       <div className="flex flex-row justify-space">
         {icon}
         <p className="card-title ml-5">{title}</p>
       </div>
       <div className="flex flex-row overflow-x-auto justify-start">
         {soundGifs.map(soundGif => {
-          return <SoundGifItem soundGif={soundGif}/>;
+          return <SoundGifItem soundGif={soundGif} />;
         })}
       </div>
     </div>
