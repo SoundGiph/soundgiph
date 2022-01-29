@@ -8,9 +8,11 @@ import { SearchSoundGifInput } from "../components/SearchSoundGifInput/SearchSou
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ClockIcon, FireIcon } from "@heroicons/react/solid";
+import { ClockIcon, FireIcon, SearchIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useApi } from "../hooks/api/useApi.hook"
+import { useState, useRef } from "react"
+import { Howl } from "howler";
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -18,6 +20,36 @@ type HomeProps = {
 
 const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   const { t } = useTranslation();
+  const [ soundGifsSearchResults, setSoundGifSearchResult ] = useState<SoundgifDTO[]>([])
+
+  const updateSoundGifSearchResults = (soundGifs: SoundgifDTO[]) => {
+    setSoundGifSearchResult(soundGifs)
+  }
+
+  const mostRecentSoundGifs = (
+    <SoundGifsList
+      soundGifs={soundGifs}
+      title={t("most_recent_soundgif_title")}
+      icon={<ClockIcon className="h-6 w-6 to-blue-400" />}
+    />
+  )
+
+  const mostSharedSoundGifs = (
+    <SoundGifsList
+      soundGifs={soundGifs}
+      title={t("most_shared_soundgif_title")}
+      icon={<FireIcon className="h-6 w-6 to-blue-400" />}
+    />
+  )
+
+  const searchResults = (
+    <SoundGifsList
+      soundGifs={soundGifsSearchResults}
+      title={t("results")}
+      icon={<SearchIcon className="h-6 w-6 to-blue-400" />}
+    />
+  )
+
   return (
     <div className="bg-main">
       <Head>
@@ -28,17 +60,8 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
       <main>
         <Header />
         <div className="flex flex-col items-center justify-space container mx-auto">
-          <SearchSoundGifInput />
-          <SoundGifsList
-            soundGifs={soundGifs}
-            title={t("most_recent_soundgif_title")}
-            icon={<ClockIcon className="h-6 w-6 to-blue-400" />}
-          />
-          <SoundGifsList
-            soundGifs={soundGifs}
-            title={t("most_shared_soundgif_title")}
-            icon={<FireIcon className="h-6 w-6 to-blue-400" />}
-          />
+          <SearchSoundGifInput updateSearchResultCallback={updateSoundGifSearchResults}/>
+          { soundGifsSearchResults.length > 0 ? searchResults : [mostRecentSoundGifs, mostSharedSoundGifs] }
         </div>
       </main>
       <Footer />
