@@ -16,7 +16,6 @@ export const useSoundGifItem = (
   const { notificationError, notificationSuccess } = useNotification();
   const { t } = useTranslation();
   const { audioUrl, id, title } = soundGif;
-  const lastAudio = null;
 
   const soundGifToPlay = new Howl({
     src: [audioUrl],
@@ -29,7 +28,7 @@ export const useSoundGifItem = (
     if (!Howler.noAudio) {
       Howler.stop();
     }
-    soundGifToPlay.play();
+    isSoundPlaying ? soundGifToPlay.pause() : soundGifToPlay.play();
   };
 
   async function shareAudioFile() {
