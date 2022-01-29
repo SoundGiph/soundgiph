@@ -21,15 +21,30 @@ export class FindSoundGifQueryHandler
     payload,
   }: FindSoundGifQuery): Promise<FindSoundGifQueryResult> {
     const { fulltext } = payload;
-    const whereOptions: FindManyOptions = Boolean(fulltext)
+    const descriptionSearchWhereOptions: FindManyOptions = Boolean(fulltext)
       ? {
-          where: [
-            { description: ILike(`%${fulltext}%`) },
-            { title: ILike(`%${fulltext}%`) },
-          ],
+          where: [{ description: ILike(`%${fulltext}%`) }],
         }
       : {};
-    const soundGifs = await this.findSoundGifPort.find(whereOptions);
-    return new FindSoundGifQueryResult(soundGifs);
+
+    const tagsSearchWhereOptions: FindManyOptions = Boolean(fulltext)
+      ? {
+          where: {
+            tags: ILike(`%${fulltext}%`),
+          },
+        }
+      : {};
+
+    const resultByDescriptionSoundGifs = await this.findSoundGifPort.find(
+      descriptionSearchWhereOptions,
+    );
+
+    const resultByTagsSoundGifs = await this.findSoundGifPort.find(
+      tagsSearchWhereOptions,
+    );
+
+    return new FindSoundGifQueryResult(
+      resultByTagsSoundGifs.concat(resultByDescriptionSoundGifs),
+    );
   }
 }
