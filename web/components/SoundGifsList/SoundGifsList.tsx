@@ -17,9 +17,9 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
         {icon}
         <p className="card-title ml-5">{title}</p>
       </div>
-      <div className="flex flex-row overflow-x-auto justify-start">
+      <div className="grid sm:grid-rows-3 lg:grid-rows-2 grid-flow-col overflow-scroll scrollbar-thumb-white scrollbar-track-white-100">
         {soundGifs.map(soundGif => {
-          return <SoundGifItem soundGif={soundGif} />;
+          return <SoundGifItem soundGif={soundGif} small />;
         })}
       </div>
     </div>

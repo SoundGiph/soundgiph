@@ -1,49 +1,47 @@
-import { PlayIcon, ShareIcon } from "@heroicons/react/solid";
-import { useTranslation } from "react-i18next";
+import { PlayIcon } from "@heroicons/react/solid";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useSoundGifItem } from "./useSoundGifItem.hook";
-import { Tags } from "./Tags";
-import { useEffect } from "react";
+import { FaShareAltSquare } from "react-icons/fa";
+import {
+  BLACK_GRADIENT_BOX,
+  BLACK_GRADIENT_SUB_BOX,
+  BLACK_GRADIENT_SUB_BOX_CHILDREN,
+  IMAGE_ITEM_BACKGROUND,
+  ITEM_BOX,
+  ITEM_DESCRIPTION,
+  PLAY_BUTTON_ICON,
+  PLAY_ICON,
+  SHARE_BUTTON_ICON,
+} from "./SoundGifItem.styles";
+import playingAnimation from "../../../public/playing.json";
+import Lottie from "lottie-react";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
+  small?: boolean;
 };
 
-export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
+export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
   const { imageUrl, description, id } = soundGif;
-  const { playSoundGif, shareAudioFile } = useSoundGifItem(soundGif);
-
+  const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
+  const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
   return (
-    <div key={id} className="avatar mr-3 my-5 w-44 h-44 flex items-center justify-center">
-      <div className="w-44 h-44 rounded-lg">
+    <div key={id} className={ITEM_BOX}>
+      <div className={`${IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
         <img src={imageUrl} />
       </div>
-      <div className="absolute z-20 items-center">
-        <button onClick={playSoundGif}>
-          <PlayIcon className="h-14" />
-        </button>
-      </div>
-      <div className="flex z-10 w-full h-1/2 absolute bg-gradient-to-t from-black bottom-0" />
-      <div className=" z-10 flex items-end w-full absolute bottom-2 justify-center">
-        <div className="px-2 flex items-end w-full flex-row justify-between items-center">
-          <p className="font-white text-xs font-bold line-clamp-2 hover:text-clip">{description}</p>
-          <button onClick={shareAudioFile}>
-            <ShareIcon className="h-8" />
+      <button onClick={playSoundGif} className={PLAY_BUTTON_ICON}>
+        {isSoundPlaying ? <Lottie animationData={playingAnimation} loop /> : <PlayIcon className={PLAY_ICON} />}
+      </button>
+      <div className={BLACK_GRADIENT_BOX} />
+      <div className={BLACK_GRADIENT_SUB_BOX}>
+        <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
+          <p className={ITEM_DESCRIPTION}>{description}</p>
+          <button onClick={shareAudioFile} className={SHARE_BUTTON_ICON}>
+            <FaShareAltSquare size={30} />
           </button>
         </div>
       </div>
     </div>
   );
 };
-
-/*
-    <div className="avatar items-center justify-center">
-        <img src={imageUrl} />
-      </div>
-      <div className="flex-row w-full flex justify-between items-center">
-        <div className="text-center text-xs font-bold">
-          <p>{description}</p>
-        </div>
-        <button onClick={shareAudioFile} className="btn glass rounded-full"></button>
-      </div>
-*/
