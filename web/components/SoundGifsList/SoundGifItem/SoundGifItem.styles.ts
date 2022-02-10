@@ -1,0 +1,9 @@
+export const ITEM_BOX = "avatar mr-3 my-5 flex items-center justify-center";
+export const IMAGE_ITEM_BACKGROUND = "w-44 h-44 rounded-lg";
+export const PLAY_BUTTON_ICON = "absolute z-20 btn btn-circle btn-ghost btn-lg mb-3";
+export const PLAY_ICON = "h-16";
+export const BLACK_GRADIENT_BOX = "flex z-10 w-full h-1/2 absolute bg-gradient-to-t from-black bottom-0";
+export const BLACK_GRADIENT_SUB_BOX = "z-10 flex flex-row  items-end w-full absolute bottom-0 justify-between";
+export const BLACK_GRADIENT_SUB_BOX_CHILDREN = "flex items-center w-full flex-row justify-between";
+export const SHARE_BUTTON_ICON = "btn btn-ghost btn-md flex w-14 h-14 justify-center items-center";
+export const ITEM_DESCRIPTION = "ml-2 font-white text-xs font-bold line-clamp-2 hover:text-clip";

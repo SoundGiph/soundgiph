@@ -22,12 +22,13 @@ export const CHEAT_CODE = [38, 40, 37, 39, 38];
 
 export const OPEN_MODAL_URL = "/components/modal#my-modal";
 
-export const FR_FLAG = "http://purecatamphetamine.github.io/country-flag-icons/3x2/FR.svg";
+export const FR_FLAG = "https://purecatamphetamine.github.io/country-flag-icons/3x2/FR.svg";
 
-export const GB_FLAG = "http://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg";
+export const GB_FLAG = "https://purecatamphetamine.github.io/country-flag-icons/3x2/GB.svg";
 
 export const FR = "fr";
 
 export const GB = "en";
 
 export const BASE_URL = ""
+
