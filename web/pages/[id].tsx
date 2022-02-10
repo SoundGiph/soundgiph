@@ -1,11 +1,14 @@
 import type { NextPage } from "next";
-import { GetStaticProps } from "next";
+import { GetStaticProps, GetServerSideProps } from "next";
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
 import { Footer } from "../components/Footer/Footer";
 import { Header } from "../components/Header/Header";
+import { SearchSoundGifInput } from "../components/SearchSoundGifInput/SearchSoundGifInput";
+import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ClockIcon, FireIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useApi } from "../hooks/api/useApi.hook"
 import { useRouter } from 'next/router'
@@ -37,6 +40,7 @@ const SoundGif: NextPage<SoundGifProps> = ({ soundGif }) => {
         <div className="flex flex-col items-center justify-space container mx-auto">
           <SoundGifItem
             soundGif={soundGif}
+            play={true}
           />
         </div>
       </main>
@@ -50,7 +54,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const soundGifId = context.params?.id as string
   const { getOneSoundGif } = useApi()
   const soundGif = await getOneSoundGif(soundGifId)
-
 
  if(!soundGif){
    return {

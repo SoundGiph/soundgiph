@@ -32,4 +32,3 @@ database/data
 
 #env variables
 .env
-*/.env*

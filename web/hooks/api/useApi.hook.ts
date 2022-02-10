@@ -15,10 +15,8 @@ export const useApi = (): {
   getOneSoundGif: (id: string) => Promise<SoundgifDTO|undefined>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
 } => {
-
-
   const api = create({
-    baseURL: process.env.API_URL,
+    baseURL: "http://localhost:3000/",
   });
 
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
@@ -34,12 +32,15 @@ export const useApi = (): {
   };
 
   const findMostRecentSoundGif = async (): Promise<SoundgifDTO[]> => {
-    const { data } = await api.get<SoundgifDTO[]>(FIND_MOST_RECENT_SOUND_GIF_QUERY);
-    return data ?? [];
+      const { data } = await api.get<SoundgifDTO[]>(FIND_MOST_RECENT_SOUND_GIF_QUERY);
+      return data ?? [];
   };
 
   const findMostSharedSoundGif = async (): Promise<SoundgifDTO[]> => {
-    const { data } = await api.get<SoundgifDTO[]>(FIND_MOST_SHARED_SOUND_GIF_QUERY);
+    const { data,  ok } = await api.get<SoundgifDTO[]>(FIND_MOST_SHARED_SOUND_GIF_QUERY);
+    if(ok){
+      
+    }
     return data ?? [];
   };
 

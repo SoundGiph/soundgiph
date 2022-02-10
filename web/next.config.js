@@ -5,7 +5,6 @@ module.exports = {
   reactStrictMode: true,
   i18n,
   env: {
-    API_URL: process.env.API_URL,
-    WEB_URL: process.env.WEB_URL
+    API_URL: process.env.ENV === "development" ? process.env.API_URL_DEV : process.env.API_URL_PROD,
   },
 };
