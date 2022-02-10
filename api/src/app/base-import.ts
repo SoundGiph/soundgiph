@@ -9,30 +9,20 @@ export const BaseConfigImports = [
     inject: [ConfigService],
     useFactory: async (configService: ConfigService) => ({
       type: 'postgres',
-      host: configService.get('POSTGRES_HOST', 'localhost'),
+      host: configService.get('POSTGRES_HOST', 'postgres'),
       port: configService.get<number>('POSTGRES_PORT', 5432),
       username: configService.get('POSTGRES_USER', 'postgres'),
-      password: configService.get('POSTGRES_PASSWORD', 'soundgif'),
-      database:
-        configService.get('ENV', 'development') === 'test'
-          ? configService.get('POSTGRES_TEST_DATABASE', 'soundgif-test')
-          : configService.get('POSTGRES_DATABASE', 'soundgif'),
-      entities:
-        configService.get('ENV', 'dev') === 'production'
-          ? ['dist/**/*.entity{.ts,.js}']
-          : ['src/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      password: configService.get('POSTGRES_PASSWORD', ''),
+      database: configService.get('POSTGRES_DATABASE', 'soundgif'),
+
+      entities: [configService.get('ENTITIES', '')],
+      synchronize:
+        configService.get('SYNCHRONIZE', '') === 'TRUE' ? true : false,
       migrationsTableName: 'migration',
-      migrations:
-        configService.get('ENV', 'dev') === 'production'
-          ? ['dist/migration/*.ts']
-          : ['src/migration/*.ts'],
+      migrations: [configService.get('MIGRATIONS', '')],
       namingStrategy: new SnakeNamingStrategy(),
       cli: {
-        migrationsDir:
-          configService.get('ENV', 'dev') === 'production'
-            ? 'dist/migration'
-            : 'src/migration',
+        migrationsDir: configService.get('MIGRATIONS_DIR', ''),
       },
     }),
   }),
