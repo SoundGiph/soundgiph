@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import Konami from "react-konami-code";
 import { CHEAT_CODE } from "../../constants/constants";
 import { WhiteLogo } from "../Logos/WhiteLogo";
-import { SearchSoundGifInput } from "../SearchSoundGifInput/SearchSoundGifInput";
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -19,7 +18,6 @@ export const Header = () => {
           </Konami>
         </div>
       </div>
-      <SearchSoundGifInput />
     </div>
   );
 };

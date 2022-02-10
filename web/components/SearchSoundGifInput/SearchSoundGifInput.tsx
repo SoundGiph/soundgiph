@@ -10,7 +10,8 @@ interface ISearchSoundGifInputProps {
 
 export const SearchSoundGifInput : React.FC<ISearchSoundGifInputProps> = ({updateSearchResultCallback}) => {
   const {t} = useTranslation();
-  const { findSoundGif } = useApi()
+  const runningTimeApiUrl = process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL as string
+  const { findSoundGif } = useApi("", runningTimeApiUrl)
 
    const onChangeCallback = async (text : string ) => {
     const searchResult = await findSoundGif(text)
@@ -22,6 +23,7 @@ export const SearchSoundGifInput : React.FC<ISearchSoundGifInputProps> = ({updat
       updateSearchResultCallback([])
     }
   }
+
 
   return (
     <div className="form-control w-full">

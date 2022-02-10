@@ -33,3 +33,6 @@ database/data
 #env variables
 .env
 */.env*
+
+#vscode
+.vscode/*.json

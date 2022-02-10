@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { GetStaticProps } from "next";
+import { GetStaticProps, GetServerSideProps } from "next";
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
 import { Footer } from "../components/Footer/Footer";
@@ -11,6 +11,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ClockIcon, FireIcon, SearchIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useApi } from "../hooks/api/useApi.hook";
+import { useState, useEffect } from 'react'
+import { Howler } from "howler";
+import { unmute } from "../tools/unmute"
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -23,6 +26,14 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   const updateSoundGifSearchResults = (soundGifs: SoundgifDTO[]) => {
     setSoundGifSearchResult(soundGifs)
   }
+
+
+  useEffect(function mount() {
+      // create empty buffer and play it
+      var audioContext = Howler.ctx
+      unmute(audioContext, true, true)
+    }, []);
+
 
   const mostRecentSoundGifs = (
     <SoundGifsList
@@ -44,7 +55,7 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
     <SoundGifsList
       soundGifs={soundGifsSearchResults}
       title={t("results")}
-      icon={<SearchIcon className="h-6 w-6 to-blue-400" />}
+      icon={<SearchIcon color="#E449A3" className="h-6 w-6"/>}
     />
   )
 
@@ -63,13 +74,15 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
             { soundGifsSearchResults.length > 0 ? searchResults : [mostRecentSoundGifs, mostSharedSoundGifs] }
           </div>
       </main>
+      </div>
       <Footer />
     </div>
   );
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const { findMostRecentSoundGif } = useApi();
+  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string
+  const { findMostRecentSoundGif } = useApi(buildingTimeApiUrl, "");
   const soundGifs = await findMostRecentSoundGif();
   return {
     props: {

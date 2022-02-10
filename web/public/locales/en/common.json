@@ -5,6 +5,7 @@
   "go": "go",
   "share": "share",
   "upload": "upload",
+  "results": "Results",
   "errors": {
     "no_navigator_error": "Unknown Error, try with an other browser",
     "fail_to_web_share_error": "impossible to share the file"

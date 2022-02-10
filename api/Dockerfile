@@ -16,6 +16,7 @@ COPY src ./src
 COPY tsconfig.build.json ./
 COPY tsconfig.json ./
 
+EXPOSE 3000
 RUN yarn build
 
 CMD ["yarn", "start:prod"]

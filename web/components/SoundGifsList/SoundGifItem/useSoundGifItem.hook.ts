@@ -3,6 +3,8 @@ import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useNotification } from "../../../hooks/notification/useNotification";
+import { unmute } from "../../../tools/unmute"
+
 
 export const useSoundGifItem = (
   soundGif: SoundgifDTO
@@ -25,11 +27,13 @@ export const useSoundGifItem = (
   });
 
   const playSoundGif = (): void => {
+
     if (!Howler.noAudio) {
       Howler.stop();
     }
+    
     isSoundPlaying ? soundGifToPlay.pause() : soundGifToPlay.play();
-  };
+};
 
   async function shareAudioFile() {
     const blob = await fetch(audioUrl).then(res => res.blob());
