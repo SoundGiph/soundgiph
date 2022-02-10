@@ -24,6 +24,7 @@ COPY styles ./styles
 COPY domain ./domain
 COPY hooks ./hooks
 COPY pages ./pages
+COPY tools ./tools
 
 EXPOSE 8080
 
