@@ -41,7 +41,14 @@ const Home: NextPage<HomeProps> = () => {
   );
 };
 
+<<<<<<< HEAD
 export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+=======
+export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
+  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string;
+  const { findMostRecentSoundGif } = useApi(buildingTimeApiUrl, "");
+  const soundGifs = await findMostRecentSoundGif();
+>>>>>>> 80c87ab (fix: fix lint)
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
