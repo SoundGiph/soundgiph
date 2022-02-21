@@ -79,7 +79,7 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL;
+  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string;
   const { findMostRecentSoundGif } = useApi(buildingTimeApiUrl, "");
   const soundGifs = await findMostRecentSoundGif();
   return {
