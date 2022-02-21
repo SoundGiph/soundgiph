@@ -6,4 +6,5 @@ export const BLACK_GRADIENT_BOX = "flex z-10 w-full h-1/2 absolute bg-gradient-t
 export const BLACK_GRADIENT_SUB_BOX = "z-10 flex flex-row  items-end w-full absolute bottom-0 justify-between";
 export const BLACK_GRADIENT_SUB_BOX_CHILDREN = "flex items-center w-full flex-row justify-between";
 export const SHARE_BUTTON_ICON = "btn btn-ghost btn-md flex w-14 h-14 justify-center items-center";
-export const ITEM_DESCRIPTION = "ml-2 font-white text-xs font-bold line-clamp-2 hover:text-clip";
+export const ITEM_DESCRIPTION = "ml-2 text-white text-xs font-bold line-clamp-2 hover:text-clip";
+export const WHITE_COLOR = "white";

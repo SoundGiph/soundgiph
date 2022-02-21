@@ -15,7 +15,7 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
     <div className="w-full h-full my-3">
       <div className="ml-2 flex flex-row items-center justify-start">
         {icon}
-        <p className="font-bold text-lg ml-2">{title}</p>
+        <p className="font-bold text-lg ml-2 text-white">{title}</p>
       </div>
       <div className="grid sm:grid-rows-3 lg:grid-rows-2 grid-flow-col overflow-scroll scrollbar-thumb-white scrollbar-track-white-100">
         {soundGifs.map(soundGif => {
