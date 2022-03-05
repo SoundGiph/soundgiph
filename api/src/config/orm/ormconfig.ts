@@ -8,9 +8,9 @@ export const ORMConfig: ConnectionOptions = {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DATABASE,
-  synchronize: process.env.SYNCHRONIZE === 'TRUE' ? true : false,
   entities: [process.env.ENTITIES],
   migrationsTableName: 'migration',
+  synchronize: false,
   migrations: [process.env.MIGRATIONS],
   namingStrategy: new SnakeNamingStrategy(),
   cli: {
