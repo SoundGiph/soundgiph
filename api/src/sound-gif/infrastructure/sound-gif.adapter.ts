@@ -1,11 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { SoundGifPort } from '../core/application/ports/sound-gif.ports';
+import { FindSoundGifPayload } from '../core/application/queries/find-sound-gif/find-sound-gif.query';
 import {
   SoundGifEntity,
   SoundGifEntityMandatoryFields,
 } from '../core/domain/sound-gif.entity';
+import { searchSoundGifQuery } from './utils/searchSoundGifQueryBuilder';
 
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
@@ -14,11 +16,16 @@ export class SoundGifAdapter implements SoundGifPort {
     private readonly soundGifRepository: Repository<SoundGifEntity>,
   ) {}
 
-  public async find(whereOptions: FindManyOptions): Promise<SoundGifEntity[]> {
+  public async find(payload: FindSoundGifPayload): Promise<SoundGifEntity[]> {
+    const { fulltext, filters } = payload;
     this.logger.log(
-      `SoundGifAdapter > find > called with whereOptions: ${whereOptions}`,
+      `SoundGifAdapter > find > called with fulltext: ${fulltext} and filters: ${filters}`,
     );
-    return await this.soundGifRepository.find(whereOptions);
+    return await searchSoundGifQuery(
+      this.soundGifRepository,
+      filters,
+      fulltext,
+    );
   }
 
   public async findMostRecent(): Promise<SoundGifEntity[]> {
