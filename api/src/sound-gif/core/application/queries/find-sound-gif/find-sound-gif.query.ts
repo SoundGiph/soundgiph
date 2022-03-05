@@ -4,6 +4,8 @@ import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 export interface SearchFilter {
   category?: string;
   reaction?: string;
+  mostShared?: boolean;
+  mostRecent?: boolean;
 }
 
 export type FindSoundGifPayload = {

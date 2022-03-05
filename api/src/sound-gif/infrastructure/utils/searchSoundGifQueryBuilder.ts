@@ -30,5 +30,13 @@ export const searchSoundGifQuery = async (
     );
   }
 
+  if (filters?.mostRecent) {
+    soundGifsQuery.orderBy('vozo.created_at', 'DESC');
+  }
+
+  if (filters?.mostShared) {
+    soundGifsQuery.orderBy('vozo.shared_count', 'DESC');
+  }
+
   return soundGifsQuery.getMany();
 };
