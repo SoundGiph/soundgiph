@@ -13,6 +13,12 @@ export class SoundGifEntity extends Base {
   @Column('simple-array', { nullable: false })
   tags!: string[];
 
+  @Column('simple-array', { nullable: false })
+  categories!: string[];
+
+  @Column('simple-array', { nullable: false })
+  reactions!: string[];
+
   @Index({ fulltext: true })
   @Column({ nullable: false })
   title!: string;
