@@ -12,6 +12,7 @@ import {
   PLAY_BUTTON_ICON,
   PLAY_ICON,
   SHARE_BUTTON_ICON,
+  WHITE_COLOR,
 } from "./SoundGifItem.styles";
 import playingAnimation from "../../../public/playing.json";
 import Lottie from "lottie-react";
@@ -31,14 +32,18 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
         <img src={imageUrl} />
       </div>
       <button onClick={playSoundGif} className={PLAY_BUTTON_ICON}>
-        {isSoundPlaying ? <Lottie animationData={playingAnimation} loop /> : <PlayIcon className={PLAY_ICON} />}
+        {isSoundPlaying ? (
+          <Lottie animationData={playingAnimation} loop color={WHITE_COLOR} />
+        ) : (
+          <PlayIcon className={PLAY_ICON} color={WHITE_COLOR} />
+        )}
       </button>
       <div className={BLACK_GRADIENT_BOX} />
       <div className={BLACK_GRADIENT_SUB_BOX}>
         <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
           <p className={ITEM_DESCRIPTION}>{description}</p>
           <button onClick={shareAudioFile} className={SHARE_BUTTON_ICON}>
-            <FaShareAltSquare size={30} />
+            <FaShareAltSquare size={30} color={WHITE_COLOR} />
           </button>
         </div>
       </div>
