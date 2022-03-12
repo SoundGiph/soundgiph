@@ -52,7 +52,6 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
     "typeorm": "^0.2.41",
-    "env-cmd": "latest"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.3",
