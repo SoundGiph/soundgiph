@@ -1,44 +1,45 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { QueryBus } from '@nestjs/cqrs';
-import 'multer';
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { QueryBus } from "@nestjs/cqrs";
+import "multer";
 import {
   GetOneSoundGifQuery,
   GetOneSoundGifQueryResult,
-} from '../../core/application/queries/find-one-sound-gif/find-one-sound-gif.query';
+} from "../../core/application/queries/find-one-sound-gif/find-one-sound-gif.query";
 import {
   FindMostRecentSoundGifQuery,
   FindMostRecentSoundGifQueryResult,
-} from '../../core/application/queries/find-most-recent-sound-gif/find-most-recent-sound-gif.query';
+} from "../../core/application/queries/find-most-recent-sound-gif/find-most-recent-sound-gif.query";
 import {
   FindMostSharedSoundGifQuery,
   FindMostSharedSoundGifQueryResult,
-} from '../../core/application/queries/find-most-shared-sound-gif/find-most-shared-sound-gif.query';
+} from "../../core/application/queries/find-most-shared-sound-gif/find-most-shared-sound-gif.query";
 import {
   FindSoundGifPayload,
   FindSoundGifQuery,
   FindSoundGifQueryResult,
-} from '../../core/application/queries/find-sound-gif/find-sound-gif.query';
-import { SoundGifEntity } from '../../core/domain/sound-gif.entity';
+} from "../../core/application/queries/find-sound-gif/find-sound-gif.query";
+import { SoundGifEntity } from "../../core/domain/sound-gif.entity";
+import {
+  GetAllCategoriesQuery,
+  GetAllCategoriesQueryResult,
+} from "src/sound-gif/core/application/queries/get-all-categories/get-all-categories.query";
 @Controller()
 export class FindSoundGifController {
   constructor(private readonly queryBus: QueryBus) {}
 
-  @Post('/findSoundGif')
+  @Post("/findSoundGif")
   async find(@Body() payload: FindSoundGifPayload): Promise<SoundGifEntity[]> {
     const { fulltext, filters } = payload;
-    const { soundGifs } = await this.queryBus.execute<
-      FindSoundGifQuery,
-      FindSoundGifQueryResult
-    >(
+    const { soundGifs } = await this.queryBus.execute<FindSoundGifQuery, FindSoundGifQueryResult>(
       new FindSoundGifQuery({
         fulltext,
         filters,
-      }),
+      })
     );
     return soundGifs;
   }
 
-  @Get('/findMostRecentSoundGif')
+  @Get("/findMostRecentSoundGif")
   async findMostRecent(): Promise<SoundGifEntity[]> {
     const { soundGifs } = await this.queryBus.execute<
       FindMostRecentSoundGifQuery,
@@ -47,7 +48,7 @@ export class FindSoundGifController {
     return soundGifs;
   }
 
-  @Get('/findMostSharedSoundGif')
+  @Get("/findMostSharedSoundGif")
   async findMostShared(): Promise<SoundGifEntity[]> {
     const { soundGifs } = await this.queryBus.execute<
       FindMostSharedSoundGifQuery,
@@ -56,12 +57,21 @@ export class FindSoundGifController {
     return soundGifs;
   }
 
-  @Get('/getOneSoundGif/:id')
-  async getOne(@Param('id') id: SoundGifEntity['id']): Promise<SoundGifEntity> {
+  @Get("/getOneSoundGif/:id")
+  async getOne(@Param("id") id: SoundGifEntity["id"]): Promise<SoundGifEntity> {
     const { soundGif } = await this.queryBus.execute<
       GetOneSoundGifQuery,
       GetOneSoundGifQueryResult
     >(new GetOneSoundGifQuery({ id }));
     return soundGif;
+  }
+
+  @Get("/getAllCategories")
+  async getAllCategories(): Promise<string[]> {
+    const { categories } = await this.queryBus.execute<
+      GetAllCategoriesQuery,
+      GetAllCategoriesQueryResult
+    >(new GetAllCategoriesQuery());
+    return categories;
   }
 }
