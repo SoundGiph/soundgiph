@@ -25,13 +25,14 @@ export class FindSoundGifController {
 
   @Post('/findSoundGif')
   async find(@Body() payload: FindSoundGifPayload): Promise<SoundGifEntity[]> {
-    const { fulltext } = payload;
+    const { fulltext, filters } = payload;
     const { soundGifs } = await this.queryBus.execute<
       FindSoundGifQuery,
       FindSoundGifQueryResult
     >(
       new FindSoundGifQuery({
         fulltext,
+        filters,
       }),
     );
     return soundGifs;
