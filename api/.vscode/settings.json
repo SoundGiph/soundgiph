@@ -1,44 +1,8 @@
 {
-    "eslint.validate": [
-      "javascript",
-      "javascriptreact",
-      "typescript",
-      "typescriptreact",
-    ],
-    "[javascript]": {
-      "editor.formatOnSave": false,
-      "editor.codeActionsOnSave": [
-        "source.fixAll",
-      ]
-    },
-    "[javascriptreact]": {
-      "editor.formatOnSave": false,
-      "editor.codeActionsOnSave": [
-        "source.fixAll",
-      ]
-    },
-    "[typescript]": {
-      "editor.formatOnSave": false,
-      "editor.codeActionsOnSave": [
-        "source.fixAll",
-      ]
-    },
-    "[typescriptreact]": {
-      "editor.formatOnSave": false,
-      "editor.codeActionsOnSave": [
-        "source.fixAll",
-      ]
-    },
-    "npm.packageManager": "yarn",
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    "typescript.preferences.importModuleSpecifier": "project-relative",
-
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-    // Add those two lines:
-    "editor.formatOnSave": true, // Tell VSCode to format files on save
-    "editor.defaultFormatter": "esbenp.prettier-vscode" // Tell VSCode to use Prettier as default file formatter
-  
-  }
-  
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  // Add those two lines:
+  "editor.formatOnSave": true, // Tell VSCode to format files on save
+  "editor.defaultFormatter": "esbenp.prettier-vscode" // Tell VSCode to use Prettier as default file formatter
+}
