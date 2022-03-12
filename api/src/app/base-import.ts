@@ -14,10 +14,8 @@ export const BaseConfigImports = [
       username: configService.get('POSTGRES_USER', 'postgres'),
       password: configService.get('POSTGRES_PASSWORD', ''),
       database: configService.get('POSTGRES_DATABASE', 'soundgif'),
-
       entities: [configService.get('ENTITIES', '')],
-      synchronize:
-        configService.get('SYNCHRONIZE', '') === 'TRUE' ? true : false,
+      synchronize: false,
       migrationsTableName: 'migration',
       migrations: [configService.get('MIGRATIONS', '')],
       namingStrategy: new SnakeNamingStrategy(),
