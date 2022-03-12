@@ -12,6 +12,7 @@ RUN yarn add @nestjs/cli
 RUN yarn
 
 COPY .env ./
+COPY entrypoint.sh ./
 COPY src ./src
 COPY tsconfig.build.json ./
 COPY tsconfig.json ./
@@ -19,4 +20,4 @@ COPY tsconfig.json ./
 EXPOSE 3000
 RUN yarn build
 
-CMD ["yarn", "start:prod"]
+CMD ["./entrypoint.sh"]
