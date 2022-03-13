@@ -1,11 +1,10 @@
 #!/bin/bash
-set -e
 
-yarn build
+docker-compose build 
 
 if [ $? -eq 0 ]; then
 
-    yarn start
+    docker-compose up
 else
     echo "Fail to build the app"
 fi
