@@ -1,22 +1,22 @@
-import { Column, Entity, Index } from 'typeorm';
-import { Base } from '../../../common/entities/base.entity';
+import { Column, Entity, Index } from "typeorm";
+import { Base } from "../../../common/entities/base.entity";
 
-@Entity('sound_gif')
+@Entity("sound_gif")
 export class SoundGifEntity extends Base {
-  id!: string & { brand: 'soundGifId' };
+  id!: string & { brand: "soundGifId" };
 
   @Index({ fulltext: true })
   @Column({ nullable: false })
   description!: string;
 
   @Index({ fulltext: true })
-  @Column('simple-array', { nullable: false })
+  @Column("simple-array", { nullable: false })
   tags!: string[];
 
-  @Column('simple-array', { nullable: false })
+  @Column("simple-array", { nullable: false })
   categories!: string[];
 
-  @Column('simple-array', { nullable: false })
+  @Column("simple-array", { nullable: false })
   reactions!: string[];
 
   @Index({ fulltext: true })
@@ -35,5 +35,5 @@ export class SoundGifEntity extends Base {
 
 export type SoundGifEntityMandatoryFields = Pick<
   SoundGifEntity,
-  'title' | 'audioUrl' | 'imageUrl'
+  "title" | "audioUrl" | "imageUrl" | "reactions" | "categories" | "description" | "tags"
 >;
