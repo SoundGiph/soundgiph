@@ -12,8 +12,6 @@ import { ClockIcon, FireIcon, SearchIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useApi } from "../hooks/api/useApi.hook";
 import { useState, useEffect } from "react";
-import { Howler } from "howler";
-import { unmute } from "../tools/unmute";
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -26,12 +24,6 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   const updateSoundGifSearchResults = (soundGifs: SoundgifDTO[]) => {
     setSoundGifSearchResult(soundGifs);
   };
-
-  useEffect(function mount() {
-    // create empty buffer and play it
-    var audioContext = Howler.ctx;
-    unmute(audioContext, true, true);
-  }, []);
 
   const mostRecentSoundGifs = (
     <SoundGifsList
