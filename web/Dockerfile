@@ -1,21 +1,21 @@
-FROM node:12.22.0
+FROM node:12.22.6
 
 WORKDIR /usr/soundgif-web/
 
+COPY package.json ./
+RUN yarn
 
 COPY global.d.ts ./
 COPY next-env.d.ts ./
 COPY next-i18next.config.js ./
 COPY next.config.js ./
-COPY package.json ./
 COPY postcss.config.js ./
 COPY tailwind.config.js ./
 COPY tsconfig.json ./
 COPY .env ./
-COPY entrypoint.sh ./
 
+COPY entrypoint.sh ./
 RUN chmod +x ./entrypoint.sh
-RUN yarn
 
 COPY components ./components
 COPY constants ./constants

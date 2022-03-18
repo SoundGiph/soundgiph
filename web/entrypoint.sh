@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+sleep 10
 yarn build
 
 if [ $? -eq 0 ]; then

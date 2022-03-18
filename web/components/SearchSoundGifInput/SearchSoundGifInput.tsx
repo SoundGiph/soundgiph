@@ -9,7 +9,7 @@ interface ISearchSoundGifInputProps {
 
 export const SearchSoundGifInput: React.FC<ISearchSoundGifInputProps> = ({ updateSearchResultCallback }) => {
   const { t } = useTranslation();
-  const runningTimeApiUrl = process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL;
+  const runningTimeApiUrl = process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL as string;
   const { findSoundGif } = useApi("", runningTimeApiUrl);
 
   const onChangeCallback = async (text: string) => {
