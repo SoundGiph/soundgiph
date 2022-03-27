@@ -13,7 +13,7 @@ import React from "react";
 import { useApi } from "../hooks/api/useApi.hook";
 import { useState, useEffect } from "react";
 import { Howler } from "howler";
-import { unmute } from "../tools/unmute";
+// import { unmute } from "../tools/unmute";
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -30,7 +30,7 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   useEffect(function mount() {
     // create empty buffer and play it
     var audioContext = Howler.ctx;
-    unmute(audioContext, true, true);
+    // unmute(audioContext, true, true);
   }, []);
 
   const mostRecentSoundGifs = (
@@ -78,10 +78,14 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string;
-  const { findMostRecentSoundGif } = useApi(buildingTimeApiUrl, "");
-  const soundGifs = await findMostRecentSoundGif();
+export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+  const buildingTimeApiUrl = process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL as string;
+  const { findSoundGif, getAllCategories } = useApi(buildingTimeApiUrl);
+  const categories = getAllCategories();
+  const mostSharedSoundGifs = findSoundGif({ filters: { mostShared: true } });
+  const mostRecentSoundGifs = findSoundGif({ filters: { mostRecent: true } });
+  const soundGifs = await findSoundGif({});
+  const soundGifsByCategories = categories.map(category => category);
   return {
     props: {
       soundGifs,
