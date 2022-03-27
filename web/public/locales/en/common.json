@@ -6,6 +6,7 @@
   "share": "share",
   "upload": "upload",
   "results": "Results",
+  "see_more": "see more",
   "errors": {
     "no_navigator_error": "Unknown Error, try with an other browser",
     "fail_to_web_share_error": "impossible to share the file"

@@ -5,6 +5,7 @@
   "go": "go",
   "share": "partager",
   "upload": "upload",
+  "see_more": "voir plus",
   "results": "Resultats",
   "errors": {
     "no_navigator_error": "Erreur, veuillez essayez sur un autre navigateur",
