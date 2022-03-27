@@ -19,6 +19,7 @@ export const useApi = (
 ): {
   findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
+  getAllCategories: () => string[];
 } => {
   const api = create({
     baseURL: runningTimeApiUrl,
@@ -41,8 +42,10 @@ export const useApi = (
   const getAllCategories = () => {
     return ["mostShared", "mostRecent"];
   };
+
   return {
     createSoundGif,
     findSoundGif,
+    getAllCategories,
   };
 };
