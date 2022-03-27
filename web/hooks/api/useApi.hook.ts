@@ -43,6 +43,7 @@ export const useApi = (
   const getAllCategories = () => {
     return ["mostShared", "mostRecent"];
   };
+
   return {
     createSoundGif,
     findSoundGif,

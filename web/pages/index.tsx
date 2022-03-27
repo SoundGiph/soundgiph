@@ -13,7 +13,21 @@ type HomeProps = {
 
 const Home: NextPage<HomeProps> = () => {
   const { t } = useTranslation();
+<<<<<<< HEAD
   const { soundGifs } = useVozoApp();
+=======
+  const [soundGifsSearchResults, setSoundGifSearchResult] = useState<SoundgifDTO[]>([]);
+
+  const updateSoundGifSearchResults = (soundGifs: SoundgifDTO[]) => {
+    setSoundGifSearchResult(soundGifs);
+  };
+
+  useEffect(function mount() {
+    // create empty buffer and play it
+    var audioContext = Howler.ctx;
+    // unmute(audioContext, true, true);
+  }, []);
+>>>>>>> 8e21de6 (WIP)
 
   const mostRecentSoundGifs = (
     <SoundGifsList soundGifs={soundGifs} title={t("most_recent_soundgif_title")} icon="ClockIcon" color="#6565F1" />
@@ -41,14 +55,7 @@ const Home: NextPage<HomeProps> = () => {
   );
 };
 
-<<<<<<< HEAD
 export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
-=======
-export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string;
-  const { findMostRecentSoundGif } = useApi(buildingTimeApiUrl, "");
-  const soundGifs = await findMostRecentSoundGif();
->>>>>>> 80c87ab (fix: fix lint)
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
