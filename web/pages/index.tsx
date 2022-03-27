@@ -13,21 +13,7 @@ type HomeProps = {
 
 const Home: NextPage<HomeProps> = () => {
   const { t } = useTranslation();
-<<<<<<< HEAD
   const { soundGifs } = useVozoApp();
-=======
-  const [soundGifsSearchResults, setSoundGifSearchResult] = useState<SoundgifDTO[]>([]);
-
-  const updateSoundGifSearchResults = (soundGifs: SoundgifDTO[]) => {
-    setSoundGifSearchResult(soundGifs);
-  };
-
-  useEffect(function mount() {
-    // create empty buffer and play it
-    var audioContext = Howler.ctx;
-    // unmute(audioContext, true, true);
-  }, []);
->>>>>>> 8e21de6 (WIP)
 
   const mostRecentSoundGifs = (
     <SoundGifsList soundGifs={soundGifs} title={t("most_recent_soundgif_title")} icon="ClockIcon" color="#6565F1" />
@@ -56,6 +42,16 @@ const Home: NextPage<HomeProps> = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+<<<<<<< HEAD
+=======
+  const buildingTimeApiUrl = process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL as string;
+  const { findSoundGif, getAllCategories } = useApi(buildingTimeApiUrl);
+  const categories = getAllCategories();
+  const mostSharedSoundGifs = findSoundGif({ filters: { mostShared: true } });
+  const mostRecentSoundGifs = findSoundGif({ filters: { mostRecent: true } });
+  const soundGifs = await findSoundGif({});
+  const soundGifsByCategories = categories.map(category => category);
+>>>>>>> 7c18b90 (WIP)
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
