@@ -10,9 +10,11 @@ export const searchSoundGifQuery = async (
   const soundGifsQuery = soundGifRepository.createQueryBuilder("vozo");
 
   if (filters?.category) {
-    soundGifsQuery.where("vozo.categories ILIKE :category", {
-      category: `%${filters.category}%`,
-    });
+    soundGifsQuery
+      .where("vozo.categories ILIKE :category", {
+        category: `%${filters.category}%`,
+      })
+      .limit(filters.limit);
   }
 
   if (filters?.reaction) {
@@ -22,9 +24,12 @@ export const searchSoundGifQuery = async (
   }
 
   if (fulltext) {
-    soundGifsQuery.andWhere("vozo.description ILIKE :text OR vozo.title ILIKE :text OR vozo.tags ILIKE :text", {
-      text: `%${fulltext}%`,
-    });
+    soundGifsQuery.andWhere(
+      "vozo.description ILIKE :text OR vozo.title ILIKE :text OR vozo.tags ILIKE :text",
+      {
+        text: `%${fulltext}%`,
+      }
+    );
   }
 
   if (filters?.mostRecent) {
