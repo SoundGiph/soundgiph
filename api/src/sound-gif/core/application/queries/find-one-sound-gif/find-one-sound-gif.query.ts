@@ -1,8 +1,8 @@
-import { IQuery, IQueryResult } from '@nestjs/cqrs';
-import { SoundGifEntity } from '../../../domain/sound-gif.entity';
+import { IQuery, IQueryResult } from "@nestjs/cqrs";
+import { SoundGifEntity } from "../../../domain/sound-gif.entity";
 
 export type GetOneSoundGifPayload = {
-  id: SoundGifEntity['id'];
+  id: SoundGifEntity["id"];
 };
 export class GetOneSoundGifQuery implements IQuery {
   constructor(public readonly payload: GetOneSoundGifPayload) {}

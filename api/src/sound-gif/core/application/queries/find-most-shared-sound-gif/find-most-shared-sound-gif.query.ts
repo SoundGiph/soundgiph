@@ -1,5 +1,5 @@
-import { IQuery, IQueryResult } from '@nestjs/cqrs';
-import { SoundGifEntity } from '../../../domain/sound-gif.entity';
+import { IQuery, IQueryResult } from "@nestjs/cqrs";
+import { SoundGifEntity } from "../../../domain/sound-gif.entity";
 
 export class FindMostSharedSoundGifQuery implements IQuery {}
 
