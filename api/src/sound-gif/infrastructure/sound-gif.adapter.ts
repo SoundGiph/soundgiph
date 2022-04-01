@@ -15,9 +15,7 @@ export class SoundGifAdapter implements SoundGifPort {
 
   public async find(payload: FindSoundGifPayload): Promise<SoundGifEntity[]> {
     const { fulltext, filters } = payload;
-    this.logger.log(
-      `SoundGifAdapter > find > called with fulltext: ${fulltext} and filters: ${filters}`
-    );
+    this.logger.log(`SoundGifAdapter > find > called with fulltext: ${fulltext} and filters: ${filters}`);
     return await searchSoundGifQuery(this.soundGifRepository, filters, fulltext);
   }
 
@@ -52,9 +50,7 @@ export class SoundGifAdapter implements SoundGifPort {
     return allCategoriesWithoutDuplicatedValues;
   }
 
-  public async create(
-    payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields
-  ): Promise<SoundGifEntity> {
+  public async create(payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields): Promise<SoundGifEntity> {
     this.logger.log(`SoundGifAdapter > create > called with ${payload}`);
     return await this.soundGifRepository.create(payload).save();
   }

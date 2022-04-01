@@ -41,37 +41,33 @@ export class FindSoundGifController {
 
   @Get("/findMostRecentSoundGif")
   async findMostRecent(): Promise<SoundGifEntity[]> {
-    const { soundGifs } = await this.queryBus.execute<
-      FindMostRecentSoundGifQuery,
-      FindMostRecentSoundGifQueryResult
-    >(new FindMostRecentSoundGifQuery());
+    const { soundGifs } = await this.queryBus.execute<FindMostRecentSoundGifQuery, FindMostRecentSoundGifQueryResult>(
+      new FindMostRecentSoundGifQuery()
+    );
     return soundGifs;
   }
 
   @Get("/findMostSharedSoundGif")
   async findMostShared(): Promise<SoundGifEntity[]> {
-    const { soundGifs } = await this.queryBus.execute<
-      FindMostSharedSoundGifQuery,
-      FindMostSharedSoundGifQueryResult
-    >(new FindMostSharedSoundGifQuery());
+    const { soundGifs } = await this.queryBus.execute<FindMostSharedSoundGifQuery, FindMostSharedSoundGifQueryResult>(
+      new FindMostSharedSoundGifQuery()
+    );
     return soundGifs;
   }
 
   @Get("/getOneSoundGif/:id")
   async getOne(@Param("id") id: SoundGifEntity["id"]): Promise<SoundGifEntity> {
-    const { soundGif } = await this.queryBus.execute<
-      GetOneSoundGifQuery,
-      GetOneSoundGifQueryResult
-    >(new GetOneSoundGifQuery({ id }));
+    const { soundGif } = await this.queryBus.execute<GetOneSoundGifQuery, GetOneSoundGifQueryResult>(
+      new GetOneSoundGifQuery({ id })
+    );
     return soundGif;
   }
 
   @Get("/getAllCategories")
   async getAllCategories(): Promise<string[]> {
-    const { categories } = await this.queryBus.execute<
-      GetAllCategoriesQuery,
-      GetAllCategoriesQueryResult
-    >(new GetAllCategoriesQuery());
+    const { categories } = await this.queryBus.execute<GetAllCategoriesQuery, GetAllCategoriesQueryResult>(
+      new GetAllCategoriesQuery()
+    );
     return categories;
   }
 }

@@ -8,7 +8,5 @@ export abstract class SoundGifPort {
   abstract findMostRecent(): Promise<SoundGifEntity[]>;
   abstract findMostShared(): Promise<SoundGifEntity[]>;
   abstract getAllCategories(): Promise<string[]>;
-  abstract create(
-    payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields
-  ): Promise<SoundGifEntity>;
+  abstract create(payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields): Promise<SoundGifEntity>;
 }
