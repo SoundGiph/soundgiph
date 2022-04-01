@@ -6,6 +6,7 @@ export interface SearchFilter {
   reaction?: string;
   mostShared?: boolean;
   mostRecent?: boolean;
+  limit?: number;
 }
 
 export type FindSoundGifPayload = {
