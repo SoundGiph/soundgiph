@@ -78,14 +78,10 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
-  const buildingTimeApiUrl = process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL as string;
-  const { findSoundGif, getAllCategories } = useApi(buildingTimeApiUrl);
-  const categories = getAllCategories();
-  const mostSharedSoundGifs = findSoundGif({ filters: { mostShared: true } });
-  const mostRecentSoundGifs = findSoundGif({ filters: { mostRecent: true } });
+export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
+  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string;
+  const { findSoundGif } = useApi(buildingTimeApiUrl);
   const soundGifs = await findSoundGif({});
-  const soundGifsByCategories = categories.map(category => category);
   return {
     props: {
       soundGifs,

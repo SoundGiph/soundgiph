@@ -19,17 +19,19 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles",
+    "test:e2e": "env-cmd -f .env.dev jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles",
     "start:dev:db": "./start-db.sh",
     "typeorm:dev": "env-cmd -f .env.dev ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig.ts",
-    "migration:dev": "yarn typeorm:dev migration:run",
+    "migration:show:dev": "yarn typeorm:dev migration:show",
+    "migration:run:dev": "yarn typeorm:dev migration:run",
     "migration:create:dev": "yarn typeorm:dev migration:create",
-    "migration:generate:dev": "yarn typeorm:dev migration:generate",
+    "migration:generate:dev": "yarn typeorm:dev migration:generate -n",
+    "migration:revert:dev": "yarn typeorm:dev migration:revert",
     "schema-log:dev": "yarn typeorm:dev schema:log",
-    "typeorm:prod": " ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig-prod.ts",
-    "migration:prod": "yarn typeorm:prod migration:run",
-    "migration:create:prod": "yarn typeorm:prod migration:create",
-    "migration:generate:prod": "yarn typeorm:prod migration:generate",
+    "typeorm:prod": "env-cmd -f .env ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig.ts",
+    "migration:show:prod": "yarn typeorm:prod migration:show",
+    "migration:run:prod": "yarn typeorm:prod migration:run",
+    "migration:revert:prod": "yarn typeorm:prod migration:revert",
     "schema-log:prod": "yarn typeorm:prod schema:log"
   },
   "dependencies": {
@@ -50,7 +52,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
-    "typeorm": "^0.2.41"
+    "typeorm": "^0.2.41",
+    "env-cmd": "latest"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.3",
