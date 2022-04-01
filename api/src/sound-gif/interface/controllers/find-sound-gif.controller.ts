@@ -23,6 +23,12 @@ import {
   GetAllCategoriesQuery,
   GetAllCategoriesQueryResult,
 } from "src/sound-gif/core/application/queries/get-all-categories/get-all-categories.query";
+import {
+  CategoriesWithSoundgifs,
+  GetAllCategoriesWithSoundgifsQuery,
+  GetAllCategoriesWithSoundgifsQueryResult,
+  // eslint-disable-next-line max-len
+} from "src/sound-gif/core/application/queries/get-all-categories-with-soundgifs/get-all-categories-with-soundgifs.command";
 @Controller()
 export class FindSoundGifController {
   constructor(private readonly queryBus: QueryBus) {}
@@ -69,5 +75,14 @@ export class FindSoundGifController {
       new GetAllCategoriesQuery()
     );
     return categories;
+  }
+
+  @Get("/getAllCategoriesWithSoundgifs")
+  async getAllCategoriesWithSoundgifs(): Promise<CategoriesWithSoundgifs[]> {
+    const { categoriesWithSoundgifs } = await this.queryBus.execute<
+      GetAllCategoriesWithSoundgifsQuery,
+      GetAllCategoriesWithSoundgifsQueryResult
+    >(new GetAllCategoriesWithSoundgifsQuery());
+    return categoriesWithSoundgifs;
   }
 }
