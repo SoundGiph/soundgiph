@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { FindOneOptions, Repository } from "typeorm";
 import { SoundGifPort } from "../core/application/ports/sound-gif.ports";
 import { FindSoundGifPayload } from "../core/application/queries/find-sound-gif/find-sound-gif.query";
+import { CategoriesWithSoundgifs } from "../core/application/queries/get-all-categories-with-soundgifs/get-all-categories-with-soundgifs.command";
 import { SoundGifEntity, SoundGifEntityMandatoryFields } from "../core/domain/sound-gif.entity";
 import { searchSoundGifQuery } from "./utils/searchSoundGifQueryBuilder";
 
@@ -48,6 +49,18 @@ export class SoundGifAdapter implements SoundGifPort {
     const allCategories = allSoundGifs.map(soundGif => soundGif.categories).flat();
     const allCategoriesWithoutDuplicatedValues = Array.from(new Set(allCategories));
     return allCategoriesWithoutDuplicatedValues;
+  }
+
+  public async getAllCategoriesWithSoundGifs(): Promise<CategoriesWithSoundgifs[]> {
+    const categories = await this.getAllCategories();
+    const categoriesWithSoundgifs = Promise.all(
+      categories.map(async category => {
+        return {
+          [category]: await this.find({ filters: { category, limit: 20 } }),
+        };
+      })
+    );
+    return categoriesWithSoundgifs;
   }
 
   public async create(payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields): Promise<SoundGifEntity> {
