@@ -40,7 +40,7 @@ export class FindSoundGifController {
     return categories;
   }
 
-  @Get("/getAllCategoriesWithSoundgifs")
+  @Get("/getAllCategoriesWithSoundGifs")
   async getAllCategoriesWithSoundgifs(): Promise<CategoriesWithSoundgifs[]> {
     const { categoriesWithSoundgifs } = await this.queryBus.execute<
       GetAllCategoriesWithSoundGifsQuery,
