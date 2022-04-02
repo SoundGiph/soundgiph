@@ -1,12 +1,11 @@
-import { IQuery, IQueryResult } from "@nestjs/cqrs";
-import { SoundGifEntity } from "../../../domain/sound-gif.entity";
+import { IQuery, IQueryResult } from '@nestjs/cqrs';
+import { SoundGifEntity } from '../../../domain/sound-gif.entity';
 
 export interface SearchFilter {
   category?: string;
   reaction?: string;
   mostShared?: boolean;
   mostRecent?: boolean;
-  limit?: number;
 }
 
 export type FindSoundGifPayload = {

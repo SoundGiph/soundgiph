@@ -7,13 +7,13 @@ import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.ent
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
 
 const soundGifFixtures = [
-  soundGifFixtureFactory({ description: 'sch' }),
-  soundGifFixtureFactory({ tags: ['hamza', 'rap'] }),
-  soundGifFixtureFactory({ title: 'niska méchant' }),
-  soundGifFixtureFactory({ description: 'sex' }),
+  soundGifFixtureFactory({ sharedCount: 5, description: 'sch' }),
+  soundGifFixtureFactory({ sharedCount: 4, tags: ['hamza', 'rap'] }),
+  soundGifFixtureFactory({ sharedCount: 3, title: 'niska méchant' }),
+  soundGifFixtureFactory({ sharedCount: 2, description: 'sex' }),
   soundGifFixtureFactory({ description: 'bonjour' }),
 ];
-describe('find sound gif controller', () => {
+describe('find most shared sound gif controller', () => {
   let app: NestApplication;
   let connection: Connection;
 
@@ -34,24 +34,14 @@ describe('find sound gif controller', () => {
   afterAll(async () => {
     await app.close();
   });
-  it('should find sound gif with fulltext', async () => {
+  it('should find most shared sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: 'nisk' })
-      .expect(201);
+      .get('/findMostSharedSoundGif')
+      .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();
-    expect(body[0].title).toStrictEqual('niska méchant');
-  });
-
-  it('should find all sound gif without fulltext', async () => {
-    const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: '' })
-      .expect(201);
-    expect(error).toBeFalsy();
-    expect(body).toBeDefined();
     expect(body.length).toStrictEqual(5);
+    expect(body[0].description).toStrictEqual('sch');
   });
 });

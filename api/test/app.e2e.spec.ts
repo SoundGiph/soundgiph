@@ -1,8 +1,8 @@
-import { Test } from "@nestjs/testing";
-import { AppModule } from "../src/app/app.module";
-import { INestApplication } from "@nestjs/common";
+import { Test } from '@nestjs/testing';
+import { AppModule } from '../src/app/app.module';
+import { INestApplication } from '@nestjs/common';
 
-describe("AppController (e2e)", () => {
+describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe("AppController (e2e)", () => {
     await app.init();
   });
 
-  it("random test", () => {
+  it('random test', () => {
     expect(1 + 1).toEqual(2);
   });
 });
