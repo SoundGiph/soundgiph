@@ -3,19 +3,19 @@ import { IQueryHandler, QueryHandler } from "@nestjs/cqrs";
 import { SoundGifEntity } from "../../../domain/sound-gif.entity";
 import { SoundGifPort } from "../../ports/sound-gif.ports";
 import {
-  GetAllCategoriesWithSoundgifsQuery,
-  GetAllCategoriesWithSoundgifsQueryResult,
+  GetAllCategoriesWithSoundGifsQuery,
+  GetAllCategoriesWithSoundGifsQueryResult,
 } from "./get-all-categories-with-soundgifs.command";
 
-@QueryHandler(GetAllCategoriesWithSoundgifsQuery)
-export class GetAllCategoriesWithSoundgifsQueryHandler implements IQueryHandler<GetAllCategoriesWithSoundgifsQuery> {
+@QueryHandler(GetAllCategoriesWithSoundGifsQuery)
+export class GetAllCategoriesWithSoundGifsQueryHandler implements IQueryHandler<GetAllCategoriesWithSoundGifsQuery> {
   constructor(
     @Inject(SoundGifEntity)
     private readonly SoundGifPort: Pick<SoundGifPort, "getAllCategoriesWithSoundGifs">
   ) {}
 
-  public async execute(): Promise<GetAllCategoriesWithSoundgifsQueryResult> {
+  public async execute(): Promise<GetAllCategoriesWithSoundGifsQueryResult> {
     const categoriesWithSoundgifs = await this.SoundGifPort.getAllCategoriesWithSoundGifs();
-    return new GetAllCategoriesWithSoundgifsQueryResult(categoriesWithSoundgifs);
+    return new GetAllCategoriesWithSoundGifsQueryResult(categoriesWithSoundgifs);
   }
 }

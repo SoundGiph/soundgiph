@@ -8,8 +8,8 @@ import {
 } from "../../core/application/queries/find-sound-gif/find-sound-gif.query";
 import {
   CategoriesWithSoundgifs,
-  GetAllCategoriesWithSoundgifsQuery,
-  GetAllCategoriesWithSoundgifsQueryResult,
+  GetAllCategoriesWithSoundGifsQuery,
+  GetAllCategoriesWithSoundGifsQueryResult,
 } from "../../core/application/queries/get-all-categories-with-soundgifs/get-all-categories-with-soundgifs.command";
 import {
   GetAllCategoriesQuery,
@@ -43,9 +43,9 @@ export class FindSoundGifController {
   @Get("/getAllCategoriesWithSoundgifs")
   async getAllCategoriesWithSoundgifs(): Promise<CategoriesWithSoundgifs[]> {
     const { categoriesWithSoundgifs } = await this.queryBus.execute<
-      GetAllCategoriesWithSoundgifsQuery,
-      GetAllCategoriesWithSoundgifsQueryResult
-    >(new GetAllCategoriesWithSoundgifsQuery());
+      GetAllCategoriesWithSoundGifsQuery,
+      GetAllCategoriesWithSoundGifsQueryResult
+    >(new GetAllCategoriesWithSoundGifsQuery());
     return categoriesWithSoundgifs;
   }
 }
