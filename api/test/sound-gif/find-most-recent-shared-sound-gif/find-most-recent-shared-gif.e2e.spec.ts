@@ -6,14 +6,25 @@ import { AppModule } from '../../../src/app/app.module';
 import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.entity';
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
 
+const today = new Date();
+const date = new Date();
+const yesterday = new Date(date.setDate(date.getDate() - 7));
 const soundGifFixtures = [
-  soundGifFixtureFactory({ description: 'sch' }),
-  soundGifFixtureFactory({ tags: ['hamza', 'rap'] }),
-  soundGifFixtureFactory({ title: 'niska méchant' }),
-  soundGifFixtureFactory({ description: 'sex' }),
-  soundGifFixtureFactory({ description: 'bonjour' }),
+  soundGifFixtureFactory({
+    createdAt: yesterday,
+    description: 'sch',
+  }),
+  soundGifFixtureFactory({
+    createdAt: yesterday,
+    tags: ['hamza', 'rap'],
+    title: 'hamza sauce god',
+    description: 'hamza sauce god',
+  }),
+  soundGifFixtureFactory({ createdAt: yesterday, title: 'niska méchant' }),
+  soundGifFixtureFactory({ createdAt: yesterday, description: 'sex' }),
+  soundGifFixtureFactory({ createdAt: today, description: 'bonjour' }),
 ];
-describe('find sound gif controller', () => {
+describe('find most recent sound gif controller', () => {
   let app: NestApplication;
   let connection: Connection;
 
@@ -34,24 +45,14 @@ describe('find sound gif controller', () => {
   afterAll(async () => {
     await app.close();
   });
-  it('should find sound gif with fulltext', async () => {
+  it('should find most recent sound gif', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: 'nisk' })
-      .expect(201);
+      .get('/findMostRecentSoundGif')
+      .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();
-    expect(body[0].title).toStrictEqual('niska méchant');
-  });
-
-  it('should find all sound gif without fulltext', async () => {
-    const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: '' })
-      .expect(201);
-    expect(error).toBeFalsy();
-    expect(body).toBeDefined();
     expect(body.length).toStrictEqual(5);
+    expect(body[0].description).toStrictEqual('bonjour');
   });
 });

@@ -5,15 +5,33 @@ import { Connection } from 'typeorm';
 import { AppModule } from '../../../src/app/app.module';
 import { SoundGifEntity } from '../../../src/sound-gif/core/domain/sound-gif.entity';
 import { soundGifFixtureFactory } from '../../../src/sound-gif/core/domain/sound-gif.fixture.factory';
+import * as uuid from 'uuid';
+
+const soundGifId = uuid.v4();
 
 const soundGifFixtures = [
-  soundGifFixtureFactory({ description: 'sch' }),
-  soundGifFixtureFactory({ tags: ['hamza', 'rap'] }),
-  soundGifFixtureFactory({ title: 'niska méchant' }),
-  soundGifFixtureFactory({ description: 'sex' }),
-  soundGifFixtureFactory({ description: 'bonjour' }),
+  soundGifFixtureFactory({
+    id: soundGifId as SoundGifEntity['id'],
+    description: 'sch',
+  }),
+  soundGifFixtureFactory({
+    id: uuid.v4() as SoundGifEntity['id'],
+    tags: ['hamza', 'rap'],
+  }),
+  soundGifFixtureFactory({
+    id: uuid.v4() as SoundGifEntity['id'],
+    title: 'niska méchant',
+  }),
+  soundGifFixtureFactory({
+    id: uuid.v4() as SoundGifEntity['id'],
+    description: 'sex',
+  }),
+  soundGifFixtureFactory({
+    id: uuid.v4() as SoundGifEntity['id'],
+    description: 'bonjour',
+  }),
 ];
-describe('find sound gif controller', () => {
+describe('find one onesound gif controller', () => {
   let app: NestApplication;
   let connection: Connection;
 
@@ -34,24 +52,12 @@ describe('find sound gif controller', () => {
   afterAll(async () => {
     await app.close();
   });
-  it('should find sound gif with fulltext', async () => {
+  it('should find one onesound gif with fulltext', async () => {
     const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: 'nisk' })
-      .expect(201);
+      .get(`/getOneSoundGif/${soundGifId}`)
+      .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
-    expect(Boolean(body.length)).toBeTruthy();
-    expect(body[0].title).toStrictEqual('niska méchant');
-  });
-
-  it('should find all sound gif without fulltext', async () => {
-    const { body, error } = await request(app.getHttpServer())
-      .post('/findSoundGif')
-      .send({ fulltext: '' })
-      .expect(201);
-    expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(body.length).toStrictEqual(5);
+    expect(body.description).toStrictEqual('sch');
   });
 });
