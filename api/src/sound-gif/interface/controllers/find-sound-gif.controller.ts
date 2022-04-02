@@ -7,7 +7,7 @@ import {
   FindSoundGifQueryResult,
 } from "../../core/application/queries/find-sound-gif/find-sound-gif.query";
 import {
-  CategoriesWithSoundgifs,
+  CategoriesWithSoundGifs,
   GetAllCategoriesWithSoundGifsQuery,
   GetAllCategoriesWithSoundGifsQueryResult,
 } from "../../core/application/queries/get-all-categories-with-soundgifs/get-all-categories-with-soundgifs.command";
@@ -41,7 +41,7 @@ export class FindSoundGifController {
   }
 
   @Get("/getAllCategoriesWithSoundGifs")
-  async getAllCategoriesWithSoundgifs(): Promise<CategoriesWithSoundgifs[]> {
+  async getAllCategoriesWithSoundgifs(): Promise<CategoriesWithSoundGifs[]> {
     const { categoriesWithSoundgifs } = await this.queryBus.execute<
       GetAllCategoriesWithSoundGifsQuery,
       GetAllCategoriesWithSoundGifsQueryResult

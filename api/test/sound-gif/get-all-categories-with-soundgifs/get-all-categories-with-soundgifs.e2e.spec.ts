@@ -1,6 +1,6 @@
 import { NestApplication } from "@nestjs/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { CategoriesWithSoundgifs } from "src/sound-gif/core/application/queries/get-all-categories-with-soundgifs/get-all-categories-with-soundgifs.command";
+import { CategoriesWithSoundGifs } from "src/sound-gif/core/application/queries/get-all-categories-with-soundgifs/get-all-categories-with-soundgifs.command";
 import * as request from "supertest";
 import { Connection } from "typeorm";
 import { AppModule } from "../../../src/app/app.module";
@@ -55,8 +55,8 @@ describe("get all categories with soundgifs", () => {
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();
     expect(body.length).toStrictEqual(expectedCategories.length);
-    body.map((categoryWithSoundgifs: CategoriesWithSoundgifs) => {
-      const { name, soundgifs } = categoryWithSoundgifs;
+    body.map((categoryWithSoundgifs: CategoriesWithSoundGifs) => {
+      const { name, soundGifs: soundgifs } = categoryWithSoundgifs;
       expectCategoriesLength(name, soundgifs);
     });
   });
