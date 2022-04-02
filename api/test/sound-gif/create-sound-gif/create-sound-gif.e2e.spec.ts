@@ -27,6 +27,8 @@ describe("create sound gif controller", () => {
       .field("title", faker.random.word())
       .field("tags", tags)
       .field("description", "snoop dogg sound")
+      .field("categories", ["rap", "music"])
+      .field("reactions", ["fun"])
       .attach("audioFile", audioFile)
       .attach("imageFile", imageFile)
       .expect(201);
@@ -44,6 +46,5 @@ describe("create sound gif controller", () => {
     expect(body).toBeDefined();
     expect(body).toBeTruthy();
     expect(body[0].description).toStrictEqual("snoop dogg sound");
-    console.log(body[0]);
   });
 });
