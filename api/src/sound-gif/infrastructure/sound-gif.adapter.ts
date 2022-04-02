@@ -28,15 +28,21 @@ export class SoundGifAdapter implements SoundGifPort {
     return allCategoriesWithoutDuplicatedValues;
   }
 
-  public async getAllCategoriesWithSoundGifs(): Promise<CategoriesWithSoundgifs[]> {
+  public async getAllCategoriesWithSoundGifs(): Promise<CategoriesWithSoundGifs[]> {
     const categories = await this.getAllCategories();
-    const categoriesWithSoundgifs = Promise.all(
+    const mostSharedSoundGifs = await this.find({ filters: { mostShared: true } });
+    const mostRecentSoundGifs = await this.find({ filters: { mostRecent: true } });
+    const categoriesWithSoundgifs = await Promise.all(
       categories.map(async category => {
         return {
           name: category,
-          soundgifs: await this.find({ filters: { category, limit: 20 } }),
+          soundGifs: await this.find({ filters: { category, limit: 20 } }),
         };
       })
+    );
+    categoriesWithSoundgifs.unshift(
+      { name: "mostRecent", soundGifs: mostRecentSoundGifs },
+      { name: "mostShared", soundGifs: mostSharedSoundGifs }
     );
     return categoriesWithSoundgifs;
   }
