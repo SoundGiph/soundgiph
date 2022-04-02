@@ -24,7 +24,7 @@ export class SoundGifAdapter implements SoundGifPort {
     this.logger.log("SoundGifAdapter > getAllCategories > start");
     const allSoundGifs = await this.soundGifRepository.find({});
     const allCategories = allSoundGifs.map(soundGif => soundGif.categories).flat();
-    const allCategoriesWithoutDuplicatedValues = Array.from(new Set(allCategories));
+    const allCategoriesWithoutDuplicatedValues = Array.from(new Set(allCategories)).sort();
     return allCategoriesWithoutDuplicatedValues;
   }
 
@@ -33,7 +33,8 @@ export class SoundGifAdapter implements SoundGifPort {
     const categoriesWithSoundgifs = Promise.all(
       categories.map(async category => {
         return {
-          [category]: await this.find({ filters: { category, limit: 20 } }),
+          name: category,
+          soundgifs: await this.find({ filters: { category, limit: 20 } }),
         };
       })
     );
