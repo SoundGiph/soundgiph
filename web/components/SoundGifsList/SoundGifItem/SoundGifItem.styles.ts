@@ -1,4 +1,4 @@
-export const ITEM_BOX = "avatar w-44 h-44 mr-3 my-5 flex items-center justify-center";
+export const ITEM_BOX = "avatar mr-3 my-5 flex items-center justify-center";
 export const IMAGE_ITEM_BACKGROUND = "w-44 h-44 rounded-lg";
 export const PLAY_BUTTON_ICON = "absolute z-20 btn btn-circle btn-ghost btn-lg mb-3";
 export const PLAY_ICON = "h-16";
