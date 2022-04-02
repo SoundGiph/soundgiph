@@ -15,12 +15,13 @@ const soundGifFixtures = [
   soundGifFixtureFactory({ description: "bonjour", categories: ["cute", "music"] }),
 ];
 
-const expectedCategories = ["cute", "hot", "music", "rap", "sexy"];
+const expectedCategories = ["mostRecent", "mostShared", "cute", "hot", "music", "rap", "sexy"];
 const sexyCategoryLength = 1;
 const hotCategoryLength = 1;
 const cuteCategoryLength = 1;
 const musicCategoryLength = 4;
 const rapCategoryLength = 3;
+const mostRecentAndSharedCategoryLength = 5;
 
 const expectCategoriesLength = (name: string, soundgifs: SoundGifEntity[]) => {
   if (name === "cute") expect(soundgifs.length).toStrictEqual(cuteCategoryLength);
@@ -28,6 +29,8 @@ const expectCategoriesLength = (name: string, soundgifs: SoundGifEntity[]) => {
   if (name === "music") expect(soundgifs.length).toStrictEqual(musicCategoryLength);
   if (name === "rap") expect(soundgifs.length).toStrictEqual(rapCategoryLength);
   if (name === "sexy") expect(soundgifs.length).toStrictEqual(sexyCategoryLength);
+  if (name === "mostShared") expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
+  if (name === "mostRecent") expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
 };
 
 describe("get all categories with soundgifs", () => {
