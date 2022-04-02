@@ -1,10 +1,5 @@
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
-<<<<<<< HEAD
 import { useRouter } from "next/router";
-=======
->>>>>>> b570a81 (feature(list): added link to redirect user)
-import { ReactNode } from "react";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 import { DynamicHeroIcon } from "../DynamicIcon/DynamicIcon";
 import { SoundGifItem } from "./SoundGifItem/SoundGifItem";
