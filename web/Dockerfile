@@ -19,6 +19,7 @@ RUN yarn
 
 COPY components ./components
 COPY constants ./constants
+COPY context ./context
 COPY public ./public
 COPY styles ./styles
 COPY domain ./domain
