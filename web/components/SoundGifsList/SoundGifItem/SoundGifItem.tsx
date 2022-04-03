@@ -16,6 +16,9 @@ import {
 } from "./SoundGifItem.styles";
 import playingAnimation from "../../../public/playing.json";
 import Lottie from "lottie-react";
+import { useEffect } from "react";
+import { Howler } from "howler";
+import { unmute } from "../../../tools/unmute";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
@@ -26,6 +29,12 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
   const { imageUrl, description, id } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
+
+  useEffect(() => {
+    var audioContext = Howler.ctx;
+    unmute(audioContext, true, true);
+  }, []);
+
   return (
     <div key={id} className={ITEM_BOX}>
       <div className={`${IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
