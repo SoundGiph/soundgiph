@@ -4,6 +4,10 @@ import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
+import {
+  getIconColorByCategory,
+  getIconNameByCategory,
+} from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../context/useVozoApp.hook";
 import { CategoriesWithSoundGifs } from "../hooks/api/useApi.hook";
 import { useUnmute } from "../hooks/unmute/useUnmute";
@@ -35,7 +39,16 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
       <div>
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
-            {[mostRecentSoundGifs, mostSharedSoundGifs]}
+            {categoriesWithSoundgifs.map(category => {
+              return (
+                <SoundGifsList
+                  soundGifs={category.soundGifs}
+                  title={category.name}
+                  icon={getIconNameByCategory(category.name)}
+                  color={getIconColorByCategory(category.name)}
+                />
+              );
+            })}
           </div>
         </main>
       </div>

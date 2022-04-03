@@ -1,4 +1,5 @@
 import { create } from "apisauce";
+import { Categories } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import {
   CREATE_SOUND_GIF,
   FIND_SOUND_GIF_QUERY,
@@ -15,7 +16,7 @@ export interface SearchFilter {
   limit?: boolean;
 }
 
-export type CategoriesWithSoundGifs = { name: string; soundGifs: SoundgifDTO[] };
+export type CategoriesWithSoundGifs = { name: Categories; soundGifs: SoundgifDTO[] };
 interface FindSoundGifsPayload {
   filters?: SearchFilter;
   fulltext?: string;
