@@ -1,21 +1,21 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { useVozoApp } from "../context/useVozoApp.hook";
-import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { useUnmute } from "../hooks/unmute/useUnmute"
+import { CategoriesWithSoundGifs } from "../hooks/api/useApi.hook";
+import { useUnmute } from "../hooks/unmute/useUnmute";
 
 type HomeProps = {
-  soundGifs: SoundgifDTO[];
+  categoriesWithSoundgifs: CategoriesWithSoundGifs[];
 };
 
-const Home: NextPage<HomeProps> = () => {
+const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
   const { t } = useTranslation();
-  const { soundGifs } = useVozoApp()
-  useUnmute()
+  const { soundGifs } = useVozoApp();
+  useUnmute();
 
   const mostRecentSoundGifs = (
     <SoundGifsList soundGifs={soundGifs} title={t("most_recent_soundgif_title")} icon="ClockIcon" color="#6565F1" />
@@ -43,12 +43,23 @@ const Home: NextPage<HomeProps> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+// export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
+//     },
+//   };
+// };
+
+export async function getStaticProps({ locale }: { locale?: string | undefined }) {
+  const { getAllCategoriesWithSoungifs } = useApi();
+  const categoriesWithSoundgifs = await getAllCategoriesWithSoungifs();
   return {
     props: {
+      categoriesWithSoundgifs,
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
     },
   };
-};
+}
 
 export default Home;

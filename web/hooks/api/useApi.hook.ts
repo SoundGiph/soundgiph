@@ -47,6 +47,7 @@ export const useApi = (): {
 
   const getAllCategoriesWithSoungifs = async (): Promise<SoundgifDTO[]> => {
     const { data } = await api.get<SoundgifDTO[]>(GET_ALL_CATEGORIES_WITH_SOUNDGIFS);
+    console.log(data);
     return data ?? [];
   };
 
