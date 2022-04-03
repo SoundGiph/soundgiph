@@ -1,52 +1,34 @@
-import type { NextPage } from "next";
-import { GetStaticProps, GetServerSideProps } from "next";
-import Head from "next/head";
-import { useTranslation } from "react-i18next";
-import { Footer } from "../components/Footer/Footer";
-import { Header } from "../components/Header/Header";
-import { SearchSoundGifInput } from "../components/SearchSoundGifInput/SearchSoundGifInput";
-import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
-import { SoundgifDTO } from "../domain/sound-gif.dto";
+<<<<<<< HEAD
+
+
+=======
+import { ClockIcon, FireIcon } from "@heroicons/react/solid";
+import { Howler } from "howler";
+>>>>>>> 07bfd2ec2791266e4936b7144154fb6df81719ee
+import type { GetServerSideProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ClockIcon, FireIcon, SearchIcon } from "@heroicons/react/solid";
+import Head from "next/head";
 import React from "react";
-import { useApi } from "../hooks/api/useApi.hook";
-import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
+import { useVozoApp } from "../context/useVozoApp.hook";
+import { SoundgifDTO } from "../domain/sound-gif.dto";
+
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
 };
 
-const Home: NextPage<HomeProps> = ({ soundGifs }) => {
+const Home: NextPage<HomeProps> = () => {
   const { t } = useTranslation();
-  const [soundGifsSearchResults, setSoundGifSearchResult] = useState<SoundgifDTO[]>([]);
-
-  const updateSoundGifSearchResults = (soundGifs: SoundgifDTO[]) => {
-    setSoundGifSearchResult(soundGifs);
-  };
+  const { soundGifs } = useVozoApp();
 
   const mostRecentSoundGifs = (
-    <SoundGifsList
-      soundGifs={soundGifs}
-      title={t("most_recent_soundgif_title")}
-      icon={<ClockIcon color="#6565F1" className="h-6 w-6" />}
-    />
+    <SoundGifsList soundGifs={soundGifs} title={t("most_recent_soundgif_title")} icon="ClockIcon" color="#6565F1" />
   );
 
   const mostSharedSoundGifs = (
-    <SoundGifsList
-      soundGifs={soundGifs}
-      title={t("most_shared_soundgif_title")}
-      icon={<FireIcon color="#E449A3" className="h-6 w-6" />}
-    />
-  );
-
-  const searchResults = (
-    <SoundGifsList
-      soundGifs={soundGifsSearchResults}
-      title={t("results")}
-      icon={<SearchIcon color="#E449A3" className="h-6 w-6" />}
-    />
+    <SoundGifsList soundGifs={soundGifs} title={t("most_shared_soundgif_title")} icon="FireIcon" color="#E449A3" />
   );
 
   return (
@@ -57,26 +39,19 @@ const Home: NextPage<HomeProps> = ({ soundGifs }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <Header />
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
-            <SearchSoundGifInput updateSearchResultCallback={updateSoundGifSearchResults} />
-            {soundGifsSearchResults.length > 0 ? searchResults : [mostRecentSoundGifs, mostSharedSoundGifs]}
+            {[mostRecentSoundGifs, mostSharedSoundGifs]}
           </div>
         </main>
       </div>
-      <Footer />
     </div>
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const buildingTimeApiUrl = process.env.BUILDING_TIME_API_URL as string;
-  const { findMostRecentSoundGif } = useApi(buildingTimeApiUrl, "");
-  const soundGifs = await findMostRecentSoundGif();
+export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
   return {
     props: {
-      soundGifs,
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
     },
   };

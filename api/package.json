@@ -19,7 +19,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles",
+    "test:e2e": "env-cmd -f .env.dev jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles",
     "start:dev:db": "./start-db.sh",
     "typeorm:dev": "env-cmd -f .env.dev ts-node ./node_modules/typeorm/cli.js --config ./src/config/orm/ormconfig.ts",
     "migration:show:dev": "yarn typeorm:dev migration:show",
@@ -44,6 +44,7 @@
     "@nestjs/typeorm": "^8.0.2",
     "babel-jest": "^27.4.4",
     "dotenv": "^10.0.0",
+    "env-cmd": "latest",
     "faker": "^5.5.3",
     "node-fetch": "^3.1.0",
     "nodemon": "^2.0.15",
@@ -51,8 +52,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
-    "typeorm": "^0.2.41",
-    "env-cmd": "latest"
+    "typeorm": "^0.2.41"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.1.3",
