@@ -1,20 +1,14 @@
-<<<<<<< HEAD
+
+
 import type { GetServerSideProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import React from "react";
-=======
-import { ClockIcon, FireIcon } from "@heroicons/react/solid";
-import { Howler } from "howler";
-import type { GetServerSideProps, NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Head from "next/head";
-import React, { useEffect } from "react";
->>>>>>> db91d9d (feature: big changes inside the app sorry for the commit splitting)
 import { useTranslation } from "react-i18next";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { useVozoApp } from "../context/useVozoApp.hook";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
+
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
