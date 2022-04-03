@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 
 
+=======
+import { ClockIcon, FireIcon } from "@heroicons/react/solid";
+import { Howler } from "howler";
+>>>>>>> 07bfd2ec2791266e4936b7144154fb6df81719ee
 import type { GetServerSideProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
@@ -45,7 +50,6 @@ const Home: NextPage<HomeProps> = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
-
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),

@@ -8,7 +8,6 @@ export interface SearchFilter {
   mostShared?: boolean;
   mostRecent?: boolean;
   limit?: boolean;
-
 }
 
 interface FindSoundGifsPayload {
