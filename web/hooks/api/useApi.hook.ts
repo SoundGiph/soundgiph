@@ -2,11 +2,12 @@ import { create } from "apisauce";
 import { CREATE_SOUND_GIF, FIND_SOUND_GIF_QUERY } from "../../constants/constants";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 
-interface SearchFilter {
+export interface SearchFilter {
   category?: string;
   reaction?: string;
   mostShared?: boolean;
   mostRecent?: boolean;
+  limit?: boolean;
 }
 
 interface FindSoundGifsPayload {
