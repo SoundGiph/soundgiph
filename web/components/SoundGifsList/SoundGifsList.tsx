@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 import { DynamicHeroIcon } from "../DynamicIcon/DynamicIcon";
 import { SoundGifItem } from "./SoundGifItem/SoundGifItem";
+import { formatCategory } from "./utils/getCategoriesIconAndColor";
 
 type SoundGifsListProps = {
   soundGifs: SoundgifDTO[];
@@ -16,7 +17,7 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
   const { t } = useTranslation();
   const { push } = useRouter();
   const onClick = () => {
-    push({ pathname: `/categories/${title}`, query: { title, icon, color } });
+    push({ pathname: `/categories/${formatCategory(title)}`, query: { title, icon, color } });
   };
   return (
     <div className="w-full h-full mt-5">

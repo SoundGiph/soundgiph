@@ -46,12 +46,13 @@ export enum CategoriesIconColor {
   "Television" = "#FFC300",
 }
 
-const formatCategory = (category: string): string => {
+export const formatCategory = (category: string): string => {
   return category
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/\s/g, "");
 };
+
 export const getIconNameByCategory = (category: string): string => {
   const formattedCategory = formatCategory(category);
   return CategoriesIconName[formattedCategory as Categories];

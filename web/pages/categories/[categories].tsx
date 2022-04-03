@@ -1,20 +1,24 @@
-import { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
+import { formatCategory } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
+import { useApi } from "../../hooks/api/useApi.hook";
 
 const Category: NextPage = () => {
   const { soundGifs } = useVozoApp();
   const { query } = useRouter();
-  useUnmute()
+  useUnmute();
 
   const title = query.title as string;
   const icon = query.icon as string;
   const color = query.color as string;
+  console.log(title);
   return (
     <div className="bg-black overflow-hidden">
       <Head>
@@ -31,7 +35,20 @@ const Category: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+export async function getStaticPaths() {
+  const { getAllCategories } = useApi();
+  const categories = await getAllCategories();
+  const paths = categories.map(category => {
+    return { params: { categories: formatCategory(category), locale: "en" } };
+  });
+  console.log(paths);
+  return {
+    paths: [...paths, { params: { categories: "mostShared" } }, { params: { categories: "mostRecent" } }],
+    fallback: false, // false or 'blocking'
+  };
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
