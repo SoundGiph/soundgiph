@@ -21,16 +21,14 @@ interface FindSoundGifsPayload {
   fulltext?: string;
 }
 
-export const useApi = (
-  runningTimeApiUrl: string
-): {
+export const useApi = (): {
   findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
   getAllCategories: () => Promise<string[]>;
   getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
 } => {
   const api = create({
-    baseURL: runningTimeApiUrl,
+    baseURL: process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL,
   });
 
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
