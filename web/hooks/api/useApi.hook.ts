@@ -54,6 +54,7 @@ export const useApi = (): {
 
   const getAllCategories = async (): Promise<string[]> => {
     const { data } = await api.get<string[]>(GET_ALL_CATEGORIES);
+    console.log(data);
     return data ?? [];
   };
 
