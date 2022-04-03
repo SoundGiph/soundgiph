@@ -46,9 +46,10 @@ export enum CategoriesIconColor {
   "Télévision" = "brown",
 }
 
-export const getIconNameAndColorByCategory = (category: Categories): { iconName: string; color: string } => {
-  return {
-    iconName: CategoriesIconName[category],
-    color: CategoriesIconColor[category],
-  };
+export const getIconNameByCategory = (category: Categories): string => {
+  return CategoriesIconName[category];
+};
+
+export const getIconColorByCategory = (category: Categories): string => {
+  return CategoriesIconColor[category];
 };
