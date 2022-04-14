@@ -30,16 +30,21 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
 
   useEffect(() => {
-    var audioContext = Howler.ctx;
-    unmute(audioContext, true, true);
-  }, []);
+    let isMounted = true
+
+    if (isMounted) {
+      var audioContext = Howler.ctx;
+      if (isSoundPlaying) {
+        const { dispose } = unmute(audioContext, true, true);
+        return () => {
+          dispose()
+          isMounted = false
+        }
+      }
+    }
+  }, [isSoundPlaying]);
 
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
-
-  useEffect(() => {
-    var audioContext = Howler.ctx;
-    unmute(audioContext, true, true);
-  }, []);
 
   return (
     <div key={id} className={ITEM_BOX}>
