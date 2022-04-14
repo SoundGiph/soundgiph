@@ -31,7 +31,6 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
 
   useEffect(() => {
     let isMounted = true
-
     if (isMounted) {
       var audioContext = Howler.ctx;
       if (isSoundPlaying) {
@@ -51,7 +50,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
       <div className={`${IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
         <img src={imageUrl} />
       </div>
-      <button onClick={playSoundGif} className={PLAY_BUTTON_ICON}>
+      <button onClick={(playSoundGif)} className={PLAY_BUTTON_ICON}>
         {isSoundPlaying ? (
           <Lottie animationData={playingAnimation} loop color={WHITE_COLOR} />
         ) : (

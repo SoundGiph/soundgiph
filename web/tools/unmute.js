@@ -48,11 +48,18 @@ export function unmute(context, allowBackgroundPlayback, forceIOSBehavior) {
         pageVisibilityAPI = { hidden: "mozHidden", visibilitychange: "mozvisibilitychange" };
     else if (document.msHidden !== undefined)
         pageVisibilityAPI = { hidden: "msHidden", visibilitychange: "msvisibilitychange" };
-    // Helpers to add/remove a bunch of event listeners
-    function addEventListeners(target, events, handler, capture, passive) { for (var i = 0; i < events.length; ++i)
-        target.addEventListener(events[i], handler, { capture: capture, passive: passive }); }
-    function removeEventListeners(target, events, handler, capture, passive) { for (var i = 0; i < events.length; ++i)
-        target.removeEventListener(events[i], handler, { capture: capture, passive: passive }); }
+
+
+    function addEventListeners(target, events, handler, capture, passive) { 
+        for (var i = 0; i < events.length; ++i){
+            target.addEventListener(events[i], handler, { capture: capture, passive: passive });
+        }
+    }
+    function removeEventListeners(target, events, handler, capture, passive) { 
+        for (var i = 0; i < events.length; ++i) {
+            target.removeEventListener(events[i], handler, { capture: capture, passive: passive });
+        }
+    }
     /**
      * Helper no-operation function to ignore promises safely
      */
