@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { CommandBus } from "@nestjs/cqrs";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import "multer";
+import { Categories } from "src/sound-gif/core/domain/sound-gif.entity";
 import { AzureBlobStoragePresenter } from "../../../azure-blob-storage/interface/azure-blob-storage.presenter";
 import {
   CreateSoundGifCommand,
@@ -14,7 +15,7 @@ type CreateSoundGifRequestPayload = {
   description: string;
   tags: string[];
   reactions: string[];
-  categories: string[];
+  categories: Categories[];
 };
 
 type CreateSoundGifRequestFilesPayload = {
@@ -52,9 +53,10 @@ export class CreateSoundGifController {
 
       const audioUrl = await this.azureStoragePresenter.upload(audioFile, this.SOUND_CONTAINER);
       const imageUrl = await this.azureStoragePresenter.upload(imageFile, this.IMAGE_CONTAINER);
-      const { createdSoundGif } = await this.commandBus.execute<CreateSoundGifCommand, CreateSoundGifCommandResult>(
-        new CreateSoundGifCommand({ ...payload, audioUrl, imageUrl })
-      );
+      const { createdSoundGif } = await this.commandBus.execute<
+        CreateSoundGifCommand,
+        CreateSoundGifCommandResult
+      >(new CreateSoundGifCommand({ ...payload, audioUrl, imageUrl }));
       return Boolean(createdSoundGif.id);
     } catch (error) {
       console.log(error);
