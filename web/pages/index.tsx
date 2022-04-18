@@ -4,7 +4,9 @@ import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
+import { SoundGifsVerticalList } from "../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
+  Categories,
   getIconColorByCategory,
   getIconNameByCategory,
 } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
@@ -16,19 +18,33 @@ type HomeProps = {
   categoriesWithSoundgifs: CategoriesWithSoundGifs[];
 };
 
+interface MapCategoriesWithSoundGifsProps {
+  categoriesWithSoundgifs: CategoriesWithSoundGifs[];
+}
+
+const MapCategoriesWithSoundGifs: React.FC<MapCategoriesWithSoundGifsProps> = ({ categoriesWithSoundgifs }) => {
+  return (
+    <div className="flex flex-col items-center justify-space container mx-auto">
+      {categoriesWithSoundgifs.map(category => {
+        return (
+          <SoundGifsList
+            soundGifs={category.soundGifs}
+            title={category.name}
+            icon={getIconNameByCategory(category.name)}
+            color={getIconColorByCategory(category.name)}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
   const { t } = useTranslation();
-  const { soundGifs } = useVozoApp();
+  const { soundGifs, isLoading, isSearchResultEmpty } = useVozoApp();
   useUnmute();
 
-  const mostRecentSoundGifs = (
-    <SoundGifsList soundGifs={soundGifs} title={t("most_recent_soundgif_title")} icon="ClockIcon" color="#6565F1" />
-  );
-
-  const mostSharedSoundGifs = (
-    <SoundGifsList soundGifs={soundGifs} title={t("most_shared_soundgif_title")} icon="FireIcon" color="#E449A3" />
-  );
-
+  const shouldDisplaySoundgifsSearchResult = Boolean(soundGifs.length > 0 || isSearchResultEmpty);
   return (
     <div className="bg-black">
       <Head>
@@ -39,30 +55,23 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
       <div>
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
-            {categoriesWithSoundgifs.map(category => {
-              return (
-                <SoundGifsList
-                  soundGifs={category.soundGifs}
-                  title={category.name}
-                  icon={getIconNameByCategory(category.name)}
-                  color={getIconColorByCategory(category.name)}
-                />
-              );
-            })}
+            {shouldDisplaySoundgifsSearchResult ? (
+              <SoundGifsVerticalList
+                soundGifs={soundGifs}
+                title={Categories.Search}
+                icon={getIconNameByCategory(Categories.Search)}
+                color={getIconColorByCategory(Categories.Search)}
+                isSearchResultLoading={isLoading}
+              />
+            ) : (
+              <MapCategoriesWithSoundGifs categoriesWithSoundgifs={categoriesWithSoundgifs} />
+            )}
           </div>
         </main>
       </div>
     </div>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
-//     },
-//   };
-// };
 
 export async function getStaticProps({ locale }: { locale?: string | undefined }) {
   const { getAllCategoriesWithSoungifs } = useApi();

@@ -1,23 +1,24 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
-import { formatCategory } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
+import {
+  Categories,
+  formatCategory,
+  getIconColorByCategory,
+  getIconNameByCategory,
+} from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
 import { useApi } from "../../hooks/api/useApi.hook";
 
 const Category: NextPage = () => {
-  const { soundGifs } = useVozoApp();
+  const { soundGifs, isLoading } = useVozoApp();
   const { query } = useRouter();
   useUnmute();
-
-  const title = query.title as string;
-  const icon = query.icon as string;
-  const color = query.color as string;
+  const title = query.title as Categories;
   console.log(title);
   return (
     <div className="bg-black overflow-hidden">
@@ -28,7 +29,13 @@ const Category: NextPage = () => {
       </Head>
       <main className="relative overflow-hidden">
         <div className="flex flex-col items-center justify-space container mx-auto">
-          <SoundGifsVerticalList soundGifs={soundGifs} title={title} icon={icon} color={color} />
+          <SoundGifsVerticalList
+            soundGifs={soundGifs}
+            title={title}
+            icon={getIconNameByCategory(title)}
+            color={getIconColorByCategory(title)}
+            isSearchResultLoading={isLoading}
+          />
         </div>
       </main>
     </div>
