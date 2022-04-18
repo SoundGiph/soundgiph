@@ -1,6 +1,20 @@
 import { Column, Entity, Index } from "typeorm";
 import { Base } from "../../../common/entities/base.entity";
 
+export enum Categories {
+  "News" = "News",
+  "Anime" = "Anime",
+  "Movies" = "Movies",
+  "Cartoons" = "Cartoons",
+  "Gaming" = "Gaming",
+  "Comedy" = "Comedy",
+  "Social" = "Social",
+  "Memes" = "Memes",
+  "Music" = "Music",
+  "Sport" = "Sport",
+  "TV" = "TV",
+}
+
 @Entity("sound_gif")
 export class SoundGifEntity extends Base {
   id!: string & { brand: "soundGifId" };
@@ -14,7 +28,7 @@ export class SoundGifEntity extends Base {
   tags!: string[];
 
   @Column("simple-array", { nullable: false })
-  categories!: string[];
+  categories!: Categories[];
 
   @Column("simple-array", { nullable: false })
   reactions!: string[];
