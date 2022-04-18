@@ -25,7 +25,6 @@ type SoundGifsItemProps = {
   small?: boolean;
 };
 
-
 export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
   const { imageUrl, description, id } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
@@ -35,20 +34,18 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
       var audioContext = Howler.ctx;
       const { dispose } = unmute(audioContext, true, true);
       return () => {
-        dispose()
-      }
+        dispose();
+      };
     }
   }, [isSoundPlaying]);
 
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
-
-
   return (
     <div key={id} className={ITEM_BOX}>
       <div className={`${IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
         <img src={imageUrl} />
       </div>
-      <button onClick={(playSoundGif)} className={PLAY_BUTTON_ICON}>
+      <button onClick={playSoundGif} className={PLAY_BUTTON_ICON}>
         {isSoundPlaying ? (
           <Lottie animationData={playingAnimation} loop color={WHITE_COLOR} />
         ) : (

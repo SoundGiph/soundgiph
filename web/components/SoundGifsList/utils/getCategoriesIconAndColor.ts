@@ -12,6 +12,7 @@ export enum Categories {
   "Musique" = "Musique",
   "Sport" = "Sport",
   "Television" = "Television",
+  "Search" = "Search",
 }
 
 export enum CategoriesIconName {
@@ -28,6 +29,7 @@ export enum CategoriesIconName {
   "Musique" = "MusicNoteIcon",
   "Sport" = "SpeakerphoneIcon",
   "Television" = "DesktopComputerIcon",
+  "Search" = "SearchIcon",
 }
 
 export enum CategoriesIconColor {
@@ -44,6 +46,7 @@ export enum CategoriesIconColor {
   "Musique" = "#FF5733",
   "Sport" = "#FFC300",
   "Television" = "#FFC300",
+  "Search" = "#E449A3",
 }
 
 export const formatCategory = (category: string): string => {
@@ -54,11 +57,13 @@ export const formatCategory = (category: string): string => {
 };
 
 export const getIconNameByCategory = (category: string): string => {
+  if (!category) return "";
   const formattedCategory = formatCategory(category);
   return CategoriesIconName[formattedCategory as Categories];
 };
 
 export const getIconColorByCategory = (category: Categories): string => {
+  if (!category) return "";
   const formattedCategory = formatCategory(category);
   return CategoriesIconColor[formattedCategory as Categories];
 };

@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { DynamicHeroIcon } from "../../DynamicIcon/DynamicIcon";
 import { SoundGifItem } from "../SoundGifItem/SoundGifItem";
@@ -10,10 +7,33 @@ type SoundGifsListProps = {
   title: string;
   icon: string;
   color: string;
+  isSearchResultLoading: boolean;
+};
+const SearcResultIsEmptyState: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-space container mx-auto h-full w-full">
+      <p>NO VOZO CORRESPONDGIN TO YOUR RESEARCH</p>
+    </div>
+  );
 };
 
-export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({ soundGifs, title, icon, color }) => {
-  if (!soundGifs) return null;
+const IsLoadingEmptyState: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-space container mx-auto h-full w-full">
+      <p>...LOADING</p>
+    </div>
+  );
+};
+
+export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
+  soundGifs,
+  title,
+  icon,
+  color,
+  isSearchResultLoading,
+}) => {
+  if (isSearchResultLoading) return <IsLoadingEmptyState />;
+  if (!soundGifs.length) return <SearcResultIsEmptyState />;
   return (
     <div className="w-full h-full mt-5">
       <div className="mx-3 flex flex-row items-center justify-between">
