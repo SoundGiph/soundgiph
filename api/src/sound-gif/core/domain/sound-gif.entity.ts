@@ -27,7 +27,7 @@ export class SoundGifEntity extends Base {
   @Column("simple-array", { nullable: false })
   tags!: string[];
 
-  @Column("simple-array", { nullable: false })
+  @Column("enum", { enum: Object.values(Categories), default: [], nullable: false })
   categories!: Categories[];
 
   @Column("simple-array", { nullable: false })
