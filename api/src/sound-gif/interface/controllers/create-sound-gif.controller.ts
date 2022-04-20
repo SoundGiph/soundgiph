@@ -59,7 +59,7 @@ export class CreateSoundGifController {
       >(new CreateSoundGifCommand({ ...payload, audioUrl, imageUrl }));
       return Boolean(createdSoundGif.id);
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 }
