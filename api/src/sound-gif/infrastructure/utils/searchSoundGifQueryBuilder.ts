@@ -11,7 +11,7 @@ export const searchSoundGifQuery = async (
 
   if (filters?.category) {
     soundGifsQuery
-      .where("vozo.categories ILIKE :category", {
+      .where("vozo.categories::text ILIKE :category", {
         category: `%${filters.category}%`,
       })
       .limit(filters.limit);
