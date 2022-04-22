@@ -4,18 +4,18 @@ import { CategoriesWithSoundGifs } from "src/sound-gif/core/application/queries/
 import * as request from "supertest";
 import { Connection } from "typeorm";
 import { AppModule } from "../../../src/app/app.module";
-import { SoundGifEntity } from "../../../src/sound-gif/core/domain/sound-gif.entity";
+import { Categories, SoundGifEntity } from "../../../src/sound-gif/core/domain/sound-gif.entity";
 import { soundGifFixtureFactory } from "../../../src/sound-gif/core/domain/sound-gif.fixture.factory";
 
 const soundGifFixtures = [
-  soundGifFixtureFactory({ description: "sch", categories: ["rap", "music"] }),
-  soundGifFixtureFactory({ tags: ["hamza", "rap"], categories: ["rap", "music"] }),
-  soundGifFixtureFactory({ title: "niska méchant", categories: ["rap", "music"] }),
-  soundGifFixtureFactory({ description: "sex", categories: ["sexy", "hot"] }),
-  soundGifFixtureFactory({ description: "bonjour", categories: ["cute", "music"] }),
+  soundGifFixtureFactory({ description: "sch", categories: [Categories.Music] }),
+  soundGifFixtureFactory({ tags: ["hamza", "rap"], categories: [Categories.Music] }),
+  soundGifFixtureFactory({ title: "niska méchant", categories: [Categories.Music] }),
+  soundGifFixtureFactory({ description: "sex", categories: [Categories.Movies] }),
+  soundGifFixtureFactory({ description: "bonjour", categories: [Categories.Music] }),
 ];
 
-const expectedCategories = ["mostRecent", "mostShared", "cute", "hot", "music", "rap", "sexy"];
+const expectedCategories = ["mostRecent", "mostShared", Categories.Movies, Categories.Music];
 const sexyCategoryLength = 1;
 const hotCategoryLength = 1;
 const cuteCategoryLength = 1;
@@ -29,8 +29,10 @@ const expectCategoriesLength = (name: string, soundgifs: SoundGifEntity[]) => {
   if (name === "music") expect(soundgifs.length).toStrictEqual(musicCategoryLength);
   if (name === "rap") expect(soundgifs.length).toStrictEqual(rapCategoryLength);
   if (name === "sexy") expect(soundgifs.length).toStrictEqual(sexyCategoryLength);
-  if (name === "mostShared") expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
-  if (name === "mostRecent") expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
+  if (name === "mostShared")
+    expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
+  if (name === "mostRecent")
+    expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
 };
 
 describe("get all categories with soundgifs", () => {
@@ -53,7 +55,9 @@ describe("get all categories with soundgifs", () => {
     await app.close();
   });
   it("should get all categories with soundgifs", async () => {
-    const { body, error } = await request(app.getHttpServer()).get("/getAllCategoriesWithSoundGifs").expect(200);
+    const { body, error } = await request(app.getHttpServer())
+      .get("/getAllCategoriesWithSoundGifs")
+      .expect(200);
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(Boolean(body.length)).toBeTruthy();

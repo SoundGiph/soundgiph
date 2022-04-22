@@ -3,6 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import * as request from "supertest";
 import { AppModule } from "../../../src/app/app.module";
 import * as faker from "faker";
+import { Categories } from "../../../src/sound-gif/core/domain/sound-gif.entity";
 
 const audioFile = `${__dirname}/snoop-dogg.mp3`;
 const imageFile = `${__dirname}/snoop-dogg.jpeg`;
@@ -27,7 +28,7 @@ describe("create sound gif controller", () => {
       .field("title", faker.random.word())
       .field("tags", tags)
       .field("description", "snoop dogg sound")
-      .field("categories", ["rap", "music"])
+      .field("categories", [Categories.Music, Categories.TV])
       .field("reactions", ["fun"])
       .attach("audioFile", audioFile)
       .attach("imageFile", imageFile)
