@@ -2,17 +2,17 @@ import { Column, Entity, Index } from "typeorm";
 import { Base } from "../../../common/entities/base.entity";
 
 export enum Categories {
-  "News" = "News",
-  "Anime" = "Anime",
-  "Movies" = "Movies",
-  "Cartoons" = "Cartoons",
-  "Gaming" = "Gaming",
-  "Comedy" = "Comedy",
-  "Social" = "Social",
-  "Memes" = "Memes",
-  "Music" = "Music",
-  "Sport" = "Sport",
-  "TV" = "TV",
+  News = "News",
+  Anime = "Anime",
+  Movies = "Movies",
+  Cartoons = "Cartoons",
+  Gaming = "Gaming",
+  Comedy = "Comedy",
+  Social = "Social",
+  Memes = "Memes",
+  Music = "Music",
+  Sport = "Sport",
+  TV = "TV",
 }
 
 @Entity("sound_gif")
@@ -31,6 +31,7 @@ export class SoundGifEntity extends Base {
     enum: Object.values(Categories),
     default: [Categories.Comedy],
     nullable: false,
+    array: true
   })
   categories!: Categories[];
 
