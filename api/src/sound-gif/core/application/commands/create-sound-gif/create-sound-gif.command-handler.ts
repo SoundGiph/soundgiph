@@ -9,7 +9,7 @@ export class CreateSoundGifCommandHandler implements ICommandHandler<CreateSound
   constructor(
     @Inject(SoundGifEntity)
     private readonly createSoundGifPort: Pick<SoundGifPort, "create">
-  ) {}
+  ) { }
 
   public async execute({ payload }: CreateSoundGifCommand): Promise<CreateSoundGifCommandResult> {
     const createdSoundGif = await this.createSoundGifPort.create(payload);
