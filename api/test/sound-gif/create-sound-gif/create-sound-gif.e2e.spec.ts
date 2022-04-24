@@ -22,6 +22,7 @@ describe("create sound gif controller", () => {
   afterAll(async () => {
     await app.close();
   });
+
   it("should create sound gif", async () => {
     const { body, error } = await request(app.getHttpServer())
       .post("/createSoundGif")
@@ -36,6 +37,20 @@ describe("create sound gif controller", () => {
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(body).toBeTruthy();
+  });
+
+  it("should not create sound gif", async () => {
+    const { error } = await request(app.getHttpServer())
+      .post("/createSoundGif")
+      .field("title", faker.random.word())
+      .field("tags", tags)
+      .field("description", "snoop dogg sound")
+      .field("categories", [Categories.Music, "NonValidCategory"])
+      .field("reactions", ["fun"])
+      .attach("audioFile", audioFile)
+      .attach("imageFile", imageFile)
+      .expect(400);
+    expect(error).toBeDefined();
   });
 
   it("should find the new sound gif", async () => {
