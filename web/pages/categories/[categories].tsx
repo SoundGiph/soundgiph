@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import React from "react";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import { useVozoApp } from "../../context/useVozoApp.hook";
+import { useUnmute } from "../../hooks/unmute/useUnmute";
 
 const Category: NextPage = () => {
   const { soundGifs } = useVozoApp();
   const { query } = useRouter();
+  useUnmute()
+
   const title = query.title as string;
   const icon = query.icon as string;
   const color = query.color as string;
