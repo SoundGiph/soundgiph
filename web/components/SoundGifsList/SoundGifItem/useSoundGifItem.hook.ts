@@ -23,17 +23,16 @@ export const useSoundGifItem = (
     src: [audioUrl],
     onplay: () => setIsSoundPlaying(true),
     onend: () => setIsSoundPlaying(false),
-    onstop: () => setIsSoundPlaying(false),
+    onstop: () => setIsSoundPlaying(false)
+
   });
 
   const playSoundGif = (): void => {
-
     if (!Howler.noAudio) {
       Howler.stop();
     }
-    
     isSoundPlaying ? soundGifToPlay.pause() : soundGifToPlay.play();
-};
+  };
 
   async function shareAudioFile() {
     const blob = await fetch(audioUrl).then(res => res.blob());

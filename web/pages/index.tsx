@@ -1,15 +1,12 @@
-import { Howl, Howler } from "howler";
 import type { GetServerSideProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { useVozoApp } from "../context/useVozoApp.hook";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { unmute } from "../tools/unmute";
-import { SILENT_MP3_URL } from "../constants/constants"
-
+import { useUnmute } from "../hooks/unmute/useUnmute"
 
 type HomeProps = {
   soundGifs: SoundgifDTO[];
@@ -18,15 +15,7 @@ type HomeProps = {
 const Home: NextPage<HomeProps> = () => {
   const { t } = useTranslation();
   const { soundGifs } = useVozoApp()
-
-  useEffect(() => {
-    const soundGifToPlay = new Howl({
-      src: [SILENT_MP3_URL]
-    });
-    soundGifToPlay.play();
-    var audioContext = Howler.ctx;
-    unmute(audioContext, true, true);
-  }, []);
+  useUnmute()
 
   const mostRecentSoundGifs = (
     <SoundGifsList soundGifs={soundGifs} title={t("most_recent_soundgif_title")} icon="ClockIcon" color="#6565F1" />
