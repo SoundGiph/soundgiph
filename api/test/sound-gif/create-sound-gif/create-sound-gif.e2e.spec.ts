@@ -29,7 +29,7 @@ describe("create sound gif controller", () => {
       .field("title", faker.random.word())
       .field("tags", tags)
       .field("description", "snoop dogg sound")
-      .field("categories", [Categories.Music, Categories.TV])
+      .field("categories", ['Music', 'TV'])
       .field("reactions", ["fun"])
       .attach("audioFile", audioFile)
       .attach("imageFile", imageFile)
@@ -37,6 +37,35 @@ describe("create sound gif controller", () => {
     expect(error).toBeFalsy();
     expect(body).toBeDefined();
     expect(body).toBeTruthy();
+  });
+  it("should create sound gif", async () => {
+    const { body, error } = await request(app.getHttpServer())
+      .post("/createSoundGif")
+      .field("title", faker.random.word())
+      .field("tags", tags)
+      .field("description", "snoop dogg sound")
+      .field("categories", '{Music}')
+      .field("reactions", ["fun"])
+      .attach("audioFile", audioFile)
+      .attach("imageFile", imageFile)
+      .expect(201);
+    expect(error).toBeFalsy();
+    expect(body).toBeDefined();
+    expect(body).toBeTruthy();
+  });
+  it("should create sound gif", async () => {
+    const { error } = await request(app.getHttpServer())
+      .post("/createSoundGif")
+      .field("title", faker.random.word())
+      .field("tags", tags)
+      .field("description", "snoop dogg sound")
+      .field("categories", ['Music'])
+      .field("reactions", ["fun"])
+      .attach("audioFile", audioFile)
+      .attach("imageFile", imageFile)
+      .expect(400);
+    expect(error).toBeDefined();
+
   });
 
   it("should not create sound gif", async () => {
