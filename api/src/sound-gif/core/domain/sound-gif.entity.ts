@@ -15,6 +15,16 @@ export enum Categories {
   TV = "TV",
 }
 
+export const categoriesTransformer = {
+  to: (categories: Categories[]): string[] | string => {
+    if (categories.length == 1) {
+      return '{' + categories.filter(category => category).join(',') + '}'
+    }
+    return categories
+  },
+  from: (categories: string): string => categories
+};
+
 @Entity("sound_gif")
 export class SoundGifEntity extends Base {
   id!: string & { brand: "soundGifId" };
@@ -30,8 +40,8 @@ export class SoundGifEntity extends Base {
   @Column("enum", {
     enum: Object.values(Categories),
     default: [Categories.Comedy],
-    nullable: false,
-    array: true
+    array: true,
+    transformer: categoriesTransformer
   })
   categories!: Categories[];
 
