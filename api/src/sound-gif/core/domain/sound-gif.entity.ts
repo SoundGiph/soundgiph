@@ -11,7 +11,7 @@ export enum Categories {
   Social = "Social",
   Memes = "Memes",
   Music = "Music",
-  Sport = "Sport",
+  Sports = "Sports",
   TV = "TV",
 }
 
