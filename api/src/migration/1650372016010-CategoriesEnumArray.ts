@@ -5,7 +5,7 @@ export class CategoriesEnumArray1650372016010 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "sound_gif" DROP COLUMN "categories"`);
-        await queryRunner.query(`CREATE TYPE "public"."sound_gif_categories_enum" AS ENUM('News', 'Anime', 'Movies', 'Cartoons', 'Gaming', 'Comedy', 'Social', 'Memes', 'Music', 'Sport', 'TV')`);
+        await queryRunner.query(`CREATE TYPE "public"."sound_gif_categories_enum" AS ENUM('News', 'Anime', 'Movies', 'Cartoons', 'Gaming', 'Comedy', 'Social', 'Memes', 'Music', 'Sports', 'TV')`);
         await queryRunner.query(`ALTER TABLE "sound_gif" ADD "categories" "public"."sound_gif_categories_enum" NOT NULL DEFAULT 'Comedy'`);
     }
 
