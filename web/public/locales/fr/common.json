@@ -15,8 +15,8 @@
     "copy_audio_url_success": "lien copié"
   },
   "categories": {
-    "MostShared": "Ajoutés récemment",
-    "MostRecent": "En tendance",
+    "mostShared": "Ajoutés récemment",
+    "mostRecent": "En tendance",
     "News": "Actualité & politique",
     "Anime": "Animé",
     "Movies": "Cinema",
@@ -26,7 +26,7 @@
     "Social": "Media & Social Networks",
     "Memes": "Memes",
     "Music": "Musique",
-    "Sport": "Sport",
+    "Sports": "Sports",
     "TV": "Télévision",
     "Search": "Recherche"
   }
