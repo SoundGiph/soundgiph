@@ -15,8 +15,8 @@
     "copy_audio_url_success": "Audio url copied !"
   },
   "categories": {
-    "mostShared": "Most recent",
-    "mostRecent": "Most shared",
+    "mostShared": "Most shared",
+    "mostRecent": "Most recent",
     "News": "News & Politics",
     "Anime": "Anime",
     "Movies": "Movies",
