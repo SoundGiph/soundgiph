@@ -16,11 +16,11 @@ export enum Categories {
 }
 
 export enum CategoriesIconName {
-  "mostShared" = "fas hotjar",
+  "mostShared" = "fas fire",
   "mostRecent" = "fas clock",
   "News" = "fas landmark",
   "Anime" = "fas user-ninja",
-  "Movies" = "fas camera-movie",
+  "Movies" = "fas clapperboard",
   "Cartoons" = "fas fort-awesome",
   "Gaming" = "fas gamepad-modern",
   "Comedy" = "fas face-grin-tears",
@@ -28,7 +28,7 @@ export enum CategoriesIconName {
   "Memes" = "fas face-awesome",
   "Music" = "fas music",
   "Sports" = "fas futbol",
-  "TV" = "fas tv-retro",
+  "TV" = "fas tv",
   "Search" = "fas magnifying-glass",
 }
 
