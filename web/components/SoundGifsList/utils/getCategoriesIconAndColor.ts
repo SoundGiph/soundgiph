@@ -1,69 +1,60 @@
 export enum Categories {
-  "mostShared" = "mostShared",
-  "mostRecent" = "mostRecent",
-  "Actualite&politique" = "Actualite&politique",
+  "MostShared" = "MostShared",
+  "MostRecent" = "MostRecent",
+  "News" = "News",
   "Anime" = "Anime",
-  "Cinema" = "Cinema",
-  "Dessinsanime" = "Dessinsanime",
+  "Movies" = "Movies",
+  "Cartoons" = "Cartoons",
   "Gaming" = "Gaming",
-  "Humoristes" = "Humoristes",
-  "Medias&reseauxsociaux" = "Medias&reseauxsociaux",
+  "Comedy" = "Comedy",
+  "Social" = "Social",
   "Memes" = "Memes",
-  "Musique" = "Musique",
+  "Music" = "Music",
   "Sport" = "Sport",
-  "Television" = "Television",
+  "TV" = "TV",
   "Search" = "Search",
 }
 
 export enum CategoriesIconName {
-  "mostShared" = "FireIcon",
-  "mostRecent" = "ClockIcon",
-  "Actualite&politique" = "AcademicCapIcon",
-  "Anime" = "EyeIcon",
-  "Cinema" = "FilmIcon",
-  "Dessinsanime" = "PhotographIcon",
-  "Gaming" = "PuzzleIcon",
-  "Humoristes" = "EmojiHappyIcon",
-  "Medias&reseauxsociaux" = "GlobeIcon",
-  "Memes" = "ChatIcon",
-  "Musique" = "MusicNoteIcon",
-  "Sport" = "SpeakerphoneIcon",
-  "Television" = "DesktopComputerIcon",
-  "Search" = "SearchIcon",
+  "MostShared" = "fa-brands fa-hotjar",
+  "MostRecent" = "fa-solid fa-clock",
+  "News" = "fa-solid fa-landmark",
+  "Anime" = "fa-solid fa-user-ninja",
+  "Movies" = "fa-solid fa-camera-movie",
+  "Cartoons" = "fa-brands fa-fort-awesome",
+  "Gaming" = "fa-solid fa-gamepad-modern",
+  "Comedy" = "fa-solid fa-face-grin-tears",
+  "Social" = "fa-solid fa-users",
+  "Memes" = "fa-solid fa-face-awesome",
+  "Music" = "fa-solid fa-music",
+  "Sport" = "fa-solid fa-futbol",
+  "TV" = "fa-solid fa-tv-retro",
+  "Search" = "fa-solid fa-magnifying-glass",
 }
 
 export enum CategoriesIconColor {
-  "mostShared" = "#6565F1",
-  "mostRecent" = "#E449A3",
-  "Actualite&politique" = "white",
+  "MostShared" = "#6565F1",
+  "MostRecent" = "#E449A3",
+  "News" = "white",
   "Anime" = "#E449A3",
-  "Cinema" = "#FF5733",
-  "Dessinsanime" = "#E449A3",
+  "Movies" = "#FF5733",
+  "Cartoons" = "#E449A3",
   "Gaming" = "#571845",
-  "Humoristes" = "#FFC300",
-  "Medias&reseauxsociaux" = "#571845",
+  "Comedy" = "#FFC300",
+  "Social" = "#571845",
   "Memes" = "#FF5733",
-  "Musique" = "#FF5733",
+  "Music" = "#FF5733",
   "Sport" = "#FFC300",
-  "Television" = "#FFC300",
+  "TV" = "#FFC300",
   "Search" = "#E449A3",
 }
 
-export const formatCategory = (category: string): string => {
-  return category
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s/g, "");
-};
-
 export const getIconNameByCategory = (category: string): string => {
   if (!category) return "";
-  const formattedCategory = formatCategory(category);
-  return CategoriesIconName[formattedCategory as Categories];
+  return CategoriesIconName[category as Categories];
 };
 
 export const getIconColorByCategory = (category: Categories): string => {
   if (!category) return "";
-  const formattedCategory = formatCategory(category);
-  return CategoriesIconColor[formattedCategory as Categories];
+  return CategoriesIconColor[category as Categories];
 };
