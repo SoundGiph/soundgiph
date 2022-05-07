@@ -11,7 +11,7 @@ import {
   getIconNameByCategory,
 } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../context/useVozoApp.hook";
-import { CategoriesWithSoundGifs } from "../hooks/api/useApi.hook";
+import { CategoriesWithSoundGifs, useApi } from "../hooks/api/useApi.hook";
 import { useUnmute } from "../hooks/unmute/useUnmute";
 
 type HomeProps = {
