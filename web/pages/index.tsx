@@ -23,7 +23,6 @@ interface MapCategoriesWithSoundGifsProps {
 }
 
 const MapCategoriesWithSoundGifs: React.FC<MapCategoriesWithSoundGifsProps> = ({ categoriesWithSoundgifs }) => {
-  console.log(categoriesWithSoundgifs);
   return (
     <div className="flex flex-col items-center justify-space container mx-auto">
       {categoriesWithSoundgifs.map(category => {
