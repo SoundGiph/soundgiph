@@ -8,6 +8,5 @@ interface DynamicIconProps {
 export const DynamicIcon: React.FC<DynamicIconProps> = ({ icon, color }) => {
   if (!icon || !color) return null;
   const name = icon.split(" ")[1];
-  console.log(name);
   return <FontAwesomeIcon icon={["fas", name as IconName]} color={color} />;
 };
