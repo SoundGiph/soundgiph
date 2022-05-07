@@ -8,6 +8,7 @@ type SoundGifsListProps = {
   icon: string;
   color: string;
   isSearchResultLoading: boolean;
+  isSearchResultEmpty: boolean;
 };
 const SearcResultIsEmptyState: React.FC = () => {
   return (
@@ -31,9 +32,11 @@ export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
   icon,
   color,
   isSearchResultLoading,
+  isSearchResultEmpty,
 }) => {
-  if (isSearchResultLoading) return <IsLoadingEmptyState />;
-  if (!soundGifs.length) return <SearcResultIsEmptyState />;
+  console.log(soundGifs);
+  // if (isSearchResultLoading) return <IsLoadingEmptyState />;
+  // if (isSearchResultEmpty) return <SearcResultIsEmptyState />;
   return (
     <div className="w-full h-full mt-5">
       <div className="mx-3 flex flex-row items-center justify-between">

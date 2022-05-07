@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { SearchFilter, useApi } from "../hooks/api/useApi.hook";
+import { FindSoundGifsPayload, SearchFilter, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
@@ -9,11 +9,12 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  console.log(searchText.length);
+  console.log(soundGifs.length);
   const isSearchResultEmpty = Boolean(searchText.length > 3 && soundGifs.length === 0 && !isLoading);
-
-  const getSoundgifs = async () => {
+  const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
-    const soundGifs = await findSoundGif({ fulltext: searchText, filters });
+    const soundGifs = await findSoundGif(payload);
     setSoundgifs(soundGifs);
     setLoading(false);
   };
@@ -21,11 +22,15 @@ export const useVozoAppProvider = (): VozoAppContext => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchText.length > 3) {
-        getSoundgifs();
+        getSoundgifs({ fulltext: searchText });
       } else setSoundgifs([]);
-    }, 3000);
+    }, 500);
     return () => clearTimeout(delayDebounceFn);
-  }, [searchText]);
+  }, [searchText.length]);
+
+  useEffect(() => {
+    if (filters.category) getSoundgifs({ filters: { category: filters.category } });
+  }, [filters.category]);
 
   const onChangeText = (fulltext: string) => {
     setSearchText(fulltext);
