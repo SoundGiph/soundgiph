@@ -18,7 +18,6 @@ const Category: NextPage = () => {
   const { query } = useRouter();
   useUnmute();
   const title = query.title as Categories;
-  console.log(title);
   return (
     <div className="bg-black overflow-hidden">
       <Head>
