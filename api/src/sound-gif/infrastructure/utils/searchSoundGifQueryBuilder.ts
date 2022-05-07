@@ -7,12 +7,13 @@ export const searchSoundGifQuery = async (
   filters?: SearchFilter,
   fulltext?: string
 ): Promise<SoundGifEntity[]> => {
+  console.log(filters);
   const soundGifsQuery = soundGifRepository.createQueryBuilder("vozo");
 
   if (filters?.category) {
     soundGifsQuery
-      .where("vozo.categories::text ILIKE :category", {
-        category: `%${filters.category}%`,
+      .where(":category = ANY (vozo.categories)", {
+        category: `${filters.category}`,
       })
       .limit(filters.limit);
   }
@@ -39,6 +40,6 @@ export const searchSoundGifQuery = async (
   if (filters?.mostShared) {
     soundGifsQuery.orderBy("vozo.shared_count", "DESC");
   }
-
+  console.log(soundGifsQuery.getQuery());
   return soundGifsQuery.getMany();
 };

@@ -80,4 +80,18 @@ describe("find sound gif controller", () => {
     expect(body).toBeDefined();
     expect(body.length).toStrictEqual(2);
   });
+
+  it("should find sound gif with categories and fulltext", async () => {
+    const params: FindSoundGifPayload = {
+      filters: { category: Categories.Anime },
+      fulltext: "ONE P",
+    };
+    const { body, error } = await request(app.getHttpServer())
+      .post("/findSoundGif")
+      .send(params)
+      .expect(201);
+    expect(error).toBeFalsy();
+    expect(body).toBeDefined();
+    expect(body.length).toStrictEqual(1);
+  });
 });
