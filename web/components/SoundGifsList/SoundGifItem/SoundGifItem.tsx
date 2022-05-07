@@ -7,6 +7,7 @@ import {
   BLACK_GRADIENT_SUB_BOX,
   BLACK_GRADIENT_SUB_BOX_CHILDREN,
   IMAGE_ITEM_BACKGROUND,
+  IMAGE_ITEM_BACKGROUND_MID,
   ITEM_BOX,
   ITEM_DESCRIPTION,
   PLAY_BUTTON_ICON,
@@ -25,7 +26,7 @@ type SoundGifsItemProps = {
   small?: boolean;
 };
 
-export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
+export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
   const { imageUrl, description, id } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
 
@@ -42,12 +43,12 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
   return (
     <div key={id} className={ITEM_BOX}>
-      <div className={`${IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
+      <div className={`${small ? IMAGE_ITEM_BACKGROUND_MID : IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
         <img src={imageUrl} />
       </div>
       <button onClick={playSoundGif} className={PLAY_BUTTON_ICON}>
         {isSoundPlaying ? (
-          <Lottie animationData={playingAnimation} loop color={WHITE_COLOR} />
+          <Lottie className={PLAY_ICON} animationData={playingAnimation} loop color={WHITE_COLOR} />
         ) : (
           <PlayIcon className={PLAY_ICON} color={WHITE_COLOR} />
         )}
@@ -57,7 +58,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif }) => {
         <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
           <p className={ITEM_DESCRIPTION}>{description}</p>
           <button onClick={shareAudioFile} className={SHARE_BUTTON_ICON}>
-            <FaShareAltSquare size={30} color={WHITE_COLOR} />
+            <FaShareAltSquare size={45} color={WHITE_COLOR} />
           </button>
         </div>
       </div>
