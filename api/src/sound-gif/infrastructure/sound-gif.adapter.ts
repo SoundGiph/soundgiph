@@ -7,6 +7,7 @@ import { CategoriesWithSoundGifs } from "../core/application/queries/get-all-cat
 import { SoundGifEntity, SoundGifEntityMandatoryFields } from "../core/domain/sound-gif.entity";
 import { searchSoundGifQuery } from "./utils/searchSoundGifQueryBuilder";
 
+const DEFAULT_LIMIT_OF_VOZO_BY_CATEGORY = 20;
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
   constructor(
@@ -32,13 +33,20 @@ export class SoundGifAdapter implements SoundGifPort {
 
   public async getAllCategoriesWithSoundGifs(): Promise<CategoriesWithSoundGifs[]> {
     const categories = await this.getAllCategories();
-    const mostSharedSoundGifs = await this.find({ filters: { mostShared: true } });
-    const mostRecentSoundGifs = await this.find({ filters: { mostRecent: true } });
+    const limit = DEFAULT_LIMIT_OF_VOZO_BY_CATEGORY;
+    const mostSharedSoundGifs = await this.find({
+      filters: { mostShared: true, limit },
+    });
+    const mostRecentSoundGifs = await this.find({
+      filters: { mostRecent: true, limit },
+    });
     const categoriesWithSoundgifs = await Promise.all(
       categories.map(async category => {
         return {
           name: category,
-          soundGifs: await this.find({ filters: { category, limit: 20 } }),
+          soundGifs: await this.find({
+            filters: { category, limit },
+          }),
         };
       })
     );
