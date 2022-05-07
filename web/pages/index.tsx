@@ -42,9 +42,8 @@ const MapCategoriesWithSoundGifs: React.FC<MapCategoriesWithSoundGifsProps> = ({
 const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
   const { t } = useTranslation();
   const { soundGifs, isLoading, isSearchResultEmpty } = useVozoApp();
+  const shouldDisplaySearchResult = Boolean(soundGifs.length && !isLoading);
   useUnmute();
-
-  const shouldDisplaySoundgifsSearchResult = Boolean(soundGifs.length > 0 || isSearchResultEmpty);
   return (
     <div className="bg-black">
       <Head>
@@ -55,13 +54,14 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
       <div>
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
-            {shouldDisplaySoundgifsSearchResult ? (
+            {shouldDisplaySearchResult ? (
               <SoundGifsVerticalList
                 soundGifs={soundGifs}
                 title={Categories.Search}
                 icon={getIconNameByCategory(Categories.Search)}
                 color={getIconColorByCategory(Categories.Search)}
                 isSearchResultLoading={isLoading}
+                isSearchResultEmpty={isSearchResultEmpty}
               />
             ) : (
               <MapCategoriesWithSoundGifs categoriesWithSoundgifs={categoriesWithSoundgifs} />

@@ -17,7 +17,7 @@ export interface SearchFilter {
 }
 
 export type CategoriesWithSoundGifs = { name: Categories; soundGifs: SoundgifDTO[] };
-interface FindSoundGifsPayload {
+export interface FindSoundGifsPayload {
   filters?: SearchFilter;
   fulltext?: string;
 }

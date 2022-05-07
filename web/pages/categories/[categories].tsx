@@ -11,10 +11,11 @@ import {
   getIconNameByCategory,
 } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../../context/useVozoApp.hook";
+import { useApi } from "../../hooks/api/useApi.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
 
 const Category: NextPage = () => {
-  const { soundGifs, isLoading } = useVozoApp();
+  const { soundGifs, isLoading, isSearchResultEmpty } = useVozoApp();
   const { query } = useRouter();
   useUnmute();
   const title = query.title as Categories;
@@ -33,6 +34,7 @@ const Category: NextPage = () => {
             icon={getIconNameByCategory(title)}
             color={getIconColorByCategory(title)}
             isSearchResultLoading={isLoading}
+            isSearchResultEmpty={isSearchResultEmpty}
           />
         </div>
       </main>
@@ -52,7 +54,6 @@ export const getStaticPaths: GetStaticPaths = ({ locales }: { locales?: string[]
       paths.push({ params: { categories: category, locale } });
     });
   });
-  console.log(paths);
   return {
     paths,
     fallback: true,
@@ -60,6 +61,8 @@ export const getStaticPaths: GetStaticPaths = ({ locales }: { locales?: string[]
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
+  const { findSoundGif } = useApi();
+  const soundgifs = findSoundGif({});
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
