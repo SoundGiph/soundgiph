@@ -1,4 +1,5 @@
-import { GetStaticProps, NextPage } from "next";
+import { locale } from "faker";
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -6,7 +7,6 @@ import React from "react";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
   Categories,
-  formatCategory,
   getIconColorByCategory,
   getIconNameByCategory,
 } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
@@ -42,18 +42,24 @@ const Category: NextPage = () => {
   );
 };
 
-export async function getStaticPaths() {
-  const { getAllCategories } = useApi();
-  const categories = await getAllCategories();
-  const paths = categories.map(category => {
-    return { params: { categories: formatCategory(category), locale: "en" } };
+interface getStaticPathsParams {
+  params: { categories: Categories; locale: string | undefined };
+}
+
+export const getStaticPaths: GetStaticPaths = ({ locales }: { locales?: string[] | undefined }) => {
+  const categories = Object.values(Categories);
+  const paths: getStaticPathsParams[] = [];
+  categories.forEach(category => {
+    locales?.forEach((locale: string) => {
+      paths.push({ params: { categories: category, locale } });
+    });
   });
   console.log(paths);
   return {
-    paths: [...paths, { params: { categories: "mostShared" } }, { params: { categories: "mostRecent" } }],
-    fallback: false, // false or 'blocking'
+    paths,
+    fallback: true,
   };
-}
+};
 
 export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
   return {

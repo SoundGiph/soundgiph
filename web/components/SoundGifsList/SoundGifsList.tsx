@@ -14,9 +14,9 @@ type SoundGifsListProps = {
 export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, icon, color }) => {
   if (!soundGifs) return null;
   const { t } = useTranslation();
-  const { push } = useRouter();
+  const { push, locale } = useRouter();
   const onClick = () => {
-    push({ pathname: `/categories/${title}`, query: { title } });
+    push(`/categories/${title}`, `/categories/${title}`, { locale });
   };
   return (
     <div className="w-full h-full mt-5">
