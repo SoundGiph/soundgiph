@@ -37,14 +37,14 @@ export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
   if (isSearchResultLoading) return <IsLoadingEmptyState />;
   if (isSearchResultEmpty) return <SearcResultIsEmptyState />;
   return (
-    <div className="w-full h-full mt-5">
-      <div className="mx-3 flex flex-row items-center justify-between">
-        <div className="flex flex-row items-center justify-start">
+    <div className="flex w-full h-full mt-5 items-center justify-center flex-col">
+      <div className="px-3 w-full flex-row items-center justify-between">
+        <div className=" mb-2 flex flex-row items-center justify-start">
           <DynamicIcon icon={icon} color={color} />
           <p className="font-bold text-lg ml-2 text-white">{title}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 xl:grid-cols-4 grid-flow-row overflow-y-scroll scrollbar-thumb-white scrollbar-track-white-100">
+      <div className="grid grid-cols-2 gap-2 xl:grid-cols-4 grid-flow-row overflow-y-scroll scrollbar-thumb-white scrollbar-track-white-100 content-center">
         {soundGifs.map(soundGif => {
           return <SoundGifItem soundGif={soundGif} small />;
         })}

@@ -40,7 +40,7 @@ const Category: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="relative overflow-hidden">
-        <div className="flex flex-col items-center justify-space container mx-auto">
+        <div>
           <SoundGifsVerticalList
             soundGifs={soundGifs}
             title={t(`categories.${category}`)}
