@@ -34,9 +34,8 @@ export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
   isSearchResultLoading,
   isSearchResultEmpty,
 }) => {
-  console.log(soundGifs);
-  // if (isSearchResultLoading) return <IsLoadingEmptyState />;
-  // if (isSearchResultEmpty) return <SearcResultIsEmptyState />;
+  if (isSearchResultLoading) return <IsLoadingEmptyState />;
+  if (isSearchResultEmpty) return <SearcResultIsEmptyState />;
   return (
     <div className="w-full h-full mt-5">
       <div className="mx-3 flex flex-row items-center justify-between">

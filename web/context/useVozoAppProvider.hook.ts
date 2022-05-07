@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Categories } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { FindSoundGifsPayload, SearchFilter, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
@@ -9,9 +10,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
-  console.log(searchText.length);
-  console.log(soundGifs.length);
   const isSearchResultEmpty = Boolean(searchText.length > 3 && soundGifs.length === 0 && !isLoading);
+
   const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
     const soundGifs = await findSoundGif(payload);
@@ -22,15 +22,17 @@ export const useVozoAppProvider = (): VozoAppContext => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchText.length > 3) {
-        getSoundgifs({ fulltext: searchText });
-      } else setSoundgifs([]);
+        getSoundgifs({ fulltext: searchText, filters });
+      }
+      if (filters.category) getSoundgifs({ filters });
+      else setSoundgifs([]);
     }, 500);
     return () => clearTimeout(delayDebounceFn);
   }, [searchText.length]);
 
   useEffect(() => {
-    if (filters.category) getSoundgifs({ filters: { category: filters.category } });
-  }, [filters.category]);
+    if (Object.keys(filters).length) getSoundgifs({ filters });
+  }, [filters]);
 
   const onChangeText = (fulltext: string) => {
     setSearchText(fulltext);
@@ -40,6 +42,14 @@ export const useVozoAppProvider = (): VozoAppContext => {
     setFilters(filters);
   };
 
+  const resetState = () => {
+    setLoading(true);
+    setFilters({});
+    setSearchText("");
+    setSoundgifs([]);
+    setLoading(false);
+  };
+
   return {
     soundGifs,
     onChangeText,
@@ -47,5 +57,6 @@ export const useVozoAppProvider = (): VozoAppContext => {
     setSearchFilters,
     isSearchResultEmpty,
     isLoading,
+    resetState,
   };
 };

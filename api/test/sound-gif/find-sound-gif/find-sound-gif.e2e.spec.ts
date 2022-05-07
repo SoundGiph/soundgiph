@@ -94,4 +94,30 @@ describe("find sound gif controller", () => {
     expect(body).toBeDefined();
     expect(body.length).toStrictEqual(1);
   });
+
+  it("should find sound gif with category most recent", async () => {
+    const params: FindSoundGifPayload = {
+      filters: { mostRecent: true },
+    };
+    const { body, error } = await request(app.getHttpServer())
+      .post("/findSoundGif")
+      .send(params)
+      .expect(201);
+    expect(error).toBeFalsy();
+    expect(body).toBeDefined();
+    expect(body.length).toStrictEqual(soundGifFixtures.length);
+  });
+
+  it("should find sound gif with category most shared", async () => {
+    const params: FindSoundGifPayload = {
+      filters: { mostShared: true },
+    };
+    const { body, error } = await request(app.getHttpServer())
+      .post("/findSoundGif")
+      .send(params)
+      .expect(201);
+    expect(error).toBeFalsy();
+    expect(body).toBeDefined();
+    expect(body.length).toStrictEqual(soundGifFixtures.length);
+  });
 });

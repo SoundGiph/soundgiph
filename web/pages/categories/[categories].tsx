@@ -1,9 +1,11 @@
+import axios from "axios";
 import { locale } from "faker";
 import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
   Categories,
@@ -15,10 +17,21 @@ import { useApi } from "../../hooks/api/useApi.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
 
 const Category: NextPage = () => {
-  const { soundGifs, isLoading, isSearchResultEmpty } = useVozoApp();
+  const { soundGifs, isLoading, isSearchResultEmpty, setSearchFilters } = useVozoApp();
+  const { t } = useTranslation();
   const { query } = useRouter();
+  const category = query.categories as Categories;
+  const isMostRecentCategory = Boolean(category === Categories.mostRecent);
+  const isMostSharedCategory = Boolean(category === Categories.mostShared);
   useUnmute();
-  const title = query.title as Categories;
+  useEffect(() => {
+    if (isMostRecentCategory) return setSearchFilters({ mostRecent: true });
+    if (isMostSharedCategory) return setSearchFilters({ mostShared: true });
+    setSearchFilters({ category });
+    return () => {
+      setSearchFilters({});
+    };
+  }, [category]);
   return (
     <div className="bg-black overflow-hidden">
       <Head>
@@ -30,9 +43,9 @@ const Category: NextPage = () => {
         <div className="flex flex-col items-center justify-space container mx-auto">
           <SoundGifsVerticalList
             soundGifs={soundGifs}
-            title={title}
-            icon={getIconNameByCategory(title)}
-            color={getIconColorByCategory(title)}
+            title={t(`categories.${category}`)}
+            icon={getIconNameByCategory(category)}
+            color={getIconColorByCategory(category)}
             isSearchResultLoading={isLoading}
             isSearchResultEmpty={isSearchResultEmpty}
           />
