@@ -9,6 +9,7 @@ export interface VozoAppContext {
   setSearchFilters: (filters: SearchFilter) => void;
   isSearchResultEmpty: boolean;
   isLoading: boolean;
+  resetState: () => void;
 }
 
 const vozoAppContext = {
@@ -20,6 +21,7 @@ const vozoAppContext = {
   setSearchFilters: () => undefined,
   isSearchResultEmpty: false,
   isLoading: false,
+  resetState: () => undefined,
 };
 
 export const VozoAppCTX = createContext<VozoAppContext>(vozoAppContext);
