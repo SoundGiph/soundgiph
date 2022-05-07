@@ -12,7 +12,6 @@ import {
 } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
-import { useApi } from "../../hooks/api/useApi.hook";
 
 const Category: NextPage = () => {
   const { soundGifs, isLoading } = useVozoApp();
