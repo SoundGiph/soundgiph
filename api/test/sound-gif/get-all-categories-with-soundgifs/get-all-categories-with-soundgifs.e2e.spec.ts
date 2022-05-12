@@ -7,6 +7,15 @@ import { AppModule } from "../../../src/app/app.module";
 import { Categories, SoundGifEntity } from "../../../src/sound-gif/core/domain/sound-gif.entity";
 import { soundGifFixtureFactory } from "../../../src/sound-gif/core/domain/sound-gif.fixture.factory";
 
+const generateBigFixtures = (): SoundGifEntity[] => {
+  const fixtures = [];
+  for (let i = 0; i < 40; i++) {
+    fixtures.push(soundGifFixtureFactory({ categories: [Categories.Anime] }));
+    fixtures.push(soundGifFixtureFactory({ categories: [Categories.Gaming] }));
+  }
+  return fixtures;
+};
+
 const soundGifFixtures = [
   soundGifFixtureFactory({ description: "sch", categories: [Categories.Music] }),
   soundGifFixtureFactory({ tags: ["hamza", "rap"], categories: [Categories.Music] }),
@@ -15,29 +24,15 @@ const soundGifFixtures = [
   soundGifFixtureFactory({ description: "bonjour", categories: [Categories.Music] }),
 ];
 
-const expectedCategories = ["mostRecent", "mostShared", Categories.Movies, Categories.Music];
-const sexyCategoryLength = 1;
-const hotCategoryLength = 1;
-const cuteCategoryLength = 1;
+const bigFixtures = generateBigFixtures();
 const musicCategoryLength = 4;
-const rapCategoryLength = 3;
-const mostRecentAndSharedCategoryLength = 5;
-
-const expectCategoriesLength = (name: string, soundgifs: SoundGifEntity[]) => {
-  if (name === "cute") expect(soundgifs.length).toStrictEqual(cuteCategoryLength);
-  if (name === "hot") expect(soundgifs.length).toStrictEqual(hotCategoryLength);
-  if (name === "music") expect(soundgifs.length).toStrictEqual(musicCategoryLength);
-  if (name === "rap") expect(soundgifs.length).toStrictEqual(rapCategoryLength);
-  if (name === "sexy") expect(soundgifs.length).toStrictEqual(sexyCategoryLength);
-  if (name === "mostShared")
-    expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
-  if (name === "mostRecent")
-    expect(soundgifs.length).toStrictEqual(mostRecentAndSharedCategoryLength);
-};
+const movieCategoryLength = 1;
+const maxLength = 20;
 
 describe("get all categories with soundgifs", () => {
   let app: NestApplication;
   let connection: Connection;
+  let soundgifsWithCategories: CategoriesWithSoundGifs[];
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -48,23 +43,28 @@ describe("get all categories with soundgifs", () => {
     await app.init();
     connection = app.get(Connection);
     await connection.synchronize(true);
-    await connection.getRepository(SoundGifEntity).save(soundGifFixtures);
+    await connection.getRepository(SoundGifEntity).save([...soundGifFixtures, ...bigFixtures]);
+    const { body } = await request(app.getHttpServer())
+      .get("/getAllCategoriesWithSoundGifs")
+      .expect(200);
+    soundgifsWithCategories = body;
   });
 
   afterAll(async () => {
     await app.close();
   });
-  it("should get all categories with soundgifs", async () => {
-    const { body, error } = await request(app.getHttpServer())
-      .get("/getAllCategoriesWithSoundGifs")
-      .expect(200);
-    expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(Boolean(body.length)).toBeTruthy();
-    expect(body.length).toStrictEqual(expectedCategories.length);
-    body.map((categoryWithSoundgifs: CategoriesWithSoundGifs) => {
-      const { name, soundGifs: soundgifs } = categoryWithSoundgifs;
-      expectCategoriesLength(name, soundgifs);
-    });
+
+  it.each([
+    [Categories.Anime, maxLength],
+    [Categories.Gaming, maxLength],
+    ["mostShared", maxLength],
+    ["mostRecent", maxLength],
+    [Categories.Music, musicCategoryLength],
+    [Categories.Movies, movieCategoryLength],
+  ])("category %s should return %s items", async (categoryName, expectedLength) => {
+    const currentCategory = soundgifsWithCategories.filter(
+      (item: CategoriesWithSoundGifs) => item.name === categoryName
+    );
+    expect(currentCategory[0].soundGifs).toHaveLength(expectedLength);
   });
 });
