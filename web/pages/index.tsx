@@ -10,6 +10,7 @@ import {
   getIconColorByCategory,
   getIconNameByCategory,
 } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
+import { Stages } from "../constants/constants";
 import { useVozoApp } from "../context/useVozoApp.hook";
 import { CategoriesWithSoundGifs, useApi } from "../hooks/api/useApi.hook";
 import { useUnmute } from "../hooks/unmute/useUnmute";
@@ -74,7 +75,7 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
 };
 
 export async function getStaticProps({ locale }: { locale?: string | undefined }) {
-  const { getAllCategoriesWithSoungifs } = useApi();
+  const { getAllCategoriesWithSoungifs } = useApi(Stages.BUILD);
   const categoriesWithSoundgifs = await getAllCategoriesWithSoungifs();
   return {
     props: {

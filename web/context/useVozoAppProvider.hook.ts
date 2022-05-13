@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Categories } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
+import { Stages } from "../constants/constants";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { FindSoundGifsPayload, SearchFilter, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif } = useApi();
+  const { findSoundGif } = useApi(Stages.RUN);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
