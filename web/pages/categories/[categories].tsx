@@ -12,6 +12,7 @@ import {
   getIconColorByCategory,
   getIconNameByCategory,
 } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
+import { Stages } from "../../constants/constants";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import { useApi } from "../../hooks/api/useApi.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
@@ -74,7 +75,7 @@ export const getStaticPaths: GetStaticPaths = ({ locales }: { locales?: string[]
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const { findSoundGif } = useApi();
+  const { findSoundGif } = useApi(Stages.BUILD);
   const soundgifs = findSoundGif({});
   return {
     props: {
