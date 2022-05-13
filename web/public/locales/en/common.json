@@ -13,5 +13,21 @@
   },
   "success": {
     "copy_audio_url_success": "Audio url copied !"
+  },
+  "categories": {
+    "mostShared": "Most shared",
+    "mostRecent": "Most recent",
+    "News": "News & Politics",
+    "Anime": "Anime",
+    "Movies": "Movies",
+    "Cartoons": "Cartoons",
+    "Gaming": "Gaming",
+    "Comedy": "Comedy",
+    "Social": "Media & Social Networks",
+    "Memes": "Memes",
+    "Music": "Music",
+    "Sports": "Sports",
+    "TV": "TV",
+    "Search": "Search"
   }
 }

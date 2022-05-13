@@ -1,15 +1,12 @@
-import { FC } from "react";
-import * as HIcons from "@heroicons/react/solid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconLookup, IconDefinition, findIconDefinition, IconName } from "@fortawesome/fontawesome-svg-core";
+interface DynamicIconProps {
+  icon: string;
+  color: string;
+}
 
-export const DynamicHeroIcon: FC<{ icon: string; color: string }> = props => {
-  const { ...icons } = HIcons;
-  // @ts-ignore
-  const TheIcon: JSX.Element = icons[props.icon];
-
-  return (
-    <>
-      {/* @ts-ignore */}
-      <TheIcon className="h-6 w-6" color={props.color} aria-hidden="true" />
-    </>
-  );
+export const DynamicIcon: React.FC<DynamicIconProps> = ({ icon, color }) => {
+  if (!icon || !color) return null;
+  const name = icon.split(" ")[1];
+  return <FontAwesomeIcon icon={["fas", name as IconName]} color={color} />;
 };

@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
+import { Categories } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { SearchFilter, useApi } from "../hooks/api/useApi.hook";
+import { FindSoundGifsPayload, SearchFilter, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif } = useApi(process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL as string);
+  const { findSoundGif } = useApi();
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
+  const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const isSearchResultEmpty = Boolean(searchText.length > 3 && soundGifs.length === 0 && !isLoading);
+
+  const getSoundgifs = async (payload: FindSoundGifsPayload) => {
+    setLoading(true);
+    const soundGifs = await findSoundGif(payload);
+    setSoundgifs(soundGifs);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const getSoundgifs = async () => {
-      const soundGifs = await findSoundGif({ fulltext: searchText, filters });
-      setSoundgifs(soundGifs);
-    };
-    getSoundgifs();
-  }, [searchText, filters]);
+    const delayDebounceFn = setTimeout(() => {
+      if (searchText.length > 3) {
+        getSoundgifs({ fulltext: searchText, filters });
+      }
+      if (filters.category) getSoundgifs({ filters });
+      else setSoundgifs([]);
+    }, 500);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchText.length]);
+
+  useEffect(() => {
+    if (Object.keys(filters).length) getSoundgifs({ filters });
+  }, [filters]);
 
   const onChangeText = (fulltext: string) => {
     setSearchText(fulltext);
@@ -25,10 +42,21 @@ export const useVozoAppProvider = (): VozoAppContext => {
     setFilters(filters);
   };
 
+  const resetState = () => {
+    setLoading(true);
+    setFilters({});
+    setSearchText("");
+    setSoundgifs([]);
+    setLoading(false);
+  };
+
   return {
     soundGifs,
     onChangeText,
     searchText,
     setSearchFilters,
+    isSearchResultEmpty,
+    isLoading,
+    resetState,
   };
 };

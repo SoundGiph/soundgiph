@@ -1,20 +1,37 @@
-import { GetServerSideProps, NextPage } from "next";
+import axios from "axios";
+import { locale } from "faker";
+import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
+import {
+  Categories,
+  getIconColorByCategory,
+  getIconNameByCategory,
+} from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import { useVozoApp } from "../../context/useVozoApp.hook";
+import { useApi } from "../../hooks/api/useApi.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
 
 const Category: NextPage = () => {
-  const { soundGifs } = useVozoApp();
+  const { soundGifs, isLoading, isSearchResultEmpty, setSearchFilters } = useVozoApp();
+  const { t } = useTranslation();
   const { query } = useRouter();
-  useUnmute()
-
-  const title = query.title as string;
-  const icon = query.icon as string;
-  const color = query.color as string;
+  const category = query.categories as Categories;
+  const isMostRecentCategory = Boolean(category === Categories.mostRecent);
+  const isMostSharedCategory = Boolean(category === Categories.mostShared);
+  useUnmute();
+  useEffect(() => {
+    if (isMostRecentCategory) return setSearchFilters({ mostRecent: true });
+    if (isMostSharedCategory) return setSearchFilters({ mostShared: true });
+    setSearchFilters({ category });
+    return () => {
+      setSearchFilters({});
+    };
+  }, [category]);
   return (
     <div className="bg-black overflow-hidden">
       <Head>
@@ -23,15 +40,42 @@ const Category: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="relative overflow-hidden">
-        <div className="flex flex-col items-center justify-space container mx-auto">
-          <SoundGifsVerticalList soundGifs={soundGifs} title={title} icon={icon} color={color} />
+        <div>
+          <SoundGifsVerticalList
+            soundGifs={soundGifs}
+            title={t(`categories.${category}`)}
+            icon={getIconNameByCategory(category)}
+            color={getIconColorByCategory(category)}
+            isSearchResultLoading={isLoading}
+            isSearchResultEmpty={isSearchResultEmpty}
+          />
         </div>
       </main>
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }: { locale?: string | undefined }) => {
+interface getStaticPathsParams {
+  params: { categories: Categories; locale: string | undefined };
+}
+
+export const getStaticPaths: GetStaticPaths = ({ locales }: { locales?: string[] | undefined }) => {
+  const categories = Object.values(Categories);
+  const paths: getStaticPathsParams[] = [];
+  categories.forEach(category => {
+    locales?.forEach((locale: string) => {
+      paths.push({ params: { categories: category, locale } });
+    });
+  });
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
+  const { findSoundGif } = useApi();
+  const soundgifs = findSoundGif({});
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),

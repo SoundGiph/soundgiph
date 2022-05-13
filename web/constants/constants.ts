@@ -4,11 +4,9 @@ export const API = "/api";
 
 export const FIND_SOUND_GIF_QUERY = "/findSoundGif";
 
-export const FIND_MOST_RECENT_SOUND_GIF_QUERY = "/findMostRecentSoundGif";
+export const GET_ALL_CATEGORIES_WITH_SOUNDGIFS = "/getAllCategoriesWithSoundGifs";
 
-export const FIND_MOST_SHARED_SOUND_GIF_QUERY = "/findMostSharedSoundGif";
-
-export const GET_ONE_SOUND_GIF = "/getOneSoundGif";
+export const GET_ALL_CATEGORIES = "/getAllCategories";
 
 export const CREATE_SOUND_GIF = "/createSoundGif";
 
@@ -30,7 +28,6 @@ export const FR = "fr";
 
 export const GB = "en";
 
-export const BASE_URL = ""
+export const BASE_URL = "";
 
-export const SILENT_MP3_URL = "https://soundgiph.blob.core.windows.net/silent/silence.mp3"
-
+export const SILENT_MP3_URL = "https://soundgiph.blob.core.windows.net/silent/silence.mp3";

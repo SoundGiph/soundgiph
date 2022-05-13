@@ -7,6 +7,9 @@ export interface VozoAppContext {
   onChangeText: (fulltext: string) => void;
   searchText: string;
   setSearchFilters: (filters: SearchFilter) => void;
+  isSearchResultEmpty: boolean;
+  isLoading: boolean;
+  resetState: () => void;
 }
 
 const vozoAppContext = {
@@ -16,6 +19,9 @@ const vozoAppContext = {
   searchText: "",
   soundGifsSearchResults: [],
   setSearchFilters: () => undefined,
+  isSearchResultEmpty: false,
+  isLoading: false,
+  resetState: () => undefined,
 };
 
 export const VozoAppCTX = createContext<VozoAppContext>(vozoAppContext);

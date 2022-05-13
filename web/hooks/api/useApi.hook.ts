@@ -1,5 +1,11 @@
 import { create } from "apisauce";
-import { CREATE_SOUND_GIF, FIND_SOUND_GIF_QUERY } from "../../constants/constants";
+import { Categories } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
+import {
+  CREATE_SOUND_GIF,
+  FIND_SOUND_GIF_QUERY,
+  GET_ALL_CATEGORIES,
+  GET_ALL_CATEGORIES_WITH_SOUNDGIFS,
+} from "../../constants/constants";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 
 export interface SearchFilter {
@@ -10,20 +16,20 @@ export interface SearchFilter {
   limit?: boolean;
 }
 
-interface FindSoundGifsPayload {
+export type CategoriesWithSoundGifs = { name: Categories; soundGifs: SoundgifDTO[] };
+export interface FindSoundGifsPayload {
   filters?: SearchFilter;
   fulltext?: string;
 }
 
-export const useApi = (
-  runningTimeApiUrl: string
-): {
+export const useApi = (): {
   findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
-  getAllCategories: () => string[];
+  getAllCategories: () => Promise<string[]>;
+  getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
 } => {
   const api = create({
-    baseURL: runningTimeApiUrl,
+    baseURL: process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL,
   });
 
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
@@ -40,13 +46,20 @@ export const useApi = (
     return data ?? [];
   };
 
-  const getAllCategories = () => {
-    return ["mostShared", "mostRecent"];
+  const getAllCategoriesWithSoungifs = async (): Promise<SoundgifDTO[]> => {
+    const { data } = await api.get<SoundgifDTO[]>(GET_ALL_CATEGORIES_WITH_SOUNDGIFS);
+    return data ?? [];
+  };
+
+  const getAllCategories = async (): Promise<string[]> => {
+    const { data } = await api.get<string[]>(GET_ALL_CATEGORIES);
+    return data ?? [];
   };
 
   return {
     createSoundGif,
     findSoundGif,
+    getAllCategoriesWithSoungifs,
     getAllCategories,
   };
 };
