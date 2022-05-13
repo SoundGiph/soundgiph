@@ -5,6 +5,7 @@ import {
   FIND_SOUND_GIF_QUERY,
   GET_ALL_CATEGORIES,
   GET_ALL_CATEGORIES_WITH_SOUNDGIFS,
+  Stages,
 } from "../../constants/constants";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 
@@ -22,14 +23,15 @@ export interface FindSoundGifsPayload {
   fulltext?: string;
 }
 
-export const useApi = (): {
+export const useApi = (stage: Stages): {
   findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
   getAllCategories: () => Promise<string[]>;
   getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
 } => {
+
   const api = create({
-    baseURL: process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL,
+    baseURL: stage == Stages.RUN ? process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL : process.env.BUILDING_TIME_API_URL
   });
 
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {

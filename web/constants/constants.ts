@@ -31,3 +31,8 @@ export const GB = "en";
 export const BASE_URL = "";
 
 export const SILENT_MP3_URL = "https://soundgiph.blob.core.windows.net/silent/silence.mp3";
+
+export enum Stages {
+    RUN = "RUN",
+    BUILD = "BUILD"
+}
