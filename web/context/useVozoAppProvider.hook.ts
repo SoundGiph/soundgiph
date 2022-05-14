@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Categories } from "../components/SoundGifsList/utils/getCategoriesIconAndColor";
+import { useTransition } from "react";
 import { Stages } from "../constants/constants";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { FindSoundGifsPayload, SearchFilter, useApi } from "../hooks/api/useApi.hook";
@@ -12,6 +13,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [isLoading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
   const isSearchResultEmpty = Boolean(searchText.length > 3 && soundGifs.length === 0 && !isLoading);
+  const [isPending, startTransition] = useTransition()
+
 
   const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
@@ -21,26 +24,19 @@ export const useVozoAppProvider = (): VozoAppContext => {
   };
 
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchText.length > 3) {
-        getSoundgifs({ fulltext: searchText, filters });
-      }
-      if (filters.category) getSoundgifs({ filters });
-      else setSoundgifs([]);
-    }, 500);
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchText.length]);
+    getSoundgifs({ fulltext: searchText, filters })
+  }, [searchText.length, filters]);
 
   useEffect(() => {
     if (Object.keys(filters).length) getSoundgifs({ filters });
   }, [filters]);
 
   const onChangeText = (fulltext: string) => {
-    setSearchText(fulltext);
-  };
+    setSearchText(fulltext)
+  }
 
   const setSearchFilters = (filters: SearchFilter) => {
-    setFilters(filters);
+    startTransition(() => setFilters(filters));
   };
 
   const resetState = () => {

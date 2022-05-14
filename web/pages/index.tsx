@@ -42,8 +42,8 @@ const MapCategoriesWithSoundGifs: React.FC<MapCategoriesWithSoundGifsProps> = ({
 
 const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
   const { t } = useTranslation();
-  const { soundGifs, isLoading, isSearchResultEmpty } = useVozoApp();
-  const shouldDisplaySearchResult = Boolean(soundGifs.length && !isLoading);
+  const { soundGifs, isLoading, isSearchResultEmpty, searchText } = useVozoApp();
+  const shouldDisplaySearchResult = Boolean(searchText.length > 0);
   useUnmute();
   return (
     <div className="bg-black">

@@ -21,7 +21,7 @@ const vozoAppContext = {
   setSearchFilters: () => undefined,
   isSearchResultEmpty: false,
   isLoading: false,
-  resetState: () => undefined,
+  resetState: () => undefined
 };
 
 export const VozoAppCTX = createContext<VozoAppContext>(vozoAppContext);

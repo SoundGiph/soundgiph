@@ -18,23 +18,14 @@ const SearcResultIsEmptyState: React.FC = () => {
   );
 };
 
-const IsLoadingEmptyState: React.FC = () => {
-  return (
-    <div className="flex flex-col items-center justify-space container mx-auto h-full w-full">
-      <p>...LOADING</p>
-    </div>
-  );
-};
 
 export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
   soundGifs,
   title,
   icon,
   color,
-  isSearchResultLoading,
-  isSearchResultEmpty,
+  isSearchResultEmpty
 }) => {
-  if (isSearchResultLoading) return <IsLoadingEmptyState />;
   if (isSearchResultEmpty) return <SearcResultIsEmptyState />;
   return (
     <div className="flex w-full h-full mt-5 items-center justify-center flex-col">
