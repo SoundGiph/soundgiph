@@ -5,7 +5,7 @@ import { SoundGifPort } from "../core/application/ports/sound-gif.ports";
 import { FindSoundGifPayload } from "../core/application/queries/find-sound-gif/find-sound-gif.query";
 import { SoundGifEntity, SoundGifEntityMandatoryFields } from "../core/domain/sound-gif.entity";
 import { searchSoundGifQuery } from "./utils/searchSoundGifQueryBuilder";
-
+import * as _ from "lodash";
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
   constructor(
@@ -13,9 +13,14 @@ export class SoundGifAdapter implements SoundGifPort {
     private readonly soundGifRepository: Repository<SoundGifEntity>
   ) {}
 
+  private shuffleSoundGifs(soundgifs: SoundGifEntity[]): SoundGifEntity[] {
+    return _.shuffle(soundgifs);
+  }
+
   public async find(payload: FindSoundGifPayload): Promise<SoundGifEntity[]> {
     const { filters, fulltext } = payload;
-    return await searchSoundGifQuery(this.soundGifRepository, filters, fulltext);
+    const soundGifs = await searchSoundGifQuery(this.soundGifRepository, filters, fulltext);
+    return this.shuffleSoundGifs(soundGifs);
   }
 
   public async getAllCategories(): Promise<string[]> {
