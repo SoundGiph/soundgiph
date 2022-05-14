@@ -1,11 +1,11 @@
 import { SearchCircleIcon } from "@heroicons/react/solid";
 import { useTranslation } from "next-i18next";
+import React from "react";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 
-export const SearchSoundGifInput: React.FC = () => {
+export const SearchSoundGifInput: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const { searchText, onChangeText } = useVozoApp();
-
   return (
     <div className="form-control w-full">
       <div className="relative w-11/12 items-center self-center max-w-screen-lg">
@@ -22,4 +22,4 @@ export const SearchSoundGifInput: React.FC = () => {
       </div>
     </div>
   );
-};
+});
