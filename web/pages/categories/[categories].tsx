@@ -1,6 +1,5 @@
-import axios from "axios";
-import { locale } from "faker";
-import { GetStaticPaths, GetStaticPathsResult, GetStaticProps, NextPage } from "next";
+
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
@@ -75,8 +74,6 @@ export const getStaticPaths: GetStaticPaths = ({ locales }: { locales?: string[]
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }: { locale?: string | undefined }) => {
-  const { findSoundGif } = useApi(Stages.BUILD);
-  const soundgifs = findSoundGif({});
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common", "footer"])),
