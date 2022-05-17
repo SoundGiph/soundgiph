@@ -1,7 +1,10 @@
+import { create } from "apisauce";
 import { Howl, Howler } from "howler";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import { Stages } from "../../../constants/constants";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
+import { useApi } from "../../../hooks/api/useApi.hook";
 import { useNotification } from "../../../hooks/notification/useNotification";
 import { unmute } from "../../../tools/unmute"
 
@@ -38,6 +41,7 @@ export const useSoundGifItem = (
     const blob = await fetch(audioUrl).then(res => res.blob());
     const file = new File([blob], "title.mp3", { type: "audio/mp3" });
     const filesArray = [file];
+    const api = useApi(Stages.RUN)
 
     const shareData = {
       files: filesArray,
@@ -53,8 +57,16 @@ export const useSoundGifItem = (
         if (navigator.share) {
           navigator
             .share(shareData)
-            .then(() => console.log("Successful share"))
+            .then(() => { console.log("Successful share") })
             .catch(error => console.log("Error sharing", error));
+
+          api.incrementSharedCount({ id })
+            .then(() => {
+              console.log("Successful Increment")
+            })
+            .catch(error => {
+              console.log("Error Incremeting", error)
+            })
         }
       } else {
         notificationError(t("Cannot share the vozo, update your navigator"));
@@ -86,6 +98,7 @@ export const useSoundGifItem = (
       window.alert(navigator.clipboard);
       notificationError(t("errors.fail_to_web_share_error"));
     }
+
   };
 
   return {

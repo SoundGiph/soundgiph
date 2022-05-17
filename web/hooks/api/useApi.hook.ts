@@ -5,6 +5,7 @@ import {
   FIND_SOUND_GIF_QUERY,
   GET_ALL_CATEGORIES,
   GET_ALL_CATEGORIES_WITH_SOUNDGIFS,
+  INCREMENT_SHARED_COUNT,
   Stages,
 } from "../../constants/constants";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
@@ -23,11 +24,16 @@ export interface FindSoundGifsPayload {
   fulltext?: string;
 }
 
+export interface IncrementSharedCountPayload {
+  id: string;
+}
+
 export const useApi = (stage: Stages): {
   findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
   getAllCategories: () => Promise<string[]>;
   getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
+  incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
 } => {
 
   const api = create({
@@ -58,10 +64,15 @@ export const useApi = (stage: Stages): {
     return data ?? [];
   };
 
+  const incrementSharedCount = async (payload: IncrementSharedCountPayload): Promise<void> => {
+    await api.post<void>(INCREMENT_SHARED_COUNT, payload);
+  };
+
   return {
     createSoundGif,
     findSoundGif,
     getAllCategoriesWithSoungifs,
     getAllCategories,
+    incrementSharedCount
   };
 };
