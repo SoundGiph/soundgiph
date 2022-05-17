@@ -6,12 +6,13 @@ import { FindSoundGifPayload } from "../core/application/queries/find-sound-gif/
 import { SoundGifEntity, SoundGifEntityMandatoryFields } from "../core/domain/sound-gif.entity";
 import { searchSoundGifQuery } from "./utils/searchSoundGifQueryBuilder";
 import * as _ from "lodash";
+import { IncrementSharedCountPayload } from "../core/application/commands/increment-shared-count/increment-shared-count.command";
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
   constructor(
     @InjectRepository(SoundGifEntity)
     private readonly soundGifRepository: Repository<SoundGifEntity>
-  ) {}
+  ) { }
 
   private shuffleSoundGifs(soundgifs: SoundGifEntity[]): SoundGifEntity[] {
     return _.shuffle(soundgifs);
@@ -36,5 +37,12 @@ export class SoundGifAdapter implements SoundGifPort {
   ): Promise<SoundGifEntity> {
     this.logger.log(`SoundGifAdapter > create > called with ${payload}`);
     return await this.soundGifRepository.create(payload).save();
+  }
+
+  public async incrementSharedCount(payload: IncrementSharedCountPayload): Promise<void> {
+    this.logger.log(`SoundGifAdapter > incrementSharedCount > called with ${payload}`);
+    const soundGif = await this.soundGifRepository.findOne(payload.id);
+    soundGif.sharedCount++;
+    await this.soundGifRepository.save(soundGif);
   }
 }
