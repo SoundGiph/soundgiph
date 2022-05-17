@@ -3,6 +3,10 @@ import { ConfigService } from "@nestjs/config";
 import { CommandBus } from "@nestjs/cqrs";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import "multer";
+import {
+  IncrementSharedCountCommand,
+  IncrementSharedCountPayload
+} from "../../core/application/commands/increment-shared-count/increment-shared-count.command";
 import { Categories } from "src/sound-gif/core/domain/sound-gif.entity";
 import { AzureBlobStoragePresenter } from "../../../azure-blob-storage/interface/azure-blob-storage.presenter";
 import {
@@ -60,7 +64,24 @@ export class CreateSoundGifController {
       return Boolean(createdSoundGif.id);
     } catch (error) {
       throw new BadRequestException(
-        `CreateSoundGifCommandHandler > fail >Invalid payload: ${JSON.stringify(payload)}`
+        `CreateSoundGifCommandHandler > fail > Invalid payload: ${JSON.stringify(payload)}`
+      );
+    }
+  }
+
+  @Post("/incrementSharedCount")
+  async incrementSharedCount(
+    @Body()
+    payload: IncrementSharedCountPayload
+  ): Promise<void> {
+    try {
+
+      await this.commandBus.execute<IncrementSharedCountCommand, void>(
+        new IncrementSharedCountCommand(payload)
+      );
+    } catch (error) {
+      throw new BadRequestException(
+        `incrementSharedCount > fail > Unexpected Error: ${error}`
       );
     }
   }
