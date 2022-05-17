@@ -8,6 +8,8 @@ export const GET_ALL_CATEGORIES_WITH_SOUNDGIFS = "/getAllCategoriesWithSoundGifs
 
 export const GET_ALL_CATEGORIES = "/getAllCategories";
 
+export const INCREMENT_SHARED_COUNT = "/incrementSharedCount";
+
 export const CREATE_SOUND_GIF = "/createSoundGif";
 
 export const GET_FILE_FROM_URL = "/getFileFromUrl";
