@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 import { DynamicIcon } from "../DynamicIcon/DynamicIcon";
 import { SoundGifItem } from "./SoundGifItem/SoundGifItem";
-import { trackNavigateTo } from "../../tracker/eventsTrackers";
+import { trackNavigateTo } from "../../tracker/actions";
 
 type SoundGifsListProps = {
   soundGifs: SoundgifDTO[];
