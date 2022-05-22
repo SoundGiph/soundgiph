@@ -20,7 +20,7 @@ import Lottie from "lottie-react";
 import { useEffect } from "react";
 import { Howler } from "howler";
 import { unmute } from "../../../tools/unmute";
-import { trackPlayVozo, trackShare } from "../../../tracker/eventsTrackers";
+import { trackPlayVozo, trackShare } from "../../../tracker/actions";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
