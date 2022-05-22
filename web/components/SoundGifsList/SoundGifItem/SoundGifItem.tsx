@@ -20,15 +20,28 @@ import Lottie from "lottie-react";
 import { useEffect } from "react";
 import { Howler } from "howler";
 import { unmute } from "../../../tools/unmute";
+import { trackPlayVozo, trackShare } from "../../../tracker/eventsTrackers";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
   small?: boolean;
 };
 
+
+
 export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
-  const { imageUrl, description, id } = soundGif;
+  const { imageUrl, description, id, title } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
+
+  const onShare = () => {
+    shareAudioFile();
+    trackShare({ id, description, title });
+  }
+
+  const onPlay = () => {
+    playSoundGif();
+    trackPlayVozo({ id, description, title });
+  }
 
   useEffect(() => {
     if (isSoundPlaying) {
@@ -46,7 +59,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
       <div className={`${small ? IMAGE_ITEM_BACKGROUND_MID : IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
         <img src={imageUrl} />
       </div>
-      <button onClick={playSoundGif} className={PLAY_BUTTON_ICON}>
+      <button onClick={onPlay} className={PLAY_BUTTON_ICON}>
         {isSoundPlaying ? (
           <Lottie className={PLAY_ICON} animationData={playingAnimation} loop color={WHITE_COLOR} />
         ) : (
@@ -57,7 +70,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
       <div className={BLACK_GRADIENT_SUB_BOX}>
         <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
           <p className={ITEM_DESCRIPTION}>{description}</p>
-          <button onClick={shareAudioFile} className={SHARE_BUTTON_ICON}>
+          <button onClick={onShare} className={SHARE_BUTTON_ICON}>
             <FaShareAltSquare size={45} color={WHITE_COLOR} />
           </button>
         </div>
