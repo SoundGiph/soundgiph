@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { SearchFilter } from "../hooks/api/useApi.hook";
+import { SearchFilter } from "../hooks/api/interfaces";
 
 export interface VozoAppContext {
   soundGifs: SoundgifDTO[];
@@ -10,6 +10,7 @@ export interface VozoAppContext {
   isSearchResultEmpty: boolean;
   isLoading: boolean;
   resetState: () => void;
+  filters: SearchFilter;
 }
 
 const vozoAppContext = {
@@ -21,7 +22,8 @@ const vozoAppContext = {
   setSearchFilters: () => undefined,
   isSearchResultEmpty: false,
   isLoading: false,
-  resetState: () => undefined
+  resetState: () => undefined,
+  filters: {}
 };
 
 export const VozoAppCTX = createContext<VozoAppContext>(vozoAppContext);

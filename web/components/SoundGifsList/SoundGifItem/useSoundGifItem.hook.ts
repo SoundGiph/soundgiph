@@ -7,6 +7,7 @@ import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useApi } from "../../../hooks/api/useApi.hook";
 import { useNotification } from "../../../hooks/notification/useNotification";
 import { unmute } from "../../../tools/unmute"
+import { trackShareError } from "../../../tracker/actions";
 
 
 export const useSoundGifItem = (
@@ -70,6 +71,7 @@ export const useSoundGifItem = (
         }
       } else {
         notificationError(t("Cannot share the vozo, update your navigator"));
+        trackShareError()
         return;
       }
     }

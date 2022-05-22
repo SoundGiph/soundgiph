@@ -10,9 +10,11 @@ import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 import { config, library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import trackerInit from "../tracker/init";
 
 library.add(fas);
 config.autoAddCss = false;
+trackerInit();
 
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (

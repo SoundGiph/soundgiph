@@ -3,8 +3,9 @@ import { Categories } from "../components/SoundGifsList/utils/getCategoriesIconA
 import { useTransition } from "react";
 import { Stages } from "../constants/constants";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
-import { FindSoundGifsPayload, SearchFilter, useApi } from "../hooks/api/useApi.hook";
+import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
+import { SearchFilter } from "../hooks/api/interfaces";
 
 export const useVozoAppProvider = (): VozoAppContext => {
   const { findSoundGif } = useApi(Stages.RUN);
@@ -55,5 +56,6 @@ export const useVozoAppProvider = (): VozoAppContext => {
     isSearchResultEmpty,
     isLoading,
     resetState,
+    filters
   };
 };

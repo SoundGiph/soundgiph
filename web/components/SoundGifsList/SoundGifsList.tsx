@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
 import { DynamicIcon } from "../DynamicIcon/DynamicIcon";
 import { SoundGifItem } from "./SoundGifItem/SoundGifItem";
+import { trackNavigateTo } from "../../tracker/actions";
 
 type SoundGifsListProps = {
   soundGifs: SoundgifDTO[];
@@ -16,6 +17,7 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
   const { t } = useTranslation();
   const { push, locale } = useRouter();
   const onClick = () => {
+    trackNavigateTo({ page: title });
     push(`/categories/${title}`, `/categories/${title}`, { locale });
   };
   return (
