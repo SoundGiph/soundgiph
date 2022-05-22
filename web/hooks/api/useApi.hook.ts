@@ -9,14 +9,8 @@ import {
   Stages,
 } from "../../constants/constants";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
+import { SearchFilter } from "./interfaces";
 
-export interface SearchFilter {
-  category?: string;
-  reaction?: string;
-  mostShared?: boolean;
-  mostRecent?: boolean;
-  limit?: boolean;
-}
 
 export type CategoriesWithSoundGifs = { name: Categories; soundGifs: SoundgifDTO[] };
 export interface FindSoundGifsPayload {
