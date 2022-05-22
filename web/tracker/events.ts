@@ -1,6 +1,8 @@
+import { SearchFilter } from "../hooks/api/interfaces";
+
 export interface SearchEventProperties {
     query: string;
-    filter: string;
+    filters: SearchFilter;
 }
 
 export interface PlayVozoEventProperties {
