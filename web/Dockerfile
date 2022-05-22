@@ -26,6 +26,7 @@ COPY domain ./domain
 COPY hooks ./hooks
 COPY pages ./pages
 COPY tools ./tools
+COPY tracker ./tracker
 
 EXPOSE 8080
 
