@@ -20,7 +20,7 @@ import Lottie from "lottie-react";
 import { useEffect } from "react";
 import { Howler } from "howler";
 import { unmute } from "../../../tools/unmute";
-import { trackPlayVozo, trackShare } from "../../../tracker/actions";
+import { trackPlay, trackShare } from "../../../tracker/actions";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
@@ -40,7 +40,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
 
   const onPlay = () => {
     playSoundGif();
-    trackPlayVozo({ id, description, title });
+    trackPlay({ id, description, title });
   }
 
   useEffect(() => {
