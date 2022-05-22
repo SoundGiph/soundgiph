@@ -5,7 +5,7 @@ export interface SearchEventProperties {
     filters: SearchFilter;
 }
 
-export interface PlayVozoEventProperties {
+export interface PlayEventProperties {
     id: string;
     title: string;
     description: string
