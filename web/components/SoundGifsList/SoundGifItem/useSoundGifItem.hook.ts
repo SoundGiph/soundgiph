@@ -1,4 +1,3 @@
-import { create } from "apisauce";
 import { Howl, Howler } from "howler";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
@@ -6,8 +5,6 @@ import { Stages } from "../../../constants/constants";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useApi } from "../../../hooks/api/useApi.hook";
 import { useNotification } from "../../../hooks/notification/useNotification";
-import { unmute } from "../../../tools/unmute"
-import { trackShareError } from "../../../tracker/actions";
 
 
 export const useSoundGifItem = (
@@ -15,13 +12,13 @@ export const useSoundGifItem = (
 ): {
   playSoundGif: () => void;
   shareSoundGif: () => Promise<void>;
-  shareAudioFile: () => Promise<void>;
+  shareAudioFile: () => Promise<Boolean>;
   isSoundPlaying: boolean;
 } => {
   const [isSoundPlaying, setIsSoundPlaying] = useState(false);
   const { notificationError, notificationSuccess } = useNotification();
   const { t } = useTranslation();
-  const { audioUrl, id, title } = soundGif;
+  const { audioUrl, id, title, description } = soundGif;
 
   const soundGifToPlay = new Howl({
     src: [audioUrl],
@@ -68,13 +65,15 @@ export const useSoundGifItem = (
             .catch(error => {
               console.log("Error Incremeting", error)
             })
+          return true;
         }
+        return false;
       } else {
         notificationError(t("Cannot share the vozo, update your navigator"));
-        trackShareError()
-        return;
+        return false;
       }
     }
+    return false;
   }
 
   const shareSoundGif = async (): Promise<void> => {

@@ -20,7 +20,7 @@ import Lottie from "lottie-react";
 import { useEffect } from "react";
 import { Howler } from "howler";
 import { unmute } from "../../../tools/unmute";
-import { trackPlay, trackShare } from "../../../tracker/actions";
+import { trackPlay, trackShare, trackShareError } from "../../../tracker/actions";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
@@ -34,8 +34,13 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
 
   const onShare = () => {
-    shareAudioFile();
-    trackShare({ id, description, title });
+    shareAudioFile().then((isShared) => {
+      if (isShared) {
+        trackShare({ id, description, title });
+        return;
+      }
+      trackShareError({ title, id, description })
+    });
   }
 
   const onPlay = () => {
