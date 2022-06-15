@@ -7,6 +7,7 @@ export const Footer = () => {
         <div className="grid grid-flow-col gap-4">
           <BlackLogo />
         </div>
+        <a href="https://www.vozo.app/privacy"><p className="text-blue">Politique de confidentialité</p></a>
       </div>
     </footer>
   );
