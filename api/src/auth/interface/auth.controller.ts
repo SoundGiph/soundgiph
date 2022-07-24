@@ -6,10 +6,10 @@ import passport from "passport";
 export class AuthController {
   constructor(private readonly queryBus: QueryBus) {}
 
-  @Get("/tiktok/auth")
-  tiktokAuth(): void {
-    passport.authenticate("tiktok");
-  }
+  // @Get("/tiktok/auth")
+  // tiktokAuth(): void {
+  //   passport.authenticate("tiktok");
+  // }
 
   // @Get("/tiktok/auth/callback")
   // tiktokAuthCallback(): void {

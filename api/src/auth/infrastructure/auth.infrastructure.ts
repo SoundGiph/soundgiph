@@ -1,7 +1,9 @@
 import { AuthPort } from "../core/application/ports/auth.port";
-import { AuthAdapter } from "./strategies/auth.adapter";
+import { AuthAdapter } from "./auth.adapter";
+import { AppleStrategy } from "./strategies/apple.strategy";
+import { GoogleStrategy } from "./strategies/google.strategy";
 
 export const authInfrastructure = {
-  providers: [{ provide: AuthPort, useClass: AuthAdapter }],
+  providers: [AppleStrategy, GoogleStrategy, { provide: AuthPort, useClass: AuthAdapter }],
   repositories: [],
 };
