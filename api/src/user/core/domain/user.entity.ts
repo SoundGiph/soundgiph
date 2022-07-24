@@ -13,4 +13,7 @@ export class UserEntity extends Base {
 
   @Column({ nullable: true })
   applePayload!: string | null;
+
+  @Column({ nullable: true })
+  googlePayload!: string | null;
 }
