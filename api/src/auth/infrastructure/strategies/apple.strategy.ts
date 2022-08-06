@@ -1,21 +1,20 @@
 import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Request } from "express";
-import { JwtService } from "@nestjs/jwt";
 import * as ApplePassportStrategy from "passport-apple";
+import * as path from "path";
 
 @Injectable()
 export class AppleStrategy extends PassportStrategy(ApplePassportStrategy, "apple") {
   constructor(jwtService: JwtService) {
-    // const BACKEND_URL = "";
-    // const callbackURL = `${BACKEND_URL}${AUTH_CONTROLLER_URLS.BASE_URL}${AUTH_CONTROLLER_URLS.APPLE_CALLBACK}`;
     super(
       {
         clientID: process.env.APPLE_CLIENT_ID,
         teamID: process.env.APPLE_TEAM_ID,
-        callbackURL: "",
+        callbackURL: process.env.APPLE_CALLBACK_URL,
         keyID: process.env.APPLE_KEY_ID,
-        privateKeyLocation: process.env.APPLE_PRIVATE_KEY_LOCATION,
+        privateKeyLocation: path.join(__dirname, `/secrets/AuthKey_${process.env.APPLE_KEY_ID}.p8`),
         passReqToCallback: false,
       },
       async (
@@ -31,7 +30,7 @@ export class AppleStrategy extends PassportStrategy(ApplePassportStrategy, "appl
         }
 
         const { email, sub } = jwtService.decode(idToken) as { email: string; sub: string };
-
+        console.log("EMAIL", { email, _accessToken, _refreshToken, _profile });
         if (!sub) {
           verified(new Error("Could not find sub ID in Apple token"));
           return;
@@ -46,7 +45,8 @@ export class AppleStrategy extends PassportStrategy(ApplePassportStrategy, "appl
     );
   }
   public authenticate(req: Request, options: ApplePassportStrategy.AuthenticateOptions): void {
-    const queryParams = req.query;
+    const queryParams = req.body;
+    console.log("APPLE AUTH", queryParams);
     super.authenticate(req, { ...options, state: JSON.stringify(queryParams) });
   }
 }
