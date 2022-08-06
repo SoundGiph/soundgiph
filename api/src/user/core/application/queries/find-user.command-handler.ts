@@ -8,11 +8,11 @@ import { FindUserCommand, FindUserCommandResult } from "./find-user.command";
 export class FindUserCommandHandler implements ICommandHandler<FindUserCommand> {
   constructor(
     @Inject(UserEntity)
-    private readonly FindUserPort: Pick<UserPort, "findOne">
+    private readonly findUserPort: Pick<UserPort, "findOne">
   ) {}
 
   public async execute({ payload }: FindUserCommand): Promise<FindUserCommandResult> {
-    const user = await this.FindUserPort.findOne(payload);
+    const user = await this.findUserPort.findOne(payload);
     return new FindUserCommandResult(user);
   }
 }

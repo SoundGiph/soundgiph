@@ -1,20 +1,23 @@
-import { Controller, Get } from "@nestjs/common";
-import { QueryBus } from "@nestjs/cqrs";
+import { Controller, Get, Req, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import { Request } from "express";
 import "multer";
-import passport from "passport";
-@Controller()
+import { UserEntity } from "../../user/core/domain/user.entity";
+import { AuthPort, AuthSocialProvider } from "../core/application/ports/auth.port";
+@Controller("auth")
 export class AuthController {
-  constructor(private readonly queryBus: QueryBus) {}
+  constructor(private readonly authPort: AuthPort) {}
 
-  // @Get("/tiktok/auth")
-  // tiktokAuth(): void {
-  //   passport.authenticate("tiktok");
-  // }
+  @Get("google")
+  @UseGuards(AuthGuard("google"))
+  async googleAuth(@Req() req: Request): Promise<void> {
+    console.log(req);
+  }
 
-  // @Get("/tiktok/auth/callback")
-  // tiktokAuthCallback(): void {
-  //   passport.authenticate("tiktok", (req: Request, res: Response) => {
-  //     const user = res.
-  //   });
-  // }
+  @Get("google/redirect")
+  @UseGuards(AuthGuard("google"))
+  googleAuthRedirect(@Req() req: Request): Promise<UserEntity> {
+    const { body } = req;
+    return this.authPort.socialSignup({ ...body, provider: AuthSocialProvider.GOOGLE });
+  }
 }

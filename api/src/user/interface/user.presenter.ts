@@ -1,5 +1,4 @@
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
-import { InjectRepository } from "@nestjs/typeorm";
 import { FindOneOptions } from "typeorm";
 import {
   CreateUserCommand,
@@ -12,11 +11,7 @@ import {
 import { UserEntity } from "../core/domain/user.entity";
 
 export class UserPresenter {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
-  ) {}
+  constructor(private readonly commandBus: CommandBus, private readonly queryBus: QueryBus) {}
 
   public async findOne(options: FindOneOptions<UserEntity>): Promise<UserEntity> {
     return await this.queryBus.execute<FindUserCommand, FindUserCommandResult["user"]>(

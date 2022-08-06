@@ -1,13 +1,13 @@
+import axios from "axios";
+import { FindOneOptions, Like } from "typeorm";
 import {
-  GetTikTokUserPayload,
   AuthPort,
   AuthSocialProvider,
+  GetTikTokUserPayload,
   SocialSignupPayload,
-} from "src/auth/core/application/ports/auth.port";
-import axios from "axios";
-import { UserEntity } from "src/user/core/domain/user.entity";
-import { UserPresenter } from "src/user/interface/user.presenter";
-import { FindOneOptions, Like } from "typeorm";
+} from "../../auth/core/application/ports/auth.port";
+import { UserEntity } from "../../user/core/domain/user.entity";
+import { UserPresenter } from "../../user/interface/user.presenter";
 
 const TIK_TOK_BASIC_INFO_URL = `https://open-api.tiktok.com/user/info/`;
 
