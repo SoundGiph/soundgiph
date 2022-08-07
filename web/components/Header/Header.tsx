@@ -1,10 +1,8 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import Konami from "react-konami-code";
-import { CHEAT_CODE } from "../../constants/constants";
 import { useVozoApp } from "../../context/useVozoApp.hook";
+import IconButton from "../IconButton/IconButton";
 import { WhiteLogo } from "../Logos/WhiteLogo";
 import { SearchSoundGifInput } from "../SearchSoundGifInput/SearchSoundGifInput";
 
@@ -18,17 +16,16 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <div className="sticky top-0 z-50 bg-black py-2 w-full">
-      <div className="navbar shadow-lg items-center flex">
-        <div className="px-3">
+    <div className="sticky top-0 z-50 bg-black p-2 w-full">
+      <div className="navbar shadow-lg items-center flex p-0">
+        <div>
           <button onClick={backHome}>
             <WhiteLogo />
           </button>
         </div>
         <div className="flex-1 justify-end items-center">
-          <Konami code={CHEAT_CODE} className="ml-2">
-            <button className="btn btn-outline btn-secondary self-end">{t("upload")}</button>
-          </Konami>
+          <IconButton iconName="fa plus" onClick={() => undefined} />
+          <IconButton iconName="fa user" onClick={() => undefined} />
         </div>
       </div>
       <SearchSoundGifInput />

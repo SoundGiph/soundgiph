@@ -10,10 +10,10 @@ export const SearchSoundGifInput: React.FC = React.memo(() => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeText(e.target.value);
     trackSearch({ query: e.target.value, filters: filters });
-  }
+  };
   return (
     <div className="form-control w-full">
-      <div className="relative w-11/12 items-center self-center max-w-screen-lg">
+      <div className="relative w-full items-center self-center max-w-screen-lg">
         <input
           type="text"
           value={searchText}
