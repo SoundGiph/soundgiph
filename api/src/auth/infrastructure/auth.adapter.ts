@@ -1,3 +1,4 @@
+import { Injectable, Logger } from "@nestjs/common";
 import axios from "axios";
 import { FindOneOptions, Like } from "typeorm";
 import {
@@ -10,8 +11,9 @@ import { UserEntity } from "../../user/core/domain/user.entity";
 import { UserPresenter } from "../../user/interface/user.presenter";
 
 const TIK_TOK_BASIC_INFO_URL = `https://open-api.tiktok.com/user/info/`;
-
+@Injectable()
 export class AuthAdapter implements AuthPort {
+  logger = new Logger();
   constructor(private readonly userPresenter: UserPresenter) {}
   public async getTikTokUser(payload: GetTikTokUserPayload): Promise<void> {
     return axios.post(TIK_TOK_BASIC_INFO_URL, payload);
@@ -44,14 +46,18 @@ export class AuthAdapter implements AuthPort {
   }
 
   public async socialSignup(payload: SocialSignupPayload): Promise<UserEntity> {
-    const { sub, provider } = payload;
-    const findOptions = this.buildFindOneOptionsByAuthSocialProvider(sub, provider);
-    const existingUser = this.userPresenter.findOne(findOptions);
-    if (existingUser) {
-      return existingUser;
+    try {
+      const { sub, provider } = payload;
+      const findOptions = this.buildFindOneOptionsByAuthSocialProvider(sub, provider);
+      const { user: existingUser } = await this.userPresenter.findOne(findOptions);
+      if (existingUser) {
+        return existingUser;
+      }
+      const partialUser = this.buildPartialUserByAuthSocialProvider(payload);
+      const user = await this.userPresenter.create(partialUser);
+      return user;
+    } catch (error) {
+      this.logger.error(`AuthAdapter > socialSignup > failed with : ${error}`);
     }
-    const partialUser = this.buildPartialUserByAuthSocialProvider(payload);
-    const user = this.userPresenter.create(partialUser);
-    return user;
   }
 }

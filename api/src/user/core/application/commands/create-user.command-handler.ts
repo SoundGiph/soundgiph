@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Logger } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { UserEntity } from "../../domain/user.entity";
 import { UserPort } from "../ports/user.port";
@@ -6,13 +6,20 @@ import { CreateUserCommand, CreateUserCommandResult } from "./create-user.comman
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserCommandHandler implements ICommandHandler<CreateUserCommand> {
+  private readonly logger = new Logger();
   constructor(
     @Inject(UserEntity)
     private readonly CreateUserPort: Pick<UserPort, "create">
   ) {}
 
   public async execute({ payload }: CreateUserCommand): Promise<CreateUserCommandResult> {
-    const user = await this.CreateUserPort.create(payload);
-    return new CreateUserCommandResult(user);
+    try {
+      this.logger.log(`CreateUserCommandHandler > called with payload: ${payload}`);
+      const user = await this.CreateUserPort.create(payload);
+      await user.save();
+      return new CreateUserCommandResult(user);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

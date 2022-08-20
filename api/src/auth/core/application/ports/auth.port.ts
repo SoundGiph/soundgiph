@@ -1,4 +1,4 @@
-import { UserEntity } from "src/user/core/domain/user.entity";
+import { UserEntity } from "../../../../user/core/domain/user.entity";
 
 export enum AuthSocialProvider {
   GOOGLE = "GOOGLE",

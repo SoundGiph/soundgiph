@@ -3,10 +3,14 @@ import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 import "multer";
 import { UserEntity } from "../../user/core/domain/user.entity";
-import { AuthPort, AuthSocialProvider } from "../core/application/ports/auth.port";
+import {
+  AuthPort,
+  AuthSocialProvider,
+  SocialSignupPayload,
+} from "../core/application/ports/auth.port";
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly authPort: AuthPort) {}
+  constructor(private readonly authService: AuthPort) {}
 
   @Get("google")
   @UseGuards(AuthGuard("google"))
@@ -14,12 +18,14 @@ export class AuthController {
     console.log("GOOGLE AUTH", req);
   }
 
-  @Post("google/callback")
+  @Get("google/callback")
   @UseGuards(AuthGuard("google"))
-  googleAuthRedirect(@Req() req: Request): Promise<UserEntity> {
-    const { body } = req;
-    console.log("GOOGLE AUTH CALLBACK", body);
-    return this.authPort.socialSignup({ ...body, provider: AuthSocialProvider.GOOGLE });
+  async googleAuthRedirect(@Req() req: Request): Promise<UserEntity> {
+    const { user } = req;
+    return await this.authService.socialSignup({
+      ...(user as SocialSignupPayload),
+      provider: AuthSocialProvider.GOOGLE,
+    });
   }
 
   @Get("apple")
@@ -33,6 +39,6 @@ export class AuthController {
   appleAuthRedirect(@Req() req: Request): Promise<UserEntity> {
     const { body } = req;
     console.log("APPLE AUTH CALLBACK", body);
-    return this.authPort.socialSignup({ ...body, provider: AuthSocialProvider.APPLE });
+    return this.authService.socialSignup({ ...body, provider: AuthSocialProvider.APPLE });
   }
 }

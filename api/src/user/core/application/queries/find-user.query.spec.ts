@@ -1,7 +1,7 @@
 import { UserEntity } from "../../domain/user.entity";
 import { UserPort } from "../ports/user.port";
-import { FindUserCommand } from "./find-user.command";
-import { FindUserCommandHandler } from "./find-user.command-handler";
+import { FindUserCommand } from "./find-user.query";
+import { FindUserCommandHandler } from "./find-user.query-handler";
 
 const userPort: UserPort = {
   create: jest.fn(),

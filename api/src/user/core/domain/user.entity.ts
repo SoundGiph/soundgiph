@@ -5,8 +5,8 @@ import { Base } from "../../../common/entities/base.entity";
 export class UserEntity extends Base {
   id!: string & { brand: "userId" };
 
-  @Column({ nullable: false })
-  deviceId!: string;
+  @Column({ nullable: true, default: null })
+  deviceId!: string | null;
 
   @Column({ nullable: true })
   tiktokPayload!: string | null;
