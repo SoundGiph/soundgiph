@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import React from "react";
-import { useTranslation } from "react-i18next";
+import LoginModal from "../components/LoginModal/LoginModal";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundGifsVerticalList } from "../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
@@ -41,7 +41,6 @@ const MapCategoriesWithSoundGifs: React.FC<MapCategoriesWithSoundGifsProps> = ({
 };
 
 const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
-  const { t } = useTranslation();
   const { soundGifs, isLoading, isSearchResultEmpty, searchText } = useVozoApp();
   const shouldDisplaySearchResult = Boolean(searchText.length > 0);
   useUnmute();
@@ -53,6 +52,7 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <LoginModal />
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
             {shouldDisplaySearchResult ? (
@@ -75,7 +75,7 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
 };
 
 export async function getStaticProps({ locale }: { locale?: string | undefined }) {
-  const { getAllCategoriesWithSoungifs } = useApi(Stages.BUILD);
+  const { getAllCategoriesWithSoungifs } = useApi(Stages.RUN);
   const categoriesWithSoundgifs = await getAllCategoriesWithSoungifs();
   return {
     props: {

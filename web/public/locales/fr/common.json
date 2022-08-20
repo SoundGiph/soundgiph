@@ -29,5 +29,9 @@
     "Sports": "Sports",
     "TV": "Télévision",
     "Search": "Recherche"
-  }
+  },
+  "login_modal.button.google": "Se connecter avec Google",
+  "login_modal.button.apple": "Se connecter avec Apple",
+  "login_modal.terms": "En te connectant tu acceptes nos <0>conditions générales d’utilisation</0>\n",
+  "login_modal.privacy": "et notre <0>politique de confidentialité</0>"
 }

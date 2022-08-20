@@ -1,5 +1,6 @@
 import { config, library } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
+import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NextPage } from "next";
 import { appWithTranslation } from "next-i18next";
@@ -12,7 +13,7 @@ import { VozoAppProvider } from "../context/VozoAppProvider";
 import "../styles/globals.css";
 import trackerInit from "../tracker/init";
 
-library.add(fas);
+library.add(fas, fab);
 config.autoAddCss = false;
 trackerInit();
 

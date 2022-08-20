@@ -1,15 +1,15 @@
-import React from "react";
 import { DynamicIcon } from "../DynamicIcon/DynamicIcon";
 
 interface IconButtonProps {
   iconName: string;
-  onClick: () => void;
+  onClick?: () => void;
+  modalId?: string;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({ iconName, onClick }) => {
+const IconButton: React.FC<IconButtonProps> = ({ iconName, onClick, modalId }) => {
   return (
     <>
-      <label className="btn btn-ghost" onClick={onClick} htmlFor="login-modal">
+      <label className="btn btn-ghost" onClick={onClick} htmlFor={modalId}>
         <DynamicIcon icon={iconName} color="#6565F1" size="2x" />
       </label>
     </>

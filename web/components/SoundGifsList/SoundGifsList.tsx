@@ -1,9 +1,9 @@
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
+import { trackNavigateTo } from "../../tracker/actions";
 import { DynamicIcon } from "../DynamicIcon/DynamicIcon";
 import { SoundGifItem } from "./SoundGifItem/SoundGifItem";
-import { trackNavigateTo } from "../../tracker/actions";
 
 type SoundGifsListProps = {
   soundGifs: SoundgifDTO[];

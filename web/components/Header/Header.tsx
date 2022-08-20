@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import IconButton from "../IconButton/IconButton";
+import { LOGIN_MODAL_ID } from "../LoginModal/LoginModal";
 import { WhiteLogo } from "../Logos/WhiteLogo";
 import { SearchSoundGifInput } from "../SearchSoundGifInput/SearchSoundGifInput";
 
@@ -24,8 +25,8 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className="flex-1 justify-end items-center">
-          <IconButton iconName="fa plus" onClick={() => undefined} />
-          <IconButton iconName="fa user" onClick={() => undefined} />
+          <IconButton modalId={LOGIN_MODAL_ID} iconName="fa plus" onClick={() => undefined} />
+          <IconButton modalId={LOGIN_MODAL_ID} iconName="fa user" onClick={() => undefined} />
         </div>
       </div>
       <SearchSoundGifInput />
