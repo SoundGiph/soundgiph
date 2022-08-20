@@ -1,4 +1,4 @@
-import { config, library } from "@fortawesome/fontawesome-svg-core";
+import { config, IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +13,7 @@ import { VozoAppProvider } from "../context/VozoAppProvider";
 import "../styles/globals.css";
 import trackerInit from "../tracker/init";
 
-library.add(fas, fab);
+library.add(fas, fab as unknown as IconDefinition);
 config.autoAddCss = false;
 trackerInit();
 

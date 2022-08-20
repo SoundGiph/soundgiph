@@ -30,8 +30,8 @@
     "TV": "TV",
     "Search": "Search"
   },
-  "login_modal.button.google": "Login with Google",
-  "login_modal.button.apple": "Login with Apple",
+  "login_modal.button.google": "Continue with Google",
+  "login_modal.button.apple": "Continue with Apple",
   "login_modal.terms": "By logging in you agree to our <0>terms of use</0>\n",
   "login_modal.privacy": "and <0>privacy policy</0>"
 }
