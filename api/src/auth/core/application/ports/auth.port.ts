@@ -1,3 +1,4 @@
+import { GoogleValidateResponse } from "src/auth/infrastructure/strategies/google.strategy";
 import { UserEntity } from "../../../../user/core/domain/user.entity";
 
 export enum AuthSocialProvider {
@@ -23,6 +24,7 @@ export interface GetTikTokUserPayload {
 }
 
 export abstract class AuthPort {
-  abstract socialSignup(payload: SocialSignupPayload): Promise<UserEntity>;
+  abstract socialSignup(payload: SocialSignupPayload): Promise<void>;
+  abstract googleSignup(payload: GoogleValidateResponse): Promise<UserEntity>;
   abstract getTikTokUser(payload: GetTikTokUserPayload): Promise<void>;
 }

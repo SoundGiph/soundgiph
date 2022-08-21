@@ -4,8 +4,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { userApplications } from "./core/application/user.application";
 import { UserEntity } from "./core/domain/user.entity";
 import { userInfrastructure } from "./infrastructure/user.infrastructure";
+import { UserPresenter } from "./infrastructure/user.presenter";
 import { userInterface } from "./interface/user.interface";
-import { UserPresenter } from "./interface/user.presenter";
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), CqrsModule],

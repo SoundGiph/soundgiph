@@ -14,6 +14,8 @@ export const CREATE_SOUND_GIF = "/createSoundGif";
 
 export const GET_FILE_FROM_URL = "/getFileFromUrl";
 
+export const GET_ME = "/user/me";
+
 export const DEV_ENV = "development";
 
 // ASSETS //
@@ -35,6 +37,6 @@ export const BASE_URL = "";
 export const SILENT_MP3_URL = "https://soundgiph.blob.core.windows.net/silent/silence.mp3";
 
 export enum Stages {
-    RUN = "RUN",
-    BUILD = "BUILD"
+  RUN = "RUN",
+  BUILD = "BUILD",
 }

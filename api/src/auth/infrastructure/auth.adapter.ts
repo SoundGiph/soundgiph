@@ -1,14 +1,13 @@
 import { Injectable, Logger } from "@nestjs/common";
 import axios from "axios";
-import { FindOneOptions, Like } from "typeorm";
 import {
   AuthPort,
-  AuthSocialProvider,
   GetTikTokUserPayload,
   SocialSignupPayload,
 } from "../../auth/core/application/ports/auth.port";
 import { UserEntity } from "../../user/core/domain/user.entity";
-import { UserPresenter } from "../../user/interface/user.presenter";
+import { UserPresenter } from "../../user/infrastructure/user.presenter";
+import { GoogleValidateResponse } from "./strategies/google.strategy";
 
 const TIK_TOK_BASIC_INFO_URL = `https://open-api.tiktok.com/user/info/`;
 @Injectable()
@@ -19,43 +18,24 @@ export class AuthAdapter implements AuthPort {
     return axios.post(TIK_TOK_BASIC_INFO_URL, payload);
   }
 
-  private buildFindOneOptionsByAuthSocialProvider(
-    sub: string,
-    provider: AuthSocialProvider
-  ): FindOneOptions<UserEntity> {
-    switch (provider) {
-      case AuthSocialProvider.APPLE:
-        return { where: { applePayload: Like(`%${sub}%`) } };
-      case AuthSocialProvider.GOOGLE:
-        return { where: { googlePayload: Like(`%${sub}%`) } };
-      case AuthSocialProvider.TIKTOK:
-        return { where: { tiktokPayload: Like(`%${sub}%`) } };
-    }
-  }
-
-  private buildPartialUserByAuthSocialProvider(payload: SocialSignupPayload): Partial<UserEntity> {
-    const { provider } = payload;
-    switch (provider) {
-      case AuthSocialProvider.APPLE:
-        return { applePayload: JSON.stringify(payload) };
-      case AuthSocialProvider.GOOGLE:
-        return { googlePayload: JSON.stringify(payload) };
-      case AuthSocialProvider.TIKTOK:
-        return { tiktokPayload: JSON.stringify(payload) };
-    }
-  }
-
-  public async socialSignup(payload: SocialSignupPayload): Promise<UserEntity> {
+  public async googleSignup(payload: GoogleValidateResponse): Promise<UserEntity> {
     try {
-      const { sub, provider } = payload;
-      const findOptions = this.buildFindOneOptionsByAuthSocialProvider(sub, provider);
-      const { user: existingUser } = await this.userPresenter.findOne(findOptions);
+      const { user: existingUser } = await this.userPresenter.findOne({
+        where: { providerId: payload.providerId, provider: payload.provider },
+      });
       if (existingUser) {
         return existingUser;
       }
-      const partialUser = this.buildPartialUserByAuthSocialProvider(payload);
-      const user = await this.userPresenter.create(partialUser);
+      const user = await this.userPresenter.create({ ...payload });
       return user;
+    } catch (error) {
+      this.logger.error(`AuthAdapter > googleSignup > failed with : ${error}`);
+    }
+  }
+
+  public async socialSignup(payload: SocialSignupPayload): Promise<void> {
+    try {
+      console.log("PAYLOAD", payload);
     } catch (error) {
       this.logger.error(`AuthAdapter > socialSignup > failed with : ${error}`);
     }

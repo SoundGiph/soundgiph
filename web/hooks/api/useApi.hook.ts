@@ -5,12 +5,13 @@ import {
   FIND_SOUND_GIF_QUERY,
   GET_ALL_CATEGORIES,
   GET_ALL_CATEGORIES_WITH_SOUNDGIFS,
+  GET_ME,
   INCREMENT_SHARED_COUNT,
   Stages,
 } from "../../constants/constants";
 import { SoundgifDTO } from "../../domain/sound-gif.dto";
+import { User } from "../../domain/User.dto";
 import { SearchFilter } from "./interfaces";
-
 
 export type CategoriesWithSoundGifs = { name: Categories; soundGifs: SoundgifDTO[] };
 export interface FindSoundGifsPayload {
@@ -22,18 +23,22 @@ export interface IncrementSharedCountPayload {
   id: string;
 }
 
-export const useApi = (stage: Stages): {
+export const useApi = (
+  stage: Stages
+): {
   findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
   createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
   getAllCategories: () => Promise<string[]>;
   getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
   incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
+  getMe: () => Promise<User | undefined>;
 } => {
-
   const api = create({
-    baseURL: stage == Stages.RUN ? process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL : process.env.BUILDING_TIME_API_URL
+    baseURL:
+      stage === Stages.RUN
+        ? process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL
+        : process.env.NEXT_PUBLIC_BUILDING_TIME_API_URL,
   });
-
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
     const { data } = await api.post<SoundgifDTO[]>(CREATE_SOUND_GIF, payload);
     return data ?? [];
@@ -53,6 +58,11 @@ export const useApi = (stage: Stages): {
     return data ?? [];
   };
 
+  const getMe = async (): Promise<User | undefined> => {
+    const { data } = await api.get<User>(GET_ME);
+    return data;
+  };
+
   const getAllCategories = async (): Promise<string[]> => {
     const { data } = await api.get<string[]>(GET_ALL_CATEGORIES);
     return data ?? [];
@@ -63,10 +73,11 @@ export const useApi = (stage: Stages): {
   };
 
   return {
+    getMe,
     createSoundGif,
     findSoundGif,
     getAllCategoriesWithSoungifs,
     getAllCategories,
-    incrementSharedCount
+    incrementSharedCount,
   };
 };

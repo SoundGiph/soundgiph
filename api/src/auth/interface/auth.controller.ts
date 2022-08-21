@@ -1,44 +1,34 @@
-import { Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
+import { Controller, Get, Req, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { Request } from "express";
-import "multer";
-import { UserEntity } from "../../user/core/domain/user.entity";
-import {
-  AuthPort,
-  AuthSocialProvider,
-  SocialSignupPayload,
-} from "../core/application/ports/auth.port";
+import { Response } from "express";
+import { AuthPort } from "../core/application/ports/auth.port";
+import { GoogleValidateResponse } from "../infrastructure/strategies/google.strategy";
+
+export interface AuthGoogleAuthenticatedRequest extends Request {
+  user?: GoogleValidateResponse;
+}
+
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthPort) {}
 
   @Get("google")
   @UseGuards(AuthGuard("google"))
-  async googleAuth(@Req() req: Request): Promise<void> {
-    console.log("GOOGLE AUTH", req);
+  async googleAuth(): Promise<void> {
+    return;
   }
 
   @Get("google/callback")
   @UseGuards(AuthGuard("google"))
-  async googleAuthRedirect(@Req() req: Request): Promise<UserEntity> {
-    const { user } = req;
-    return await this.authService.socialSignup({
-      ...(user as SocialSignupPayload),
-      provider: AuthSocialProvider.GOOGLE,
-    });
-  }
-
-  @Get("apple")
-  @UseGuards(AuthGuard("apple"))
-  async appleAuth(@Req() req: Request): Promise<void> {
-    console.log("APPLE AUTH", req);
-  }
-
-  @Post("apple/callback")
-  @UseGuards(AuthGuard("apple"))
-  appleAuthRedirect(@Req() req: Request): Promise<UserEntity> {
-    const { body } = req;
-    console.log("APPLE AUTH CALLBACK", body);
-    return this.authService.socialSignup({ ...body, provider: AuthSocialProvider.APPLE });
+  async googleAuthRedirect(
+    @Req() req: AuthGoogleAuthenticatedRequest,
+    @Res() res: Response
+  ): Promise<void> {
+    const { user: partialUser } = req;
+    const { accessToken, _refreshToken } = partialUser;
+    const user = await this.authService.googleSignup(partialUser);
+    req.user = { ...user, accessToken, _refreshToken };
+    res.cookie("access_token", accessToken);
+    res.redirect(process.env.VOZO_APP_URL);
   }
 }

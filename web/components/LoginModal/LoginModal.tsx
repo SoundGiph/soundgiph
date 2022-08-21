@@ -37,13 +37,21 @@ const LoginModal: React.FC<LoginModalProps> = () => {
     );
   };
 
+  const googleSignin = () => {
+    window.open(`${process.env.NEXT_PUBLIC_BUILDING_TIME_API_URL}/auth/google`, "_self");
+  };
+
   return (
     <div>
       <Modal modalId={LOGIN_MODAL_ID}>
         <div className="flex h-full w-full items-center justify-around flex-col ">
           <WhiteLogo />
           <div className="mt-10 mb-5">
-            <TextButtonWithIcon label={t("login_modal.button.google")} icon={<GoogleLogo size={30} />} />
+            <TextButtonWithIcon
+              label={t("login_modal.button.google")}
+              icon={<GoogleLogo size={30} />}
+              onClick={googleSignin}
+            />
             <TextButtonWithIcon label={t("login_modal.button.apple")} icon={<AppleLogo size={30} />} />
           </div>
           <div className="w-4/5 text-center text-sm text-white">
