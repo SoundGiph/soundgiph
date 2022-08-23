@@ -25,9 +25,8 @@ export class AuthController {
     @Res() res: Response
   ): Promise<void> {
     const { user: partialUser } = req;
-    const { accessToken, _refreshToken } = partialUser;
     const user = await this.authService.googleSignup(partialUser);
-    req.user = { ...user, accessToken, _refreshToken };
+    const accessToken = this.authService.signJwt(user.id);
     res.cookie("access_token", accessToken);
     res.redirect(process.env.VOZO_APP_URL);
   }

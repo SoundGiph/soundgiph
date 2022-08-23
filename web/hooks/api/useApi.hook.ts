@@ -31,7 +31,7 @@ export const useApi = (
   getAllCategories: () => Promise<string[]>;
   getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
   incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
-  getMe: () => Promise<User | undefined>;
+  getMe: (access_token: string) => Promise<User | undefined>;
 } => {
   const api = create({
     baseURL:
@@ -39,6 +39,7 @@ export const useApi = (
         ? process.env.NEXT_PUBLIC_RUNNING_TIME_API_URL
         : process.env.NEXT_PUBLIC_BUILDING_TIME_API_URL,
   });
+
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
     const { data } = await api.post<SoundgifDTO[]>(CREATE_SOUND_GIF, payload);
     return data ?? [];
@@ -58,8 +59,16 @@ export const useApi = (
     return data ?? [];
   };
 
-  const getMe = async (): Promise<User | undefined> => {
-    const { data } = await api.get<User>(GET_ME);
+  const getMe = async (access_token: string): Promise<User | undefined> => {
+    const { data } = await api.get<User>(
+      GET_ME,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
     return data;
   };
 

@@ -1,4 +1,5 @@
-import { Controller, Get, HttpException, Req } from "@nestjs/common";
+import { Controller, Get, HttpException, Req, UseGuards } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { UserEntity } from "../core/domain/user.entity";
 import { UNAUTHORIZED_TO_GET_ME } from "../core/domain/user.errors";
 
@@ -8,9 +9,9 @@ export interface UserAuthenticatedRequest extends Request {
 
 @Controller("user")
 export class UserController {
+  @UseGuards(AuthGuard())
   @Get("me")
   async getMe(@Req() req: UserAuthenticatedRequest): Promise<UserEntity> {
-    console.log("USER CONTROLLER > ", req);
     if (!req.user) {
       throw new HttpException(UNAUTHORIZED_TO_GET_ME, 401);
     }

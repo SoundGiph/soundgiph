@@ -1,4 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import axios from "axios";
 import {
   AuthPort,
@@ -13,7 +14,7 @@ const TIK_TOK_BASIC_INFO_URL = `https://open-api.tiktok.com/user/info/`;
 @Injectable()
 export class AuthAdapter implements AuthPort {
   logger = new Logger();
-  constructor(private readonly userPresenter: UserPresenter) {}
+  constructor(private readonly userPresenter: UserPresenter, private jwtService: JwtService) {}
   public async getTikTokUser(payload: GetTikTokUserPayload): Promise<void> {
     return axios.post(TIK_TOK_BASIC_INFO_URL, payload);
   }
@@ -39,5 +40,25 @@ export class AuthAdapter implements AuthPort {
     } catch (error) {
       this.logger.error(`AuthAdapter > socialSignup > failed with : ${error}`);
     }
+  }
+
+  public async validateUser(userId: string): Promise<UserEntity | undefined> {
+    try {
+      const { user } = await this.userPresenter.findOne({
+        where: {
+          id: userId,
+        },
+      });
+      if (user) {
+        return user;
+      }
+      return undefined;
+    } catch (error) {
+      this.logger.error(`AuthAdapter > validateJwt > failed with : ${error}`);
+    }
+  }
+
+  public signJwt(id: string): string {
+    return this.jwtService.sign({ id });
   }
 }

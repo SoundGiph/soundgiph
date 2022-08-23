@@ -1,4 +1,5 @@
 import { useEffect, useState, useTransition } from "react";
+import { useCookies } from "react-cookie";
 import { Stages } from "../constants/constants";
 import { SoundgifDTO } from "../domain/sound-gif.dto";
 import { User } from "../domain/User.dto";
@@ -17,6 +18,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [isPending, startTransition] = useTransition();
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [isUserLoading, setUserLoading] = useState(false);
+  const [cookies] = useCookies(["access_token"]);
 
   const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
@@ -27,7 +29,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
 
   const getCurrentUser = async () => {
     setUserLoading(true);
-    const user = await getMe();
+    console.log("ACCESS_TOKEN", cookies.access_token);
+    const user = await getMe(cookies.access_token);
     console.log("GET ME ", user);
     setCurrentUser(user);
     setUserLoading(false);

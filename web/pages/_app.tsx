@@ -5,6 +5,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { NextPage } from "next";
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
+import { CookiesProvider } from "react-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Footer } from "../components/Footer/Footer";
@@ -20,12 +21,14 @@ trackerInit();
 const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
-      <VozoAppProvider>
-        <Header />
-        <Component {...pageProps} />
-        <ToastContainer />
-        <Footer />
-      </VozoAppProvider>
+      <CookiesProvider>
+        <VozoAppProvider>
+          <Header />
+          <Component {...pageProps} />
+          <ToastContainer />
+          <Footer />
+        </VozoAppProvider>
+      </CookiesProvider>
     </>
   );
 };

@@ -13,7 +13,7 @@ export class FindUserCommandHandler implements ICommandHandler<FindUserCommand> 
   ) {}
 
   public async execute({ payload }: FindUserCommand): Promise<FindUserCommandResult> {
-    this.logger.log(`FindUserCommandHandler > called with payload: ${payload}`);
+    this.logger.log(`FindUserCommandHandler > called with payload: ${JSON.stringify(payload)}`);
     const user = await this.findUserPort.findOne(payload);
     return new FindUserCommandResult(user);
   }

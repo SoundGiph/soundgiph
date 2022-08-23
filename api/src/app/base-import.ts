@@ -16,6 +16,7 @@ export const BaseConfigImports = [
       database: configService.get("POSTGRES_DATABASE", "soundgif"),
       entities: [configService.get("ENTITIES", "")],
       synchronize: false,
+      logging: true,
       migrationsTableName: "migration",
       migrations: [configService.get("MIGRATIONS", "")],
       namingStrategy: new SnakeNamingStrategy(),

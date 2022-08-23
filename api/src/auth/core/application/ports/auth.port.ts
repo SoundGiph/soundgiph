@@ -27,4 +27,6 @@ export abstract class AuthPort {
   abstract socialSignup(payload: SocialSignupPayload): Promise<void>;
   abstract googleSignup(payload: GoogleValidateResponse): Promise<UserEntity>;
   abstract getTikTokUser(payload: GetTikTokUserPayload): Promise<void>;
+  abstract validateUser(id: string): Promise<UserEntity | undefined>;
+  abstract signJwt(id: string): string;
 }

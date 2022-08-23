@@ -14,12 +14,12 @@ export class CreateUserCommandHandler implements ICommandHandler<CreateUserComma
 
   public async execute({ payload }: CreateUserCommand): Promise<CreateUserCommandResult> {
     try {
-      this.logger.log(`CreateUserCommandHandler > called with payload: ${payload}`);
+      this.logger.log(`CreateUserCommandHandler > called with payload: ${JSON.stringify(payload)}`);
       const user = await this.CreateUserPort.create(payload);
       await user.save();
       return new CreateUserCommandResult(user);
     } catch (error) {
-      console.log(error);
+      this.logger.error(`CreateUserCommandHandler > failed with :${error}`);
     }
   }
 }
