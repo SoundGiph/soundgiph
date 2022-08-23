@@ -1,7 +1,8 @@
 import { Inject, Logger } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
-import { UserEntity } from "../../domain/user.entity";
-import { UserPort } from "../ports/user.port";
+import { UserEntity } from "../../../domain/user.entity";
+import { UserPort } from "../../ports/user.port";
+
 import { CreateUserCommand, CreateUserCommandResult } from "./create-user.command";
 
 @CommandHandler(CreateUserCommand)

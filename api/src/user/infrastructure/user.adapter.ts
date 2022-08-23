@@ -17,4 +17,9 @@ export class UserAdapter implements UserPort {
     const user = this.userRepository.create(payload);
     return await this.userRepository.save(user);
   }
+
+  public async delete(id: UserEntity["id"]): Promise<boolean> {
+    const isDeleted = await this.userRepository.delete(id);
+    return Boolean(isDeleted.affected);
+  }
 }

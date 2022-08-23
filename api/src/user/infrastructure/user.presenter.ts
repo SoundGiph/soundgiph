@@ -4,7 +4,7 @@ import { FindOneOptions } from "typeorm";
 import {
   CreateUserCommand,
   CreateUserCommandResult,
-} from "../core/application/commands/create-user.command";
+} from "../core/application/commands/create-user/create-user.command";
 import {
   FindUserCommand,
   FindUserCommandResult,

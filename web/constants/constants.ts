@@ -16,6 +16,8 @@ export const GET_FILE_FROM_URL = "/getFileFromUrl";
 
 export const GET_ME = "/user/me";
 
+export const DELETE_USER = "/user/delete";
+
 export const DEV_ENV = "development";
 
 // ASSETS //

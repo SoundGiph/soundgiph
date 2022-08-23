@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import axios from "axios";
 import {
@@ -44,15 +44,14 @@ export class AuthAdapter implements AuthPort {
 
   public async validateUser(userId: string): Promise<UserEntity | undefined> {
     try {
+      if (!userId) throw new UnauthorizedException();
       const { user } = await this.userPresenter.findOne({
         where: {
           id: userId,
         },
       });
-      if (user) {
-        return user;
-      }
-      return undefined;
+      if (!user) return undefined;
+      return user;
     } catch (error) {
       this.logger.error(`AuthAdapter > validateJwt > failed with : ${error}`);
     }

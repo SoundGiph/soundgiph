@@ -9,7 +9,7 @@ import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
   const { findSoundGif } = useApi(Stages.RUN);
-  const { getMe } = useApi(Stages.BUILD);
+  const { getMe, deleteUser } = useApi(Stages.BUILD);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
@@ -17,8 +17,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const isSearchResultEmpty = Boolean(searchText.length > 3 && soundGifs.length === 0 && !isLoading);
   const [isPending, startTransition] = useTransition();
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
-  const [isUserLoading, setUserLoading] = useState(false);
-  const [cookies] = useCookies(["access_token"]);
+  const [isUserLoading, setUserLoading] = useState(true);
+  const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
 
   const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
@@ -46,7 +46,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
 
   useEffect(() => {
     console.log("GET CURRENT USER");
-    getCurrentUser();
+    if (!currentUser) getCurrentUser();
   }, []);
 
   const onChangeText = (fulltext: string) => {
@@ -65,6 +65,16 @@ export const useVozoAppProvider = (): VozoAppContext => {
     setLoading(false);
   };
 
+  const logout = () => {
+    removeCookies("access_token");
+    setCurrentUser(undefined);
+  };
+
+  const deleteUserAccount = async (id: string): Promise<void> => {
+    const isDeleted = await deleteUser(id, cookies.access_token);
+    if (isDeleted === true) logout();
+  };
+
   return {
     soundGifs,
     onChangeText,
@@ -75,5 +85,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
     resetState,
     filters,
     currentUser,
+    isUserLoading,
+    logout,
+    deleteUserAccount,
   };
 };

@@ -33,5 +33,11 @@
   "login_modal.button.google": "Se connecter avec Google",
   "login_modal.button.apple": "Se connecter avec Apple",
   "login_modal.terms": "En te connectant tu acceptes nos <0>conditions générales d’utilisation</0>\n",
-  "login_modal.privacy": "et notre <0>politique de confidentialité</0>"
+  "login_modal.privacy": "et notre <0>politique de confidentialité</0>",
+  "settings_modal.logout": "Se deconnecter",
+  "settings_modal.title": "Réglages",
+  "settings_modal.delete": "Supprimer compte",
+  "settings_modal_popup.title": "Tu es sûr ?",
+  "settings_modal_popup.content": "Tu ne pourras plus mettre en ligne de Vozos",
+  "settings_modal_popup.cancel": "Annuler"
 }

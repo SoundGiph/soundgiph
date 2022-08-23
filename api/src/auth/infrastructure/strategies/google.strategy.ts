@@ -45,6 +45,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
       picture: _json.picture,
       provider: AuthSocialProvider.GOOGLE,
     };
+    console.log("PROFILE", profile);
     return { ...user, accessToken, _refreshToken };
   }
 

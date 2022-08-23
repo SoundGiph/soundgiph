@@ -30,7 +30,6 @@ export class AppleStrategy extends PassportStrategy(ApplePassportStrategy, "appl
         }
 
         const { email, sub } = jwtService.decode(idToken) as { email: string; sub: string };
-        console.log("EMAIL", { email, _accessToken, _refreshToken, _profile });
         if (!sub) {
           verified(new Error("Could not find sub ID in Apple token"));
           return;

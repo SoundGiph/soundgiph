@@ -13,6 +13,9 @@ export interface VozoAppContext {
   resetState: () => void;
   filters: SearchFilter;
   currentUser: User | undefined;
+  isUserLoading: boolean;
+  logout: () => void;
+  deleteUserAccount: (id: string) => void;
 }
 
 const vozoAppContext = {
@@ -27,6 +30,9 @@ const vozoAppContext = {
   resetState: () => undefined,
   filters: {},
   currentUser: undefined,
+  isUserLoading: true,
+  logout: () => undefined,
+  deleteUserAccount: () => undefined,
 };
 
 export const VozoAppCTX = createContext<VozoAppContext>(vozoAppContext);

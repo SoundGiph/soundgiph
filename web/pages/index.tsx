@@ -3,6 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import React from "react";
 import LoginModal from "../components/LoginModal/LoginModal";
+import SettingsModal from "../components/SettingsModal/SettingsModal";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundGifsVerticalList } from "../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
@@ -55,6 +56,7 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
       </Head>
       <div>
         <LoginModal />
+        <SettingsModal />
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
             {shouldDisplaySearchResult ? (

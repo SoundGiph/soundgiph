@@ -2,6 +2,7 @@ import { create } from "apisauce";
 import { Categories } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import {
   CREATE_SOUND_GIF,
+  DELETE_USER,
   FIND_SOUND_GIF_QUERY,
   GET_ALL_CATEGORIES,
   GET_ALL_CATEGORIES_WITH_SOUNDGIFS,
@@ -23,6 +24,14 @@ export interface IncrementSharedCountPayload {
   id: string;
 }
 
+const buildBearerHeader = (access_token: string) => {
+  return {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  };
+};
+
 export const useApi = (
   stage: Stages
 ): {
@@ -32,6 +41,7 @@ export const useApi = (
   getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
   incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
   getMe: (access_token: string) => Promise<User | undefined>;
+  deleteUser: (id: string, access_token: string) => Promise<boolean>;
 } => {
   const api = create({
     baseURL:
@@ -60,16 +70,9 @@ export const useApi = (
   };
 
   const getMe = async (access_token: string): Promise<User | undefined> => {
-    const { data } = await api.get<User>(
-      GET_ME,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      }
-    );
-    return data;
+    const { data, status } = await api.get<User>(GET_ME, {}, buildBearerHeader(access_token));
+    if (status === 200) return data;
+    return undefined;
   };
 
   const getAllCategories = async (): Promise<string[]> => {
@@ -77,11 +80,23 @@ export const useApi = (
     return data ?? [];
   };
 
+  const deleteUser = async (id: string, access_token: string): Promise<boolean> => {
+    const { data } = await api.get<boolean>(
+      DELETE_USER,
+      {
+        id,
+      },
+      buildBearerHeader(access_token)
+    );
+    return data || false;
+  };
+
   const incrementSharedCount = async (payload: IncrementSharedCountPayload): Promise<void> => {
     await api.post<void>(INCREMENT_SHARED_COUNT, payload);
   };
 
   return {
+    deleteUser,
     getMe,
     createSoundGif,
     findSoundGif,
