@@ -41,6 +41,10 @@ const LoginModal: React.FC<LoginModalProps> = () => {
     window.open(`${process.env.NEXT_PUBLIC_BUILDING_TIME_API_URL}/auth/google`, "_self");
   };
 
+  const appleSignin = () => {
+    window.open(`${process.env.NEXT_PUBLIC_BUILDING_TIME_API_URL}/auth/apple`, "_self");
+  };
+
   return (
     <div>
       <Modal modalId={LOGIN_MODAL_ID}>
@@ -52,7 +56,11 @@ const LoginModal: React.FC<LoginModalProps> = () => {
               icon={<GoogleLogo size={30} />}
               onClick={googleSignin}
             />
-            <TextButtonWithIcon label={t("login_modal.button.apple")} icon={<AppleLogo size={30} />} />
+            <TextButtonWithIcon
+              label={t("login_modal.button.apple")}
+              icon={<AppleLogo size={30} />}
+              onClick={appleSignin}
+            />
           </div>
           <div className="w-4/5 text-center text-sm text-white">
             <p className="text-xs">

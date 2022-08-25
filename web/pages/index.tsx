@@ -42,8 +42,7 @@ const MapCategoriesWithSoundGifs: React.FC<MapCategoriesWithSoundGifsProps> = ({
 };
 
 const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
-  const { soundGifs, isLoading, isSearchResultEmpty, searchText, currentUser } = useVozoApp();
-  console.log("USER", currentUser);
+  const { soundGifs, isLoading, isSearchResultEmpty, searchText } = useVozoApp();
   const shouldDisplaySearchResult = Boolean(searchText.length > 0);
   useUnmute();
   return (
@@ -79,7 +78,7 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
 };
 
 export async function getStaticProps({ locale }: { locale?: string | undefined }) {
-  const { getAllCategoriesWithSoungifs } = useApi(Stages.RUN);
+  const { getAllCategoriesWithSoungifs } = useApi(Stages.BUILD);
   const categoriesWithSoundgifs = await getAllCategoriesWithSoungifs();
   return {
     props: {

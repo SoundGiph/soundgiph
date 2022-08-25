@@ -15,9 +15,9 @@ interface GoogleProfile {
   };
 }
 
-export interface GoogleValidateResponse extends Partial<UserEntity> {
-  accessToken: string;
-  _refreshToken: string;
+export interface SocialSignupSuccessResponse extends Partial<UserEntity> {
+  accessToken?: string;
+  _refreshToken?: string;
 }
 
 @Injectable()
@@ -35,7 +35,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     accessToken: string,
     _refreshToken: string,
     profile: GoogleProfile
-  ): Promise<GoogleValidateResponse> {
+  ): Promise<SocialSignupSuccessResponse> {
     const { _json, id } = profile;
     const user: Partial<UserEntity> = {
       providerId: id,

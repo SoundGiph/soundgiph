@@ -1,10 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { CommandBus, QueryBus } from "@nestjs/cqrs";
 import { FindOneOptions } from "typeorm";
-import {
-  CreateUserCommand,
-  CreateUserCommandResult,
-} from "../core/application/commands/create-user/create-user.command";
+import { CreateUserCommand } from "../core/application/commands/create-user/create-user.command";
 import {
   FindUserCommand,
   FindUserCommandResult,
@@ -22,7 +19,7 @@ export class UserPresenter {
   }
 
   public async create(payload: Partial<UserEntity>): Promise<UserEntity> {
-    return await this.commandBus.execute<CreateUserCommand, CreateUserCommandResult["user"]>(
+    return await this.commandBus.execute<CreateUserCommand, UserEntity>(
       new CreateUserCommand(payload)
     );
   }

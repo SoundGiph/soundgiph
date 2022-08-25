@@ -30,7 +30,7 @@ const vozoAppContext = {
   resetState: () => undefined,
   filters: {},
   currentUser: undefined,
-  isUserLoading: true,
+  isUserLoading: false,
   logout: () => undefined,
   deleteUserAccount: () => undefined,
 };

@@ -8,8 +8,7 @@ import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif } = useApi(Stages.RUN);
-  const { getMe, deleteUser } = useApi(Stages.BUILD);
+  const { findSoundGif, getMe, deleteUser } = useApi(Stages.RUN);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
@@ -17,8 +16,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const isSearchResultEmpty = Boolean(searchText.length > 3 && soundGifs.length === 0 && !isLoading);
   const [isPending, startTransition] = useTransition();
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
-  const [isUserLoading, setUserLoading] = useState(true);
-  const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
+  const [isUserLoading, setUserLoading] = useState(false);
+  const [cookies, setCookies] = useCookies(["access_token"]);
 
   const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
@@ -28,10 +27,9 @@ export const useVozoAppProvider = (): VozoAppContext => {
   };
 
   const getCurrentUser = async () => {
+    if (!cookies.access_token) return;
     setUserLoading(true);
-    console.log("ACCESS_TOKEN", cookies.access_token);
     const user = await getMe(cookies.access_token);
-    console.log("GET ME ", user);
     setCurrentUser(user);
     setUserLoading(false);
   };
@@ -45,9 +43,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
   }, [filters]);
 
   useEffect(() => {
-    console.log("GET CURRENT USER");
     if (!currentUser) getCurrentUser();
-  }, []);
+  }, [cookies.access_token]);
 
   const onChangeText = (fulltext: string) => {
     setSearchText(fulltext);
@@ -66,7 +63,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
   };
 
   const logout = () => {
-    removeCookies("access_token");
+    setCookies("access_token", "");
     setCurrentUser(undefined);
   };
 

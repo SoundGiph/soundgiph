@@ -1,7 +1,6 @@
 import { NestApplication } from "@nestjs/core";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "src/app/app.module";
-import * as request from "supertest";
+import { AppModule } from "../../src/app/app.module";
 
 describe("create sound gif controller", () => {
   let app: NestApplication;
@@ -16,12 +15,5 @@ describe("create sound gif controller", () => {
 
   afterAll(async () => {
     await app.close();
-  });
-
-  it("should create sound gif", async () => {
-    const { body, error } = await request(app.getHttpServer()).post("/auth").expect(201);
-    expect(error).toBeFalsy();
-    expect(body).toBeDefined();
-    expect(body).toBeTruthy();
   });
 });
