@@ -5,4 +5,7 @@ module.exports = {
   reactStrictMode: true,
   localeDetection: false,
   i18n,
+  images: {
+    domains: ["lh3.googleusercontent.com"],
+  },
 };

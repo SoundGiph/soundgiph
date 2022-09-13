@@ -13,6 +13,7 @@ interface GoogleProfile {
     family_name: string;
     picture: string;
   };
+  
 }
 
 export interface SocialSignupSuccessResponse extends Partial<UserEntity> {

@@ -39,5 +39,7 @@
   "settings_modal.delete": "Delete account",
   "settings_modal_popup.title": "Are you sure?",
   "settings_modal_popup.content": "You won't be able to upload any more Vozos",
-  "settings_modal_popup.cancel": "Cancel"
+  "settings_modal_popup.cancel": "Cancel",
+  "create_vozo_modal.title": "Create a Vozo",
+  "create_vozo_modal.drop_box.label": "Upload a file or drag it directly here"
 }

@@ -8,7 +8,8 @@ import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif, getMe, deleteUser } = useApi(Stages.RUN);
+  const { findSoundGif } = useApi(Stages.RUN);
+  const { getMe, deleteUser } = useApi(Stages.BUILD);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
     if (!cookies.access_token) return;
     setUserLoading(true);
     const user = await getMe(cookies.access_token);
+    console.log("USER", user);
     setCurrentUser(user);
     setUserLoading(false);
   };

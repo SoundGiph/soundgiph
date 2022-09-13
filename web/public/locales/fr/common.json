@@ -39,5 +39,7 @@
   "settings_modal.delete": "Supprimer compte",
   "settings_modal_popup.title": "Tu es sûr ?",
   "settings_modal_popup.content": "Tu ne pourras plus mettre en ligne de Vozos",
-  "settings_modal_popup.cancel": "Annuler"
+  "settings_modal_popup.cancel": "Annuler",
+  "create_vozo_modal.title": "Créer un Vozo",
+  "create_vozo_modal.drop_box.label": "Télécharge un fichier ou dépose le directement ici"
 }

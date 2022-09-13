@@ -3,8 +3,7 @@ import { UserPort } from "../ports/user.port";
 import { FindUserCommand } from "./find-user.query";
 import { FindUserCommandHandler } from "./find-user.query-handler";
 
-const userPort: UserPort = {
-  create: jest.fn(),
+const userPort: Pick<UserPort, "findOne"> = {
   findOne: jest.fn(),
 };
 
