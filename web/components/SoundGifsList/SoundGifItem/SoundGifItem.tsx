@@ -1,7 +1,12 @@
 import { PlayIcon } from "@heroicons/react/solid";
-import { SoundgifDTO } from "../../../domain/sound-gif.dto";
-import { useSoundGifItem } from "./useSoundGifItem.hook";
+import { Howler } from "howler";
+import Lottie from "lottie-react";
+import { useEffect } from "react";
 import { FaShareAltSquare } from "react-icons/fa";
+import { SoundgifDTO } from "../../../domain/sound-gif.dto";
+import playingAnimation from "../../../public/playing.json";
+import { unmute } from "../../../tools/unmute";
+import { trackPlay, trackShare } from "../../../tracker/actions";
 import {
   BLACK_GRADIENT_BOX,
   BLACK_GRADIENT_SUB_BOX,
@@ -15,19 +20,12 @@ import {
   SHARE_BUTTON_ICON,
   WHITE_COLOR,
 } from "./SoundGifItem.styles";
-import playingAnimation from "../../../public/playing.json";
-import Lottie from "lottie-react";
-import { useEffect } from "react";
-import { Howler } from "howler";
-import { unmute } from "../../../tools/unmute";
-import { trackPlay, trackShare } from "../../../tracker/actions";
+import { useSoundGifItem } from "./useSoundGifItem.hook";
 
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
   small?: boolean;
 };
-
-
 
 export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
   const { imageUrl, description, id, title } = soundGif;
@@ -36,12 +34,12 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
   const onShare = () => {
     shareAudioFile();
     trackShare({ id, description, title });
-  }
+  };
 
   const onPlay = () => {
     playSoundGif();
     trackPlay({ id, description, title });
-  }
+  };
 
   useEffect(() => {
     if (isSoundPlaying) {

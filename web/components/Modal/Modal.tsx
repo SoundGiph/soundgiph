@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ modalId, children, title, onClose, popup,
           <div className="flex flex-row w-full items-center justify-center">
             {canGoBack ? (
               <button onClick={onPushGoBack} className="btn btn-sm btn-circle absolute left-2 border-1">
-                <p>{"<"}</p>
+                <p className="font-bold text-xl">{"‹"}</p>
               </button>
             ) : (
               <label htmlFor={modalId} onClick={onClose} className="btn btn-sm btn-circle absolute left-2 border-1">

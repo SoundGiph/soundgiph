@@ -1,41 +1,47 @@
 import { useEffect, useState } from "react";
 import { DropzoneState, FileWithPath } from "react-dropzone";
-import { useForm, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { useCreateVozoModalDropZone } from "./useCreateVozoModalDropZone";
 
 export enum StepsToAddVozo {
   UPLOAD_AUDIO = 1,
   ADD_DESCRIPTION = 2,
   UPLOAD_IMAGE = 3,
+  SUCCESS = 4,
+}
+
+export enum CreateVozoFormFields {
+  TITLE = "title",
+  DESCRIPTION = "description",
+  AUDIO_FILE = "audioFile",
+  IMAGE_FILE = "imageFile",
 }
 
 export interface CreateVozoForm {
-  audioFile: File;
+  imageFile: FileWithPath;
+  audioFile: FileWithPath;
+  title: string;
+  description: string;
 }
 
 interface UseCreateVozoFormOutput {
-  onDropAudioFile: () => void;
   onSubmit: (data: CreateVozoForm) => void;
   dropZoneAudioState: DropzoneState;
+  dropZoneImageState: DropzoneState;
   steps: number;
-  watch: UseFormWatch<CreateVozoForm>;
-  selectedFileAudio: FileWithPath | null;
+  form: UseFormReturn<CreateVozoForm>;
+  onPressValidateTitleAndDescriptions: () => void;
   onPushGoBack: () => void;
-  setValue: UseFormSetValue<CreateVozoForm>;
 }
 
 export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
-  const [selectedFileAudio, setSelectedFileAudio] = useState<FileWithPath | null>(null);
   const [steps, setSteps] = useState<StepsToAddVozo>(StepsToAddVozo.UPLOAD_AUDIO);
-  const { setValue, watch } = useForm<CreateVozoForm>();
-
-  const onDropAudioFile = () => {
-    console.log("DROP", acceptedFiles);
-    setValue("audioFile", acceptedFiles[0]);
-  };
+  const form = useForm<CreateVozoForm>();
+  form.register("audioFile", { required: true });
+  form.register("imageFile", { required: true });
 
   const dropZoneAudioState = useCreateVozoModalDropZone({
-    onDrop: onDropAudioFile,
+    onDrop: () => undefined,
     accept: {
       "audio/aac": [".aac"],
       "audio/mpeg": [".mp3"],
@@ -43,33 +49,55 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
     },
   });
 
-  const { acceptedFiles, fileRejections } = dropZoneAudioState;
-  console.log("rejected", fileRejections);
-  console.log("accepted", acceptedFiles);
+  const { acceptedFiles: acceptedAudioFile } = dropZoneAudioState;
+
+  const dropZoneImageState = useCreateVozoModalDropZone({
+    onDrop: () => undefined,
+    accept: {
+      "image/png": [".png"],
+      "image/jpg": [".jpg"],
+      "image/jpeg": [".jpeg"],
+    },
+  });
+  const { acceptedFiles: acceptedImageFile } = dropZoneImageState;
 
   useEffect(() => {
-    if (acceptedFiles[0]) {
-      setSelectedFileAudio(acceptedFiles[0]);
+    if (acceptedAudioFile[0]) {
+      form.setValue("audioFile", acceptedAudioFile[0]);
       setSteps(StepsToAddVozo.ADD_DESCRIPTION);
     }
-  }, [acceptedFiles]);
+  }, [acceptedAudioFile]);
+
+  useEffect(() => {
+    if (acceptedImageFile[0]) {
+      form.setValue("imageFile", acceptedImageFile[0], { shouldValidate: true });
+    }
+  }, [acceptedImageFile]);
 
   const onSubmit = (data: CreateVozoForm) => {
-    console.log(data);
+    console.log("Vozo form values", data);
+  };
+
+  const onPressValidateTitleAndDescriptions = () => {
+    if (steps === StepsToAddVozo.ADD_DESCRIPTION) {
+      setSteps(StepsToAddVozo.UPLOAD_IMAGE);
+    }
   };
 
   const onPushGoBack = () => {
+    console.log(form.getValues());
+    if (steps === StepsToAddVozo.ADD_DESCRIPTION) form.reset();
+    if (steps === StepsToAddVozo.UPLOAD_IMAGE) form.resetField("imageFile");
     setSteps(previousSteps => previousSteps - 1);
   };
 
   return {
-    onDropAudioFile,
+    onPressValidateTitleAndDescriptions,
+    dropZoneImageState,
     onSubmit,
     dropZoneAudioState,
     steps,
-    watch,
-    selectedFileAudio,
+    form,
     onPushGoBack,
-    setValue,
   };
 };
