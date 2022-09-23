@@ -25,10 +25,12 @@ export const SoundGifsList: React.FC<SoundGifsListProps> = ({ soundGifs, title, 
       <div className="mx-3 flex flex-row items-center justify-between">
         <div className="mb-2 flex flex-row items-center justify-start">
           <DynamicIcon icon={icon} color={color} />
-          <p className="font-bold text-lg ml-2 text-white">{t(`categories.${title}`)}</p>
+          <p className="font-bold text-lg ml-2 text-white">
+            <>{t(`categories.${title}`)}</>
+          </p>
         </div>
         <button onClick={onClick} className="font-bold text-stone-300 text-xs">
-          {t("see_more")}
+          <>{t("see_more")}</>
         </button>
       </div>
       <div className="px-2  grid sm:grid-rows-3 gap-2 lg:grid-rows-2 grid-flow-col overflow-y-scroll scrollbar-thumb-white scrollbar-track-white-100 justify-start">
