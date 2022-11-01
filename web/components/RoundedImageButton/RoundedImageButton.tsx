@@ -6,13 +6,13 @@ interface RoundedImageButtonProps {
 }
 
 const RoundedImageButton: React.FC<RoundedImageButtonProps> = ({ imageSrc, onClick, modalId }) => {
-  console.log(imageSrc);
+  const src = imageSrc || "";
   return (
     <>
       <label className="btn btn-ghost btn-circle" onClick={onClick} htmlFor={modalId}>
         <div className="avatar">
           <div className="w-8 h-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-            <Image src={imageSrc || ""} width={500} height={500} />
+            {src ? <Image loader={() => src} src={src} width={500} height={500} /> : null}
           </div>
         </div>
       </label>

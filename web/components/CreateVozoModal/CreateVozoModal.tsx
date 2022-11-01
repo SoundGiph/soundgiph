@@ -24,8 +24,7 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
     onPressValidateTitleAndDescriptions,
   } = useCreateVozoForm();
   const formValues = form.getValues();
-  console.log(" from values", formValues);
-  console.log("is valid :");
+
   return (
     <div>
       <Modal

@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Logger } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { SoundGifToApproveEntity } from "../../../domain/sound-gif-to-approve.entity";
 import { SoundGifToApprovePort } from "../../port/sound-gif-to-approve.port";
@@ -11,6 +11,7 @@ import {
 export class CreateSoundGifToApproveCommandHandler
   implements ICommandHandler<CreateSoundGifToApproveCommand>
 {
+  logger = new Logger();
   constructor(
     @Inject(SoundGifToApproveEntity)
     private readonly createSoundGifPort: Pick<SoundGifToApprovePort, "create">

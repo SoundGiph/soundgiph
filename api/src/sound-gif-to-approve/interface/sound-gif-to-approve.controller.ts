@@ -1,11 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Post,
-  UploadedFiles,
-  UseInterceptors,
-} from "@nestjs/common";
+import { Body, Controller, Logger, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { CommandBus } from "@nestjs/cqrs";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
@@ -30,6 +23,7 @@ type CreateSoundGifToApproveRequestFilesPayload = {
 
 @Controller()
 export class CreateSoundGifToApproveController {
+  logger = new Logger();
   constructor(
     private readonly configService: ConfigService,
     private readonly commandBus: CommandBus,
@@ -47,13 +41,19 @@ export class CreateSoundGifToApproveController {
       { name: "audioFile", maxCount: 1 },
     ])
   )
-  async create(
+  async createSoundGifToApprove(
     @UploadedFiles()
     files: CreateSoundGifToApproveRequestFilesPayload,
     @Body()
     payload: CreateSoundGifToApproveRequestPayload
   ): Promise<boolean> {
     try {
+      this.logger.log(
+        `createSoundGifToApprove > started with payload > ${JSON.stringify(
+          payload
+        )} > and files > ${JSON.stringify(files)}`
+      );
+      if (!files) throw new Error();
       const { audioFile, imageFile } = files;
       const audioUrl = await this.azureStoragePresenter.upload(audioFile, this.SOUND_CONTAINER);
       const imageUrl = await this.azureStoragePresenter.upload(imageFile, this.IMAGE_CONTAINER);
@@ -63,9 +63,10 @@ export class CreateSoundGifToApproveController {
       >(new CreateSoundGifToApproveCommand({ ...payload, audioUrl, imageUrl }));
       return Boolean(createdSoundGifToApprove.id);
     } catch (error) {
-      throw new BadRequestException(
-        `CreateSoundGifToApproveCommandHandler > fail > Invalid payload: ${JSON.stringify(payload)}`
+      this.logger.error(
+        `CreateSoundGifToApproveCommandHandler > fail > Invalid files: ${JSON.stringify(files)}`
       );
+      return false;
     }
   }
 }

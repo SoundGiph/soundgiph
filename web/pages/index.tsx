@@ -80,8 +80,8 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
 };
 
 export async function getStaticProps({ locale }: { locale?: string | undefined }) {
+  // const stage = process.env.NODE_ENV === "development" ? Stages.BUILD : Stages.RUN;
   const { getAllCategoriesWithSoungifs } = useApi(Stages.RUN);
-  console.log(process.env.NEXT_PUBLIC_REACT_APP_AMPLITUDE_API_KEY);
   const categoriesWithSoundgifs = await getAllCategoriesWithSoungifs();
   return {
     props: {

@@ -1,7 +1,9 @@
 import { create } from "apisauce";
+import { CreateVozoForm } from "../../components/CreateVozoModal/useCreateVozoForm.hook";
 import { Categories } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import {
   CREATE_SOUND_GIF,
+  CREATE_SOUND_GIF_TO_APPROVE,
   DELETE_USER,
   FIND_SOUND_GIF_QUERY,
   GET_ALL_CATEGORIES,
@@ -24,6 +26,17 @@ export interface IncrementSharedCountPayload {
   id: string;
 }
 
+interface UseApiOutput {
+  findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
+  createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
+  getAllCategories: () => Promise<string[]>;
+  getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
+  incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
+  getMe: (access_token: string) => Promise<User | undefined>;
+  deleteUser: (id: string, access_token: string) => Promise<boolean>;
+  createSoundGifToApprove: (payload: CreateVozoForm) => Promise<boolean>;
+}
+
 const buildBearerHeader = (access_token: string) => {
   return {
     headers: {
@@ -32,17 +45,7 @@ const buildBearerHeader = (access_token: string) => {
   };
 };
 
-export const useApi = (
-  stage: Stages
-): {
-  findSoundGif: (payload: FindSoundGifsPayload) => Promise<SoundgifDTO[]>;
-  createSoundGif: (payload: Omit<SoundgifDTO, "id">) => Promise<SoundgifDTO[]>;
-  getAllCategories: () => Promise<string[]>;
-  getAllCategoriesWithSoungifs: () => Promise<SoundgifDTO[]>;
-  incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
-  getMe: (access_token: string) => Promise<User | undefined>;
-  deleteUser: (id: string, access_token: string) => Promise<boolean>;
-} => {
+export const useApi = (stage: Stages): UseApiOutput => {
   const api = create({
     baseURL:
       stage === Stages.RUN
@@ -53,6 +56,18 @@ export const useApi = (
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
     const { data } = await api.post<SoundgifDTO[]>(CREATE_SOUND_GIF, payload);
     return data ?? [];
+  };
+
+  const createSoundGifToApprove = async (payload: CreateVozoForm): Promise<boolean> => {
+    const { title, description, audioFile, imageFile } = payload;
+    const formData = new FormData();
+    console.log("AUDIOFILE", audioFile);
+    console.log("AUDIOFILE", imageFile);
+    formData.append("audioFile", audioFile);
+    formData.append("imageFile", imageFile);
+    const formDataWithPayload = { ...formData, title, description };
+    const { data } = await api.post<boolean>(CREATE_SOUND_GIF_TO_APPROVE, formDataWithPayload, {});
+    return Boolean(data);
   };
 
   const findSoundGif = async (payload: FindSoundGifsPayload): Promise<SoundgifDTO[]> => {
@@ -101,6 +116,7 @@ export const useApi = (
     createSoundGif,
     findSoundGif,
     getAllCategoriesWithSoungifs,
+    createSoundGifToApprove,
     getAllCategories,
     incrementSharedCount,
   };
