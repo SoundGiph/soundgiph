@@ -17,7 +17,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [isPending, startTransition] = useTransition();
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [isUserLoading, setUserLoading] = useState(false);
-  const [cookies, setCookies] = useCookies(["access_token"]);
+  const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
 
   const getSoundgifs = async (payload: FindSoundGifsPayload) => {
     setLoading(true);
@@ -63,7 +63,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
   };
 
   const logout = () => {
-    setCookies("access_token", "");
+    removeCookie("access_token", { path: "/", domain: "vozo.app" });
     setCurrentUser(undefined);
   };
 

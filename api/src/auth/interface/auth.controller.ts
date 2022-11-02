@@ -11,12 +11,15 @@ export interface AuthGoogleAuthenticatedRequest extends Request {
 
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly authService: AuthPort) {}
+  constructor(private readonly authService: AuthPort) { }
 
   private generateJWTAndRedirectToWebApp(id: UserEntity["id"], res: Response): void {
     console.log("USER ID", id);
     const accessToken = this.authService.signJwt(id);
-    res.cookie("access_token", accessToken);
+    res.cookie("access_token", accessToken, {
+      secure: true,
+      domain: process.env.VOZO_APP_DOMAIN_NAME || "",
+    });
     res.redirect(process.env.VOZO_APP_URL);
   }
 

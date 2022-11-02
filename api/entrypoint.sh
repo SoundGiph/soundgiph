@@ -2,7 +2,6 @@
 set -e
 
 
-sleep 10
 yarn migration:run:prod
 
 if [ $? -eq 0 ]; then
