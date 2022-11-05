@@ -59,14 +59,14 @@ export const useApi = (stage: Stages): UseApiOutput => {
   };
 
   const createSoundGifToApprove = async (payload: CreateVozoForm): Promise<boolean> => {
-    const { title, description, audioFile, imageFile } = payload;
+    const { title, description, audioFile, imageFile, userId } = payload;
     const formData = new FormData();
-    console.log("AUDIOFILE", audioFile);
-    console.log("AUDIOFILE", imageFile);
     formData.append("audioFile", audioFile);
     formData.append("imageFile", imageFile);
-    const formDataWithPayload = { ...formData, title, description };
-    const { data } = await api.post<boolean>(CREATE_SOUND_GIF_TO_APPROVE, formDataWithPayload, {});
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("addedBy", userId);
+    const { data } = await api.post<boolean>(CREATE_SOUND_GIF_TO_APPROVE, formData, {});
     return Boolean(data);
   };
 
