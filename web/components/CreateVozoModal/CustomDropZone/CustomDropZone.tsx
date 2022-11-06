@@ -2,11 +2,18 @@ import { useTranslation } from "next-i18next";
 import Dropzone, { DropzoneState } from "react-dropzone";
 import { DynamicIcon } from "../../DynamicIcon/DynamicIcon";
 
+
 interface CustomDropZoneProps {
   dropZoneState: DropzoneState;
+  dropZoneType: DropZoneType;
 }
 
-export const CustomDropZone: React.FC<CustomDropZoneProps> = ({ dropZoneState }) => {
+export enum DropZoneType {
+  AUDIO = "audio",
+  IMAGE = "image"
+}
+
+export const CustomDropZone: React.FC<CustomDropZoneProps> = ({ dropZoneState, dropZoneType }) => {
   const { t } = useTranslation();
   const { getInputProps, getRootProps } = dropZoneState;
   return (
@@ -19,9 +26,22 @@ export const CustomDropZone: React.FC<CustomDropZoneProps> = ({ dropZoneState })
           >
             <input {...getInputProps()} />
             <DynamicIcon icon="fa upload" color="#6565F1" size="2x" />
-            <p className="mt-4">
-              <>{t("create_vozo_modal.drop_box.label")}</>
-            </p>
+            {
+              dropZoneType === DropZoneType.AUDIO ?
+                (
+                  <p className="mt-4">
+                    <>{t("create_vozo_modal.drop_box.audio.label")}</>
+                  </p>
+                ) : <></>
+            }
+            {
+              dropZoneType === DropZoneType.IMAGE ?
+                (
+                  <p className="mt-4">
+                    <>{t("create_vozo_modal.drop_box.image.label")}</>
+                  </p>
+                ) : <></>
+            }
           </div>
         </section>
       )}
