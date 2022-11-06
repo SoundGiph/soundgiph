@@ -8,8 +8,7 @@ import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif } = useApi(Stages.RUN);
-  const { getMe, deleteUser } = useApi(Stages.BUILD);
+  const { findSoundGif, getMe, deleteUser } = useApi(Stages.RUN);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
