@@ -6,7 +6,6 @@ import { User } from "../domain/User.dto";
 import { SearchFilter } from "../hooks/api/interfaces";
 import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
-import { SearchFilter } from "../hooks/api/interfaces";
 
 export const useVozoAppProvider = (): VozoAppContext => {
   const { findSoundGif, getMe, deleteUser } = useApi(Stages.RUN);
@@ -19,13 +18,6 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [isUserLoading, setUserLoading] = useState(false);
   const [cookies, setCookies] = useCookies(["access_token"]);
-
-  const getSoundgifs = async (payload: FindSoundGifsPayload) => {
-    setLoading(true);
-    const soundGifs = await findSoundGif(payload);
-    setSoundgifs(soundGifs);
-    setLoading(false);
-  };
 
   const getCurrentUser = async () => {
     if (!cookies.access_token) return;
