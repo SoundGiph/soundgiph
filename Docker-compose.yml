@@ -2,21 +2,21 @@ version: '3'
 
 services:
 
-  web:
+  frontend:
     build:
       context: ./web
       dockerfile: Dockerfile
     ports:
-      - 8000:8080
+      - 8080:8080
     depends_on:
-      - api
+      - backend
 
-  api:
+  backend:
     build:
      context: ./api
      dockerfile: Dockerfile
     ports: 
-      - 4000:3000
+      - 3000:3000
     restart: always
     depends_on:
       - postgres
@@ -31,3 +31,26 @@ services:
     volumes:
       - ./database/data:/var/lib/postgresql/data
       - ./database/initdb/create_database.sh:/docker-entrypoint-initdb.d/create_database.sh
+    depends_on:
+      - webserver
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args: 
+        - ENV=${ENV}
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+
+  certbot:
+   image: certbot/certbot:latest
+   volumes:
+    - ./certbot/www/:/var/www/certbot/:rw
+    - ./certbot/conf/:/etc/letsencrypt/:rw
