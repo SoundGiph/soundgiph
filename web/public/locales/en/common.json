@@ -29,5 +29,17 @@
     "Sports": "Sports",
     "TV": "TV",
     "Search": "Search"
-  }
+  },
+  "login_modal.button.google": "Continue with Google",
+  "login_modal.button.apple": "Continue with Apple",
+  "login_modal.terms": "By logging in you agree to our <0>terms of use</0>\n",
+  "login_modal.privacy": "and <0>privacy policy</0>",
+  "settings_modal.logout": "Log out",
+  "settings_modal.title": "Settings",
+  "settings_modal.delete": "Delete account",
+  "settings_modal_popup.title": "Are you sure?",
+  "settings_modal_popup.content": "You won't be able to upload any more Vozos",
+  "settings_modal_popup.cancel": "Cancel",
+  "create_vozo_modal.title": "Create a Vozo",
+  "create_vozo_modal.drop_box.label": "Upload a file or drag it directly here"
 }

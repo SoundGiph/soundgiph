@@ -24,7 +24,7 @@ services:
   postgres:
     image: postgres:11.3
     ports:
-      - 5432:5432
+      - 5000:5432
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata

@@ -6,9 +6,7 @@ import { Stages } from "../../../constants/constants";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useApi } from "../../../hooks/api/useApi.hook";
 import { useNotification } from "../../../hooks/notification/useNotification";
-import { unmute } from "../../../tools/unmute"
 import { trackShareError } from "../../../tracker/actions";
-
 
 export const useSoundGifItem = (
   soundGif: SoundgifDTO
@@ -42,7 +40,7 @@ export const useSoundGifItem = (
     const blob = await fetch(audioUrl).then(res => res.blob());
     const file = new File([blob], "title.mp3", { type: "audio/mp3" });
     const filesArray = [file];
-    const api = useApi(Stages.RUN)
+    const api = useApi(Stages.RUN);
 
     const shareData = {
       files: filesArray,
@@ -58,27 +56,30 @@ export const useSoundGifItem = (
         if (navigator.share) {
           navigator
             .share(shareData)
-            .then(() => { console.log("Successful share") })
+            .then(() => {
+              console.log("Successful share");
+            })
             .catch(error => console.log("Error sharing", error));
 
-          api.incrementSharedCount({ id })
+          api
+            .incrementSharedCount({ id })
             .then(() => {
-              console.log("Successful Increment")
+              console.log("Successful Increment");
             })
             .catch(error => {
-              console.log("Error Incremeting", error)
-            })
+              console.log("Error Incremeting", error);
+            });
         }
       } else {
         notificationError(t("Cannot share the vozo, update your navigator"));
-        trackShareError()
+        trackShareError();
         return;
       }
     }
   }
 
   const shareSoundGif = async (): Promise<void> => {
-    const url = `${process.env.WEB_URL}/${id}`;
+    const url = `${process.env.NEXT_PUBLIC_WEB_URL}/${id}`;
     try {
       if (!navigator) {
         notificationError(t("errors.no_navigator_error"));

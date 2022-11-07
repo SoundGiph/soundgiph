@@ -18,13 +18,12 @@ const SearcResultIsEmptyState: React.FC = () => {
   );
 };
 
-
 export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
   soundGifs,
   title,
   icon,
   color,
-  isSearchResultEmpty
+  isSearchResultEmpty,
 }) => {
   if (isSearchResultEmpty) return <SearcResultIsEmptyState />;
   return (

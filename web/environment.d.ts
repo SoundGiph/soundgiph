@@ -1,8 +1,9 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      BUILDING_TIME_API_URL: string;
+      NEXT_PUBLIC_BUILDING_TIME_API_URL: string;
       NEXT_PUBLIC_RUNNING_TIME_API_URL: string;
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: string;
     }
   }
 }
