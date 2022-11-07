@@ -1,3 +1,4 @@
+import { Logger } from "@nestjs/common";
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
 import { AzureBlobStoragePort } from "../../ports/azure-blob-storage.port";
 import {
@@ -7,7 +8,7 @@ import {
 
 @CommandHandler(UploadFileToAzureStorageCommand)
 export class UploadFileToAzureStorageCommandHandler implements ICommandHandler<UploadFileToAzureStorageCommand> {
-  constructor(private readonly azureBlobStoragePort: AzureBlobStoragePort) {}
+  constructor(private readonly azureBlobStoragePort: AzureBlobStoragePort) { }
 
   public async execute({ payload }: UploadFileToAzureStorageCommand): Promise<UploadFileToAzureStorageCommandResult> {
     const { file, containerName } = payload;

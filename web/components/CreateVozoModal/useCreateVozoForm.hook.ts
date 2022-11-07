@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { DropzoneState, FileWithPath } from "react-dropzone";
 import { useForm, UseFormReturn } from "react-hook-form";
+import { Stages } from "../../constants/constants";
+import { useVozoApp } from "../../context/useVozoApp.hook";
+import { useApi } from "../../hooks/api/useApi.hook";
 import { useCreateVozoModalDropZone } from "./useCreateVozoModalDropZone";
 
 export enum StepsToAddVozo {
@@ -22,6 +25,7 @@ export interface CreateVozoForm {
   audioFile: FileWithPath;
   title: string;
   description: string;
+  userId: string;
 }
 
 interface UseCreateVozoFormOutput {
@@ -36,6 +40,8 @@ interface UseCreateVozoFormOutput {
 
 export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
   const [steps, setSteps] = useState<StepsToAddVozo>(StepsToAddVozo.UPLOAD_AUDIO);
+  const { createSoundGifToApprove } = useApi(Stages.BUILD);
+  const { currentUser } = useVozoApp()
   const form = useForm<CreateVozoForm>();
   form.register("audioFile", { required: true });
   form.register("imageFile", { required: true });
@@ -63,6 +69,7 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
 
   useEffect(() => {
     if (acceptedAudioFile[0]) {
+      console.log("FILE", acceptedAudioFile);
       form.setValue("audioFile", acceptedAudioFile[0]);
       setSteps(StepsToAddVozo.ADD_DESCRIPTION);
     }
@@ -74,8 +81,17 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
     }
   }, [acceptedImageFile]);
 
-  const onSubmit = (data: CreateVozoForm) => {
-    console.log("Vozo form values", data);
+  const onSubmit = async (payload: CreateVozoForm) => {
+    const userId = currentUser?.id as string;
+    const { title, description, imageFile, audioFile } = payload;
+    const isVozoCreated = await createSoundGifToApprove({
+      title,
+      description,
+      imageFile,
+      audioFile,
+      userId
+    });
+    console.log("VOZO ", isVozoCreated);
   };
 
   const onPressValidateTitleAndDescriptions = () => {
