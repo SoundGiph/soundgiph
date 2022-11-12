@@ -62,8 +62,8 @@ export class SoundGifEntity extends Base {
   @Column({ nullable: false, default: 0 })
   sharedCount!: number;
 
-  @ManyToOne(() => UserEntity)
-  user!: UserEntity | undefined;
+  @ManyToOne(() => UserEntity, { nullable: true })
+  user!: UserEntity | null;
 }
 
 export type SoundGifEntityMandatoryFields = Pick<

@@ -1,18 +1,19 @@
 import { Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import * as _ from "lodash";
+import { UserEntity } from "src/user/core/domain/user.entity";
 import { Repository } from "typeorm";
+import { IncrementSharedCountPayload } from "../core/application/commands/increment-shared-count/increment-shared-count.command";
 import { SoundGifPort } from "../core/application/ports/sound-gif.ports";
 import { FindSoundGifPayload } from "../core/application/queries/find-sound-gif/find-sound-gif.query";
 import { SoundGifEntity, SoundGifEntityMandatoryFields } from "../core/domain/sound-gif.entity";
 import { searchSoundGifQuery } from "./utils/searchSoundGifQueryBuilder";
-import * as _ from "lodash";
-import { IncrementSharedCountPayload } from "../core/application/commands/increment-shared-count/increment-shared-count.command";
 export class SoundGifAdapter implements SoundGifPort {
   private readonly logger = new Logger();
   constructor(
     @InjectRepository(SoundGifEntity)
     private readonly soundGifRepository: Repository<SoundGifEntity>
-  ) { }
+  ) {}
 
   private shuffleSoundGifs(soundgifs: SoundGifEntity[]): SoundGifEntity[] {
     return _.shuffle(soundgifs);
@@ -33,10 +34,11 @@ export class SoundGifAdapter implements SoundGifPort {
   }
 
   public async create(
-    payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields
+    payload: Partial<SoundGifEntity> & SoundGifEntityMandatoryFields,
+    userId: UserEntity["id"]
   ): Promise<SoundGifEntity> {
-    this.logger.log(`SoundGifAdapter > create > called with ${payload}`);
-    return await this.soundGifRepository.create(payload).save();
+    this.logger.log(`SoundGifAdapter > create > called with ${payload} and user: ${userId}`);
+    return await this.soundGifRepository.create({ ...payload, user: { id: userId } }).save();
   }
 
   public async incrementSharedCount(payload: IncrementSharedCountPayload): Promise<void> {
