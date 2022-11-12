@@ -8,7 +8,8 @@ import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif, getMe, deleteUser } = useApi(Stages.RUN);
+  const { findSoundGif } = useApi(Stages.RUN);
+  const { getMe, deleteUser } = useApi(Stages.BUILD);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
@@ -47,7 +48,7 @@ export const useVozoAppProvider = (): VozoAppContext => {
   };
 
   useEffect(() => {
-    getSoundgifs({ fulltext: searchText, filters })
+    getSoundgifs({ fulltext: searchText, filters });
   }, [searchText.length, filters]);
 
   useEffect(() => {
@@ -55,8 +56,8 @@ export const useVozoAppProvider = (): VozoAppContext => {
   }, [filters]);
 
   const onChangeText = (fulltext: string) => {
-    setSearchText(fulltext)
-  }
+    setSearchText(fulltext);
+  };
 
   const setSearchFilters = (filters: SearchFilter) => {
     startTransition(() => setFilters(filters));

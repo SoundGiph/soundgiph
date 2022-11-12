@@ -10,6 +10,7 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
+import { AuthGuard } from "@nestjs/passport";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import "multer";
 import { UserEntity } from "src/user/core/domain/user.entity";
@@ -42,7 +43,7 @@ export class CreateSoundGifToApproveController {
       { name: "audioFile", maxCount: 1 },
     ])
   )
-  @UseGuards()
+  @UseGuards(AuthGuard("jwt"))
   async createSoundGifToApprove(
     @Req() req: UserAuthenticatedRequest,
     @UploadedFiles()
@@ -50,6 +51,7 @@ export class CreateSoundGifToApproveController {
     @Body()
     payload: CreateSoundGifToApproveRequestPayload
   ): Promise<boolean> {
+    console.log("REQ USER", req.user);
     if (!files) throw new Error(`Invalid files: ${JSON.stringify(files)}`);
     if (!req.user) throw new UnauthorizedException();
     return await this.commandBus.execute<

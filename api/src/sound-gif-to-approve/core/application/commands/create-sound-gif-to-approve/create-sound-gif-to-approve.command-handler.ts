@@ -16,7 +16,7 @@ export class CreateSoundGifToApproveCommandHandler
   logger = new Logger();
   constructor(
     @Inject(SoundGifToApproveEntity)
-    private readonly createSoundGifPort: Pick<SoundGifToApprovePort, "create">,
+    private readonly createSoundGifToApprovePort: Pick<SoundGifToApprovePort, "create">,
     private readonly azureStoragePresenter: AzureBlobStoragePresenter,
     private readonly configService: ConfigService
   ) {}
@@ -30,14 +30,14 @@ export class CreateSoundGifToApproveCommandHandler
   }: CreateSoundGifToApproveCommand): Promise<CreateSoundGifToApproveCommandResult> {
     try {
       this.logger.log(
-        `CreateSoundGifToApproveCommandHandler > started with payload > ${JSON.stringify(
-          payload
-        )} > and files > ${JSON.stringify(payload)}`
+        `CreateSoundGifToApproveCommandHandler > started with payload > from user: ${JSON.stringify(
+          payload.user.id
+        )}`
       );
       const { audioFile, imageFile, title, description, user } = payload;
       const audioUrl = await this.azureStoragePresenter.upload(audioFile, this.SOUND_CONTAINER);
       const imageUrl = await this.azureStoragePresenter.upload(imageFile, this.IMAGE_CONTAINER);
-      await this.createSoundGifPort.create({
+      await this.createSoundGifToApprovePort.create({
         imageUrl,
         audioUrl,
         title,
