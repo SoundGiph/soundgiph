@@ -1,5 +1,6 @@
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Index, ManyToOne } from "typeorm";
 import { Base } from "../../../common/entities/base.entity";
+import { UserEntity } from "../../../user/core/domain/user.entity";
 
 export enum Categories {
   News = "News",
@@ -18,11 +19,11 @@ export enum Categories {
 export const categoriesTransformer = {
   to: (categories: Categories[]): string[] | string => {
     if (categories.length == 1) {
-      return '{' + categories.filter(category => category).join(',') + '}'
+      return "{" + categories.filter(category => category).join(",") + "}";
     }
-    return categories
+    return categories;
   },
-  from: (categories: string): string => categories
+  from: (categories: string): string => categories,
 };
 
 @Entity("sound_gif")
@@ -41,7 +42,7 @@ export class SoundGifEntity extends Base {
     enum: Object.values(Categories),
     default: [Categories.Comedy],
     array: true,
-    transformer: categoriesTransformer
+    transformer: categoriesTransformer,
   })
   categories!: Categories[];
 
@@ -60,6 +61,9 @@ export class SoundGifEntity extends Base {
 
   @Column({ nullable: false, default: 0 })
   sharedCount!: number;
+
+  @ManyToOne(() => UserEntity)
+  user!: UserEntity | undefined;
 }
 
 export type SoundGifEntityMandatoryFields = Pick<

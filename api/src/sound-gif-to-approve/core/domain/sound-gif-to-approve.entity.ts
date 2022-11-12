@@ -21,8 +21,5 @@ export class SoundGifToApproveEntity extends Base {
   imageUrl!: string;
 
   @ManyToOne(() => UserEntity)
-  user!: UserEntity | undefined;
-
-  @Column({ type: "varchar", nullable: false })
-  addedBy!: UserEntity["id"];
+  user!: UserEntity;
 }
