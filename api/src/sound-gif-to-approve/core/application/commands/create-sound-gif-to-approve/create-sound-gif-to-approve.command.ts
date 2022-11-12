@@ -1,15 +1,16 @@
 import { ICommand } from "@nestjs/cqrs";
-import { SoundGifToApproveEntity } from "src/sound-gif-to-approve/core/domain/sound-gif-to-approve.entity";
+import { UserEntity } from "../../../../../user/core/domain/user.entity";
 
-export type CreateSoundGifToApprovePayload = Pick<
-  SoundGifToApproveEntity,
-  "title" | "description" | "audioUrl" | "imageUrl" | "addedBy"
->;
+export interface CreateSoundGifToApprovePayload {
+  audioFile: Express.Multer.File;
+  imageFile: Express.Multer.File;
+  title: string;
+  description: string;
+  user: UserEntity;
+}
 
 export class CreateSoundGifToApproveCommand implements ICommand {
   constructor(public readonly payload: CreateSoundGifToApprovePayload) {}
 }
 
-export class CreateSoundGifToApproveCommandResult {
-  constructor(public readonly createdSoundGifToApprove: SoundGifToApproveEntity) {}
-}
+export type CreateSoundGifToApproveCommandResult = boolean;
