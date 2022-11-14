@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { DropzoneState, FileWithPath } from "react-dropzone";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { Stages } from "../../constants/constants";
@@ -41,10 +42,11 @@ interface UseCreateVozoFormOutput {
 export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
   const [steps, setSteps] = useState<StepsToAddVozo>(StepsToAddVozo.UPLOAD_AUDIO);
   const { createSoundGifToApprove } = useApi(Stages.BUILD);
-  const { currentUser } = useVozoApp()
+  const { currentUser } = useVozoApp();
   const form = useForm<CreateVozoForm>();
   form.register("audioFile", { required: true });
   form.register("imageFile", { required: true });
+  const [cookies] = useCookies(["access_token"]);
 
   const dropZoneAudioState = useCreateVozoModalDropZone({
     onDrop: () => undefined,
@@ -84,14 +86,18 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
   const onSubmit = async (payload: CreateVozoForm) => {
     const userId = currentUser?.id as string;
     const { title, description, imageFile, audioFile } = payload;
-    const isVozoCreated = await createSoundGifToApprove({
-      title,
-      description,
-      imageFile,
-      audioFile,
-      userId
-    });
-    console.log("VOZO ", isVozoCreated);
+    const isVozoCreated = await createSoundGifToApprove(
+      {
+        title,
+        description,
+        imageFile,
+        audioFile,
+        userId,
+      },
+      cookies.access_token
+    );
+    if (isVozoCreated) {
+    }
   };
 
   const onPressValidateTitleAndDescriptions = () => {

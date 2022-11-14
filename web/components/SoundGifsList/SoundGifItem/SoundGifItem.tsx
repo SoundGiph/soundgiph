@@ -27,8 +27,6 @@ type SoundGifsItemProps = {
   small?: boolean;
 };
 
-
-
 export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
   const { imageUrl, description, id, title } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
@@ -55,26 +53,29 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
 
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
   return (
-    <div key={id} className={ITEM_BOX}>
-      <div className={`${small ? IMAGE_ITEM_BACKGROUND_MID : IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
-        <img src={imageUrl} />
-      </div>
-      <button onClick={onPlay} className={PLAY_BUTTON_ICON}>
-        {isSoundPlaying ? (
-          <Lottie className={PLAY_ICON} animationData={playingAnimation} loop color={WHITE_COLOR} />
-        ) : (
-          <PlayIcon className={PLAY_ICON} color={WHITE_COLOR} />
-        )}
-      </button>
-      <div className={BLACK_GRADIENT_BOX} />
-      <div className={BLACK_GRADIENT_SUB_BOX}>
-        <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
-          <p className={ITEM_DESCRIPTION}>{description}</p>
-          <button onClick={onShare} className={SHARE_BUTTON_ICON}>
-            <FaShareAltSquare size={45} color={WHITE_COLOR} />
-          </button>
+    <div>
+      <div key={id} className={ITEM_BOX}>
+        <div className={`${small ? IMAGE_ITEM_BACKGROUND_MID : IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
+          <img src={imageUrl} />
+        </div>
+        <button onClick={onPlay} className={PLAY_BUTTON_ICON}>
+          {isSoundPlaying ? (
+            <Lottie className={PLAY_ICON} animationData={playingAnimation} loop color={WHITE_COLOR} />
+          ) : (
+            <PlayIcon className={PLAY_ICON} color={WHITE_COLOR} />
+          )}
+        </button>
+        <div className={BLACK_GRADIENT_BOX} />
+        <div className={BLACK_GRADIENT_SUB_BOX}>
+          <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
+            <p className={ITEM_DESCRIPTION}>{description}</p>
+            <button onClick={onShare} className={SHARE_BUTTON_ICON}>
+              <FaShareAltSquare size={45} color={WHITE_COLOR} />
+            </button>
+          </div>
         </div>
       </div>
+      {soundGif.user && <p>{soundGif.user?.firstname}</p>}
     </div>
   );
 };

@@ -22,6 +22,7 @@ export class SoundGifAdapter implements SoundGifPort {
   public async find(payload: FindSoundGifPayload): Promise<SoundGifEntity[]> {
     const { filters, fulltext } = payload;
     const soundGifs = await searchSoundGifQuery(this.soundGifRepository, filters, fulltext);
+    console.log(soundGifs[0]);
     return this.shuffleSoundGifs(soundGifs);
   }
 

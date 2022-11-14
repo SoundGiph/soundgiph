@@ -1,5 +1,4 @@
 import { create } from "apisauce";
-import { useCookies } from "react-cookie";
 import { CreateVozoForm } from "../../components/CreateVozoModal/useCreateVozoForm.hook";
 import { Categories } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
 import {
@@ -35,7 +34,7 @@ interface UseApiOutput {
   incrementSharedCount: (payload: IncrementSharedCountPayload) => Promise<void>;
   getMe: (access_token: string) => Promise<User | undefined>;
   deleteUser: (id: string, access_token: string) => Promise<boolean>;
-  createSoundGifToApprove: (payload: CreateVozoForm) => Promise<boolean>;
+  createSoundGifToApprove: (payload: CreateVozoForm, access_token: string) => Promise<boolean>;
 }
 
 const buildBearerHeader = (access_token: string) => {
@@ -54,13 +53,12 @@ export const useApi = (stage: Stages): UseApiOutput => {
         : process.env.NEXT_PUBLIC_BUILDING_TIME_API_URL,
   });
 
-  const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
   const createSoundGif = async (payload: Omit<SoundgifDTO, "id">): Promise<SoundgifDTO[]> => {
     const { data } = await api.post<SoundgifDTO[]>(CREATE_SOUND_GIF, payload);
     return data ?? [];
   };
 
-  const createSoundGifToApprove = async (payload: CreateVozoForm): Promise<boolean> => {
+  const createSoundGifToApprove = async (payload: CreateVozoForm, access_token: string): Promise<boolean> => {
     const { title, description, audioFile, imageFile, userId } = payload;
     const formData = new FormData();
     formData.append("audioFile", audioFile);
@@ -68,11 +66,7 @@ export const useApi = (stage: Stages): UseApiOutput => {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("addedBy", userId);
-    const { data } = await api.post<boolean>(
-      CREATE_SOUND_GIF_TO_APPROVE,
-      formData,
-      buildBearerHeader(cookies.access_token)
-    );
+    const { data } = await api.post<boolean>(CREATE_SOUND_GIF_TO_APPROVE, formData, buildBearerHeader(access_token));
     return Boolean(data);
   };
 

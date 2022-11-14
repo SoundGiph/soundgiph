@@ -1,3 +1,5 @@
+import { User } from "./User.dto";
+
 export interface SoundgifDTO {
   id: string;
   title: string;
@@ -6,4 +8,5 @@ export interface SoundgifDTO {
   audioUrl: string;
   imageUrl: string;
   sharedCount?: number;
+  user?: Pick<User, "id" | "lastname" | "firstname" | "picture">;
 }
