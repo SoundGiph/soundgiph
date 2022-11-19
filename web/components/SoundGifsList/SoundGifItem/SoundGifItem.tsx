@@ -1,6 +1,7 @@
 import { PlayIcon } from "@heroicons/react/solid";
 import { Howler } from "howler";
 import Lottie from "lottie-react";
+import Image from "next/image";
 import { useEffect } from "react";
 import { FaShareAltSquare } from "react-icons/fa";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
@@ -52,6 +53,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
   }, [isSoundPlaying]);
 
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
+  const userProfilePicture = soundGif.user?.picture || "";
   return (
     <div>
       <div key={id} className={ITEM_BOX}>
@@ -75,7 +77,16 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
           </div>
         </div>
       </div>
-      {soundGif.user && <p>{soundGif.user?.firstname}</p>}
+      <div className="w-full flex flex-row justify-start py-1 ml-1">
+        <Image
+          loader={() => userProfilePicture}
+          src={userProfilePicture}
+          width={15}
+          height={15}
+          className="rounded-full"
+        />
+        {soundGif.user && <p className={ITEM_DESCRIPTION}>{soundGif.user?.firstname}</p>}
+      </div>
     </div>
   );
 };

@@ -71,7 +71,6 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
 
   useEffect(() => {
     if (acceptedAudioFile[0]) {
-      console.log("FILE", acceptedAudioFile);
       form.setValue("audioFile", acceptedAudioFile[0]);
       setSteps(StepsToAddVozo.ADD_DESCRIPTION);
     }
@@ -107,7 +106,6 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
   };
 
   const onPushGoBack = () => {
-    console.log(form.getValues());
     if (steps === StepsToAddVozo.ADD_DESCRIPTION) form.reset();
     if (steps === StepsToAddVozo.UPLOAD_IMAGE) form.resetField("imageFile");
     setSteps(previousSteps => previousSteps - 1);

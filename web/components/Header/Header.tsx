@@ -20,7 +20,6 @@ export const Header: React.FC = () => {
   };
 
   const isUserLoggedIn = Boolean(currentUser?.id);
-  console.log("LOGGED IN", isUserLoggedIn);
   return (
     <div className="sticky top-0 z-50 bg-black p-2 w-full">
       <div className="navbar shadow-lg items-center flex p-0">
