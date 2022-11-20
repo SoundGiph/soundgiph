@@ -7,7 +7,7 @@ import { FormInput } from "./FormInput/FormInput";
 import { Steps } from "./Steps/Steps";
 import { CreateVozoFormFields, StepsToAddVozo, useCreateVozoForm } from "./useCreateVozoForm.hook";
 
-interface CreateVozoModalProps { }
+interface CreateVozoModalProps {}
 
 export const CREATE_VOZO_MODAL_ID = "create-vozo-modal";
 
@@ -36,9 +36,7 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
         <div className="flex h-full w-full items-center justify-around flex-col">
           <Steps steps={steps} />
           {steps === StepsToAddVozo.UPLOAD_AUDIO ? (
-            <CustomDropZone
-              dropZoneState={dropZoneAudioState}
-              dropZoneType={DropZoneType.AUDIO} />
+            <CustomDropZone dropZoneState={dropZoneAudioState} dropZoneType={DropZoneType.AUDIO} />
           ) : steps === StepsToAddVozo.ADD_DESCRIPTION ? (
             <>
               <FormInput
@@ -64,6 +62,7 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
             >
               {form.formState.isValid && form.getValues().imageFile ? (
                 <SoundGifItem
+                  canShare={false}
                   soundGif={{
                     id: "vozo-preview",
                     title: formValues.title,
@@ -73,9 +72,7 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
                   }}
                 />
               ) : (
-                <CustomDropZone
-                  dropZoneState={dropZoneImageState}
-                  dropZoneType={DropZoneType.IMAGE} />
+                <CustomDropZone dropZoneState={dropZoneImageState} dropZoneType={DropZoneType.IMAGE} />
               )}
               <button className="btn btn-secondary w-full max-w-xs mt-5" disabled={!form.formState.isValid}>
                 Publier

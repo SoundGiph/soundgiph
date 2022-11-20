@@ -26,9 +26,10 @@ import { useSoundGifItem } from "./useSoundGifItem.hook";
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
   small?: boolean;
+  canShare?: boolean;
 };
 
-export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
+export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small, canShare }) => {
   const { imageUrl, description, id, title } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
 
@@ -70,23 +71,27 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
         <div className={BLACK_GRADIENT_BOX} />
         <div className={BLACK_GRADIENT_SUB_BOX}>
           <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
-            <p className={ITEM_DESCRIPTION}>{description}</p>
-            <button onClick={onShare} className={SHARE_BUTTON_ICON}>
-              <FaShareAltSquare size={45} color={WHITE_COLOR} />
-            </button>
+            <p className={ITEM_DESCRIPTION}>{title}</p>
+            {canShare && (
+              <button onClick={onShare} className={SHARE_BUTTON_ICON}>
+                <FaShareAltSquare size={45} color={WHITE_COLOR} />
+              </button>
+            )}
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-row justify-start py-1 ml-1">
-        <Image
-          loader={() => userProfilePicture}
-          src={userProfilePicture}
-          width={15}
-          height={15}
-          className="rounded-full"
-        />
-        {soundGif.user && <p className={ITEM_DESCRIPTION}>{soundGif.user?.firstname}</p>}
-      </div>
+      {canShare && (
+        <div className="w-full flex flex-row justify-start py-1 ml-1">
+          <Image
+            loader={() => userProfilePicture}
+            src={userProfilePicture}
+            width={15}
+            height={15}
+            className="rounded-full"
+          />
+          {soundGif.user && <p className={ITEM_DESCRIPTION}>{soundGif.user?.firstname}</p>}
+        </div>
+      )}
     </div>
   );
 };
