@@ -5,6 +5,8 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import { Stages } from "../../constants/constants";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import { useApi } from "../../hooks/api/useApi.hook";
+import { useNotification } from "../../hooks/notification/useNotification";
+import { CREATE_VOZO_MODAL_ID } from "./CreateVozoModal";
 import { useCreateVozoModalDropZone } from "./useCreateVozoModalDropZone";
 
 export enum StepsToAddVozo {
@@ -82,6 +84,7 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
     }
   }, [acceptedImageFile]);
 
+  const { notificationSuccess } = useNotification();
   const onSubmit = async (payload: CreateVozoForm) => {
     const userId = currentUser?.id as string;
     const { title, description, imageFile, audioFile } = payload;
@@ -95,7 +98,9 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
       },
       cookies.access_token
     );
-    if (isVozoCreated) {
+    if (isVozoCreated && window.document) {
+      window.document?.getElementById(CREATE_VOZO_MODAL_ID)?.click();
+      notificationSuccess("Votre Vozo est en cours de création, il sera uploadé une fois approuvé par notre équipe");
     }
   };
 
