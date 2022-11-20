@@ -84,6 +84,19 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
     }
   }, [acceptedImageFile]);
 
+  useEffect(() => {
+    if (steps === StepsToAddVozo.SUCCESS) {
+      form.reset({
+        audioFile: undefined,
+        imageFile: undefined,
+        title: undefined,
+        description: undefined,
+        userId: undefined,
+      });
+      setSteps(StepsToAddVozo.UPLOAD_AUDIO);
+    }
+  }, [steps, form]);
+
   const { notificationSuccess } = useNotification();
   const onSubmit = async (payload: CreateVozoForm) => {
     const userId = currentUser?.id as string;
@@ -98,9 +111,10 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
       },
       cookies.access_token
     );
-    if (isVozoCreated && window.document) {
+    if (window.document) {
       window.document?.getElementById(CREATE_VOZO_MODAL_ID)?.click();
       notificationSuccess("Votre Vozo est en cours de création, il sera uploadé une fois approuvé par notre équipe");
+      setSteps(StepsToAddVozo.SUCCESS);
     }
   };
 
