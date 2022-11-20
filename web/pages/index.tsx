@@ -2,9 +2,6 @@ import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import React from "react";
-import CreateVozoModal from "../components/CreateVozoModal/CreateVozoModal";
-import LoginModal from "../components/LoginModal/LoginModal";
-import SettingsModal from "../components/SettingsModal/SettingsModal";
 import { SoundGifsList } from "../components/SoundGifsList/SoundGifsList";
 import { SoundGifsVerticalList } from "../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
@@ -55,9 +52,6 @@ const Home: NextPage<HomeProps> = ({ categoriesWithSoundgifs }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <LoginModal />
-        <SettingsModal />
-        <CreateVozoModal />
         <main className="relative overflow-hidden">
           <div className="flex flex-col items-center justify-space container mx-auto">
             {shouldDisplaySearchResult ? (
