@@ -2,12 +2,12 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 import Modal from "../Modal/Modal";
 import { SoundGifItem } from "../SoundGifsList/SoundGifItem/SoundGifItem";
-import { CustomDropZone } from "./CustomDropZone/CustomDropZone";
+import { CustomDropZone, DropZoneType } from "./CustomDropZone/CustomDropZone";
 import { FormInput } from "./FormInput/FormInput";
 import { Steps } from "./Steps/Steps";
 import { CreateVozoFormFields, StepsToAddVozo, useCreateVozoForm } from "./useCreateVozoForm.hook";
 
-interface CreateVozoModalProps {}
+interface CreateVozoModalProps { }
 
 export const CREATE_VOZO_MODAL_ID = "create-vozo-modal";
 
@@ -24,8 +24,7 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
     onPressValidateTitleAndDescriptions,
   } = useCreateVozoForm();
   const formValues = form.getValues();
-  console.log(" from values", formValues);
-  console.log("is valid :");
+
   return (
     <div>
       <Modal
@@ -37,7 +36,9 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
         <div className="flex h-full w-full items-center justify-around flex-col">
           <Steps steps={steps} />
           {steps === StepsToAddVozo.UPLOAD_AUDIO ? (
-            <CustomDropZone dropZoneState={dropZoneAudioState} />
+            <CustomDropZone
+              dropZoneState={dropZoneAudioState}
+              dropZoneType={DropZoneType.AUDIO} />
           ) : steps === StepsToAddVozo.ADD_DESCRIPTION ? (
             <>
               <FormInput
@@ -72,7 +73,9 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
                   }}
                 />
               ) : (
-                <CustomDropZone dropZoneState={dropZoneImageState} />
+                <CustomDropZone
+                  dropZoneState={dropZoneImageState}
+                  dropZoneType={DropZoneType.IMAGE} />
               )}
               <button className="btn btn-secondary w-full max-w-xs mt-5" disabled={!form.formState.isValid}>
                 Publier
@@ -86,3 +89,4 @@ const CreateVozoModal: React.FC<CreateVozoModalProps> = () => {
 };
 
 export default CreateVozoModal;
+

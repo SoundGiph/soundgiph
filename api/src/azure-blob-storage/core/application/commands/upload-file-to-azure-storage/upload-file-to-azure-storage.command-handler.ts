@@ -7,7 +7,7 @@ import {
 
 @CommandHandler(UploadFileToAzureStorageCommand)
 export class UploadFileToAzureStorageCommandHandler implements ICommandHandler<UploadFileToAzureStorageCommand> {
-  constructor(private readonly azureBlobStoragePort: AzureBlobStoragePort) {}
+  constructor(private readonly azureBlobStoragePort: AzureBlobStoragePort) { }
 
   public async execute({ payload }: UploadFileToAzureStorageCommand): Promise<UploadFileToAzureStorageCommandResult> {
     const { file, containerName } = payload;
@@ -15,3 +15,4 @@ export class UploadFileToAzureStorageCommandHandler implements ICommandHandler<U
     return new UploadFileToAzureStorageCommandResult(uploadedFileUrl);
   }
 }
+

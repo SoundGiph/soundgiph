@@ -5,7 +5,14 @@ import { Stages } from "../../../constants/constants";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
 import { useApi } from "../../../hooks/api/useApi.hook";
 import { useNotification } from "../../../hooks/notification/useNotification";
-import { trackShareError } from "../../../tracker/actions";
+import { trackShareError, trackShare } from "../../../tracker/actions";
+
+
+declare global {
+  interface Window {
+    ReactNativeWebView?: any;
+  }
+}
 
 export const useSoundGifItem = (
   soundGif: SoundgifDTO
@@ -24,7 +31,8 @@ export const useSoundGifItem = (
     src: [audioUrl],
     onplay: () => setIsSoundPlaying(true),
     onend: () => setIsSoundPlaying(false),
-    onstop: () => setIsSoundPlaying(false),
+    onstop: () => setIsSoundPlaying(false)
+
   });
 
   const playSoundGif = (): void => {
@@ -36,43 +44,57 @@ export const useSoundGifItem = (
 
   async function shareAudioFile() {
     const blob = await fetch(audioUrl).then(res => res.blob());
-    const file = new File([blob], "title.mp3", { type: "audio/mp3" });
+    const file = new File([blob], `${title}.mp3`, { type: "audio/mp3" });
     const filesArray = [file];
     const api = useApi(Stages.RUN);
 
     const shareData = {
       files: filesArray,
+      text: title,
+      url: audioUrl
     };
-    // add it to the shareData
 
     const navigator = window.navigator;
 
     if (navigator) {
       //const canShare = navigator.canShare && navigator.canShare(shareData)
-
       if (navigator.canShare) {
         if (navigator.share) {
+          const { files } = shareData;
           navigator
-            .share(shareData)
+            .share({ files })
             .then(() => {
-              console.log("Successful share");
+              trackShare({ id, title, description: "" });
+              api
+                .incrementSharedCount({ id })
+                .then(() => {})
+                .catch(error => {
+                  trackShareError();
+                  notificationError(t("error.share"));
+                });
             })
             .catch(error => console.log("Error sharing", error));
-
+        }
+      } else {
+        const shareToWebView = async (shareData: any) => {
+          window.ReactNativeWebView.postMessage('share:' + JSON.stringify(shareData),);
+        }
+        shareToWebView(shareData).then(() => {
+          trackShare({ id, title, description: "" });
           api
             .incrementSharedCount({ id })
             .then(() => {
-              console.log("Successful Increment");
             })
             .catch(error => {
               console.log("Error Incremeting", error);
             });
-        }
-      } else {
-        notificationError(t("Cannot share the vozo, update your navigator"));
-        trackShareError();
+        }).catch(error => {
+          trackShareError()
+          notificationError(t("error.share"))
+        });
         return;
       }
+      trackShare({ id: id, title: title, description: title });
     }
   }
 
@@ -99,6 +121,7 @@ export const useSoundGifItem = (
       window.alert(navigator.clipboard);
       notificationError(t("errors.fail_to_web_share_error"));
     }
+
   };
 
   return {
@@ -108,3 +131,4 @@ export const useSoundGifItem = (
     shareAudioFile,
   };
 };
+

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { CommandBus } from "@nestjs/cqrs";
 import {
   UploadFileToAzureStorageCommand,
@@ -7,13 +7,21 @@ import {
 
 @Injectable()
 export class AzureBlobStoragePresenter {
-  constructor(private readonly commandBus: CommandBus) {}
+  logger = new Logger();
+  constructor(private readonly commandBus: CommandBus) { }
 
   public async upload(file: Express.Multer.File, containerName: string): Promise<string> {
-    const { fileUrl } = await this.commandBus.execute<
-      UploadFileToAzureStorageCommand,
-      UploadFileToAzureStorageCommandResult
-    >(new UploadFileToAzureStorageCommand({ file, containerName }));
-    return fileUrl;
+    try {
+      const { fileUrl } = await this.commandBus.execute<
+        UploadFileToAzureStorageCommand,
+        UploadFileToAzureStorageCommandResult
+      >(new UploadFileToAzureStorageCommand({ file, containerName }));
+      this.logger.log(`AzureBlobStoragePresenter > upload > fileUrl > ${fileUrl}`);
+      return fileUrl;
+    } catch (error) {
+      this.logger.error(`AzureBlobStoragePresenter > upload > error > ${error}`);
+      throw error;
+    }
   }
 }
+

@@ -41,5 +41,7 @@
   "settings_modal_popup.content": "Tu ne pourras plus mettre en ligne de Vozos",
   "settings_modal_popup.cancel": "Annuler",
   "create_vozo_modal.title": "Créer un Vozo",
-  "create_vozo_modal.drop_box.label": "Télécharge un fichier ou dépose le directement ici"
+  "create_vozo_modal.drop_box.audio.label": "Télécharge un audio pour ton Vozo !",
+  "create_vozo_modal.drop_box.image.label": "Télécharge une image pour ton Vozo !"
 }
+

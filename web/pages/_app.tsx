@@ -33,4 +33,4 @@ const MyApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   );
 };
 
-export default appWithTranslation(MyApp);
+export default appWithTranslation(MyApp as any);
