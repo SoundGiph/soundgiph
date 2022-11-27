@@ -1,19 +1,16 @@
-
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { SoundGifsVerticalList } from "../../components/SoundGifsList/SoundGifsVerticalList/SoundGifsVerticalList";
 import {
   Categories,
   getIconColorByCategory,
   getIconNameByCategory,
 } from "../../components/SoundGifsList/utils/getCategoriesIconAndColor";
-import { Stages } from "../../constants/constants";
 import { useVozoApp } from "../../context/useVozoApp.hook";
-import { useApi } from "../../hooks/api/useApi.hook";
 import { useUnmute } from "../../hooks/unmute/useUnmute";
 
 const Category: NextPage = () => {
