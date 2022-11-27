@@ -37,5 +37,10 @@ export const searchSoundGifQuery = async (
   if (filters?.mostShared) {
     soundGifsQuery.orderBy("vozo.shared_count", "DESC");
   }
+
+  soundGifsQuery
+    .leftJoin("vozo.user", "u")
+    .addSelect(["u.id", "u.lastname", "u.firstname", "u.picture"]);
+
   return soundGifsQuery.limit(filters.limit).getMany();
 };

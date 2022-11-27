@@ -1,6 +1,7 @@
 import { PlayIcon } from "@heroicons/react/solid";
 import { Howler } from "howler";
 import Lottie from "lottie-react";
+import Image from "next/image";
 import { useEffect } from "react";
 import { FaShareAltSquare } from "react-icons/fa";
 import { SoundgifDTO } from "../../../domain/sound-gif.dto";
@@ -25,9 +26,10 @@ import { useSoundGifItem } from "./useSoundGifItem.hook";
 type SoundGifsItemProps = {
   soundGif: SoundgifDTO;
   small?: boolean;
+  canShare?: boolean;
 };
 
-export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) => {
+export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small, canShare }) => {
   const { imageUrl, description, id, title } = soundGif;
   const { playSoundGif, shareAudioFile, isSoundPlaying } = useSoundGifItem(soundGif);
 
@@ -52,27 +54,44 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small }) 
   }, [isSoundPlaying]);
 
   const ANIMATE_PULSE = isSoundPlaying && "animate-pulse ";
+  const userProfilePicture = soundGif.user?.picture || "";
   return (
-    <div key={id} className={ITEM_BOX}>
-      <div className={`${small ? IMAGE_ITEM_BACKGROUND_MID : IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
-        <img src={imageUrl} />
-      </div>
-      <button onClick={onPlay} className={PLAY_BUTTON_ICON}>
-        {isSoundPlaying ? (
-          <Lottie className={PLAY_ICON} animationData={playingAnimation} loop color={WHITE_COLOR} />
-        ) : (
-          <PlayIcon className={PLAY_ICON} color={WHITE_COLOR} />
-        )}
-      </button>
-      <div className={BLACK_GRADIENT_BOX} />
-      <div className={BLACK_GRADIENT_SUB_BOX}>
-        <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
-          <p className={ITEM_DESCRIPTION}>{description}</p>
-          <button onClick={onShare} className={SHARE_BUTTON_ICON}>
-            <FaShareAltSquare size={45} color={WHITE_COLOR} />
-          </button>
+    <div>
+      <div key={id} className={ITEM_BOX}>
+        <div className={`${small ? IMAGE_ITEM_BACKGROUND_MID : IMAGE_ITEM_BACKGROUND} ${ANIMATE_PULSE}`}>
+          <img src={imageUrl} />
+        </div>
+        <button onClick={onPlay} className={PLAY_BUTTON_ICON}>
+          {isSoundPlaying ? (
+            <Lottie className={PLAY_ICON} animationData={playingAnimation} loop color={WHITE_COLOR} />
+          ) : (
+            <PlayIcon className={PLAY_ICON} color={WHITE_COLOR} />
+          )}
+        </button>
+        <div className={BLACK_GRADIENT_BOX} />
+        <div className={BLACK_GRADIENT_SUB_BOX}>
+          <div className={BLACK_GRADIENT_SUB_BOX_CHILDREN}>
+            <p className={ITEM_DESCRIPTION}>{title}</p>
+            {canShare && (
+              <button onClick={onShare} className={SHARE_BUTTON_ICON}>
+                <FaShareAltSquare size={45} color={WHITE_COLOR} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
+      {canShare && (
+        <div className="w-full flex flex-row justify-start py-1 ml-1">
+          <Image
+            loader={() => userProfilePicture}
+            src={userProfilePicture}
+            width={15}
+            height={15}
+            className="rounded-full"
+          />
+          {soundGif.user && <p className={ITEM_DESCRIPTION}>{soundGif.user?.firstname}</p>}
+        </div>
+      )}
     </div>
   );
 };

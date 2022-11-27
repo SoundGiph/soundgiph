@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import Dropzone, { DropzoneState } from "react-dropzone";
 import { DynamicIcon } from "../../DynamicIcon/DynamicIcon";
 
+
 interface CustomDropZoneProps {
   dropZoneState: DropzoneState;
   dropZoneType: DropZoneType;

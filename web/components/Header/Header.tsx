@@ -12,22 +12,20 @@ import { SETTINGS_MODAL_ID } from "../SettingsModal/SettingsModal";
 
 export const Header: React.FC = () => {
   const { t } = useTranslation();
-  const { push } = useRouter();
+  const { push, query } = useRouter();
   const { resetState, currentUser, isUserLoading } = useVozoApp();
   const backHome = () => {
     push("/");
     resetState();
   };
 
+  const isHomeRoute = Object.keys(query).length === 0;
   const isUserLoggedIn = Boolean(currentUser?.id);
-  console.log("LOGGED IN", isUserLoggedIn);
   return (
     <div className="sticky top-0 z-50 bg-black p-2 w-full">
       <div className="navbar shadow-lg items-center flex p-0">
         <div>
-          <button onClick={backHome}>
-            <WhiteLogo />
-          </button>
+          <button onClick={backHome}>{isHomeRoute ? <WhiteLogo /> : <IconButton iconName="fa circle-left" />}</button>
         </div>
         <div className="flex-1 justify-end items-center">
           <IconButton modalId={isUserLoggedIn ? CREATE_VOZO_MODAL_ID : LOGIN_MODAL_ID} iconName="fa plus" />

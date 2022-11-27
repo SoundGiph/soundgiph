@@ -1,18 +1,26 @@
-import { BadRequestException, Body, Controller, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  UploadedFiles,
+  UseInterceptors,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { CommandBus } from "@nestjs/cqrs";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import "multer";
-import {
-  IncrementSharedCountCommand,
-  IncrementSharedCountPayload
-} from "../../core/application/commands/increment-shared-count/increment-shared-count.command";
 import { Categories } from "src/sound-gif/core/domain/sound-gif.entity";
+import { UserEntity } from "src/user/core/domain/user.entity";
 import { AzureBlobStoragePresenter } from "../../../azure-blob-storage/interface/azure-blob-storage.presenter";
 import {
   CreateSoundGifCommand,
   CreateSoundGifCommandResult,
 } from "../../core/application/commands/create-sound-gif/create-sound-gif.command";
+import {
+  IncrementSharedCountCommand,
+  IncrementSharedCountPayload,
+} from "../../core/application/commands/increment-shared-count/increment-shared-count.command";
 
 type CreateSoundGifRequestPayload = {
   title: string;
@@ -20,6 +28,7 @@ type CreateSoundGifRequestPayload = {
   tags: string[];
   reactions: string[];
   categories: Categories[];
+  userId?: UserEntity["id"];
 };
 
 type CreateSoundGifRequestFilesPayload = {
@@ -33,7 +42,7 @@ export class CreateSoundGifController {
     private readonly configService: ConfigService,
     private readonly commandBus: CommandBus,
     private readonly azureStoragePresenter: AzureBlobStoragePresenter
-  ) { }
+  ) {}
 
   IMAGE_CONTAINER = this.configService.get<string>("AZURE_IMAGE_CONTAINER_NAME", "");
 
@@ -75,14 +84,11 @@ export class CreateSoundGifController {
     payload: IncrementSharedCountPayload
   ): Promise<void> {
     try {
-
       await this.commandBus.execute<IncrementSharedCountCommand, void>(
         new IncrementSharedCountCommand(payload)
       );
     } catch (error) {
-      throw new BadRequestException(
-        `incrementSharedCount > fail > Unexpected Error: ${error}`
-      );
+      throw new BadRequestException(`incrementSharedCount > fail > Unexpected Error: ${error}`);
     }
   }
 }

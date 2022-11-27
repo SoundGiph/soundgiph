@@ -8,8 +8,8 @@ import { FindSoundGifsPayload, useApi } from "../hooks/api/useApi.hook";
 import { VozoAppContext } from "./VozoAppContext";
 
 export const useVozoAppProvider = (): VozoAppContext => {
-  const { findSoundGif } = useApi(Stages.RUN);
-  const { getMe, deleteUser } = useApi(Stages.BUILD);
+  const { findSoundGif, getMe, deleteUser } = useApi(Stages.RUN);
+  // const { getMe, deleteUser, findSoundGif } = useApi(Stages.BUILD);
   const [soundGifs, setSoundgifs] = useState<SoundgifDTO[]>([]);
   const [filters, setFilters] = useState<SearchFilter>({});
   const [isLoading, setLoading] = useState(false);
@@ -19,13 +19,6 @@ export const useVozoAppProvider = (): VozoAppContext => {
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
   const [isUserLoading, setUserLoading] = useState(false);
   const [cookies, setCookies, removeCookie] = useCookies(["access_token"]);
-
-  const getSoundgifs = async (payload: FindSoundGifsPayload) => {
-    setLoading(true);
-    const soundGifs = await findSoundGif(payload);
-    setSoundgifs(soundGifs);
-    setLoading(false);
-  };
 
   const getCurrentUser = async () => {
     if (!cookies.access_token) return;
@@ -46,6 +39,21 @@ export const useVozoAppProvider = (): VozoAppContext => {
   useEffect(() => {
     if (!currentUser) getCurrentUser();
   }, [cookies.access_token]);
+
+  const getSoundgifs = async (payload: FindSoundGifsPayload) => {
+    setLoading(true);
+    const soundGifs = await findSoundGif(payload);
+    setSoundgifs(soundGifs);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getSoundgifs({ fulltext: searchText, filters });
+  }, [searchText.length, filters]);
+
+  useEffect(() => {
+    if (Object.keys(filters).length) getSoundgifs({ filters });
+  }, [filters]);
 
   const onChangeText = (fulltext: string) => {
     setSearchText(fulltext);

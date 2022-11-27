@@ -12,7 +12,10 @@ export class CreateSoundGifCommandHandler implements ICommandHandler<CreateSound
   ) {}
 
   public async execute({ payload }: CreateSoundGifCommand): Promise<CreateSoundGifCommandResult> {
-    const createdSoundGif = await this.createSoundGifPort.create(payload);
+    const { userId } = payload;
+    delete payload.userId;
+    const createdSoundGif = await this.createSoundGifPort.create(payload, userId);
+    console.log(createdSoundGif);
     return new CreateSoundGifCommandResult(createdSoundGif);
   }
 }

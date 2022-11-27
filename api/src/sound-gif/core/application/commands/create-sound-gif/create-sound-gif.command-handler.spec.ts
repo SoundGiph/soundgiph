@@ -1,5 +1,6 @@
 import { Blob } from "buffer";
 import * as faker from "faker";
+import { UserEntity } from "src/user/core/domain/user.entity";
 import { CreateSoundGifCommand, CreateSoundGifPayload } from "./create-sound-gif.command";
 import { CreateSoundGifCommandHandler } from "./create-sound-gif.command-handler";
 
@@ -20,6 +21,7 @@ const payload: CreateSoundGifPayload = {
   description: "niska",
   reactions: [],
   categories: [],
+  userId: "userId" as UserEntity["id"],
 };
 
 describe("createSoundGifCommand", () => {

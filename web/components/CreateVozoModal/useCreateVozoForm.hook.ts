@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { DropzoneState, FileWithPath } from "react-dropzone";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { Stages } from "../../constants/constants";
 import { useVozoApp } from "../../context/useVozoApp.hook";
 import { useApi } from "../../hooks/api/useApi.hook";
+import { useNotification } from "../../hooks/notification/useNotification";
+import { CREATE_VOZO_MODAL_ID } from "./CreateVozoModal";
 import { useCreateVozoModalDropZone } from "./useCreateVozoModalDropZone";
 
 export enum StepsToAddVozo {
@@ -41,10 +44,11 @@ interface UseCreateVozoFormOutput {
 export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
   const [steps, setSteps] = useState<StepsToAddVozo>(StepsToAddVozo.UPLOAD_AUDIO);
   const { createSoundGifToApprove } = useApi(Stages.BUILD);
-  const { currentUser } = useVozoApp()
+  const { currentUser } = useVozoApp();
   const form = useForm<CreateVozoForm>();
   form.register("audioFile", { required: true });
   form.register("imageFile", { required: true });
+  const [cookies] = useCookies(["access_token"]);
 
   const dropZoneAudioState = useCreateVozoModalDropZone({
     onDrop: () => undefined,
@@ -81,17 +85,38 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
     }
   }, [acceptedImageFile]);
 
+  useEffect(() => {
+    if (steps === StepsToAddVozo.SUCCESS) {
+      form.reset({
+        audioFile: undefined,
+        imageFile: undefined,
+        title: undefined,
+        description: undefined,
+        userId: undefined,
+      });
+      setSteps(StepsToAddVozo.UPLOAD_AUDIO);
+    }
+  }, [steps, form]);
+
+  const { notificationSuccess } = useNotification();
   const onSubmit = async (payload: CreateVozoForm) => {
     const userId = currentUser?.id as string;
     const { title, description, imageFile, audioFile } = payload;
-    const isVozoCreated = await createSoundGifToApprove({
-      title,
-      description,
-      imageFile,
-      audioFile,
-      userId
-    });
-    console.log("VOZO ", isVozoCreated);
+    const isVozoCreated = await createSoundGifToApprove(
+      {
+        title,
+        description,
+        imageFile,
+        audioFile,
+        userId,
+      },
+      cookies.access_token
+    );
+    if (window.document) {
+      window.document?.getElementById(CREATE_VOZO_MODAL_ID)?.click();
+      notificationSuccess("Votre Vozo est en cours de création, il sera uploadé une fois approuvé par notre équipe");
+      setSteps(StepsToAddVozo.SUCCESS);
+    }
   };
 
   const onPressValidateTitleAndDescriptions = () => {
@@ -101,7 +126,6 @@ export const useCreateVozoForm = (): UseCreateVozoFormOutput => {
   };
 
   const onPushGoBack = () => {
-    console.log(form.getValues());
     if (steps === StepsToAddVozo.ADD_DESCRIPTION) form.reset();
     if (steps === StepsToAddVozo.UPLOAD_IMAGE) form.resetField("imageFile");
     setSteps(previousSteps => previousSteps - 1);
