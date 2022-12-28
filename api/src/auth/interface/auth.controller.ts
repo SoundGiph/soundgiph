@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Query, Req, Res, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request, Response } from "express";
 import { UserEntity } from "src/user/core/domain/user.entity";
@@ -26,6 +26,9 @@ export class AuthController {
   @Get("google")
   @UseGuards(AuthGuard("google"))
   async googleAuth(): Promise<void> {
+    console.log("------------------");
+    console.log("GOOGLE AUTH");
+    console.log("------------------");
     return;
   }
 
@@ -55,3 +58,4 @@ export class AuthController {
     return this.generateJWTAndRedirectToWebApp(user.id, res);
   }
 }
+

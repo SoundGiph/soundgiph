@@ -7,12 +7,16 @@ import { WhiteLogo } from "../Logos/WhiteLogo";
 import Modal from "../Modal/Modal";
 import TextButtonWithIcon from "../TextButtonWithIcon/TextButtonWithIcon";
 
-interface LoginModalProps {}
+interface LoginModalProps { }
 
 export const LOGIN_MODAL_ID = "login-modal";
 
 const BUTTON_LINK = "btn-link text-white font-bold";
+const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL;
 
+const openInNewTab = (url: string) => {
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
 const LoginModal: React.FC<LoginModalProps> = () => {
   const { t } = useTranslation();
   const { push } = useRouter();
@@ -22,7 +26,7 @@ const LoginModal: React.FC<LoginModalProps> = () => {
       <Trans
         i18nKey="login_modal.terms"
         t={t}
-        components={[<button className={BUTTON_LINK} onClick={() => push("privacy")} />]}
+        components={[<button className={BUTTON_LINK} onClick={() => openInNewTab(`${WEB_URL}/terms_of_services`)} />]}
       />
     );
   };
@@ -32,7 +36,7 @@ const LoginModal: React.FC<LoginModalProps> = () => {
       <Trans
         i18nKey="login_modal.privacy"
         t={t}
-        components={[<button className={BUTTON_LINK} onClick={() => push("privacy")} />]}
+        components={[<button className={BUTTON_LINK} onClick={() => openInNewTab(`${WEB_URL}/privacy_policy`)} />]}
       />
     );
   };
@@ -75,3 +79,4 @@ const LoginModal: React.FC<LoginModalProps> = () => {
 };
 
 export default LoginModal;
+

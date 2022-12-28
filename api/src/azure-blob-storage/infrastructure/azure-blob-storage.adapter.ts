@@ -7,7 +7,7 @@ import { AzureBlobStoragePort } from "../core/application/ports/azure-blob-stora
 const TEST_ENVIRONMENT = "test";
 @Injectable()
 export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
   private readonly logger = new Logger();
 
   AZURE_STORAGE_URL = this.configService.get<string>("AZURE_STORAGE_URL", "");
@@ -24,16 +24,28 @@ export class AzureBlobStorageAdapter implements AzureBlobStoragePort {
     return containerClient;
   }
 
+  private removeAccents(str: string): string {
+    const accents = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+    const unaccented = 'AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz';
+    let result = str;
+    for (let i = 0; i < accents.length; i++) {
+      result = result.replace(new RegExp(accents[i], 'g'), unaccented[i]);
+    }
+    return result;
+  }
   //TODO: pourquoi la fonction upload est dans l'adapter et pas dans application/commands
 
+
   public async upload(file: Express.Multer.File, containerName: string): Promise<string> {
+    const fileName = this.removeAccents(file[0].originalname);
     this.logger.log(
-      `AzureBlobStorageAdapter > upload > called with fileName: ${file[0].originalname} and containerName: ${containerName}`
+      `AzureBlobStorageAdapter > upload > called with fileName: ${fileName} and containerName: ${containerName}`
     );
     const containerClient = this.connect(containerName);
     const blob = file[0].buffer;
-    const blockBlobClient = containerClient.getBlockBlobClient(file[0].originalname);
+    const blockBlobClient = containerClient.getBlockBlobClient(fileName);
     await blockBlobClient.uploadData(blob);
     return blockBlobClient.url;
   }
 }
+

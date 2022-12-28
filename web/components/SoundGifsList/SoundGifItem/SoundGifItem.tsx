@@ -88,6 +88,7 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small, ca
             width={15}
             height={15}
             className="rounded-full"
+            alt={""}
           />
           {soundGif.user && <p className={ITEM_DESCRIPTION}>{soundGif.user?.firstname}</p>}
         </div>
@@ -95,3 +96,4 @@ export const SoundGifItem: React.FC<SoundGifsItemProps> = ({ soundGif, small, ca
     </div>
   );
 };
+
