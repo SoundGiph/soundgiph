@@ -34,7 +34,7 @@ export const SoundGifsVerticalList: React.FC<SoundGifsListProps> = ({
           <p className="font-bold text-lg ml-2 text-white">{title}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2 xl:grid-cols-4 grid-flow-row overflow-y-scroll scrollbar-thumb-white scrollbar-track-white-100 content-center">
+      <div className="grid grid-cols-2 gap-2 xl:grid-cols-4 grid-flow-row overflow-y-hidden content-center">
         {soundGifs.map(soundGif => {
           return <SoundGifItem soundGif={soundGif} small canShare />;
         })}
