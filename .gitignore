@@ -30,6 +30,9 @@
 #data
 database/data
 
+#certificates
+certbot/conf/
+
 #env variables
 .env
 */.env*
