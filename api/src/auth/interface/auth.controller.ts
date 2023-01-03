@@ -26,9 +26,6 @@ export class AuthController {
   @Get("google")
   @UseGuards(AuthGuard("google"))
   async googleAuth(): Promise<void> {
-    console.log("------------------");
-    console.log("GOOGLE AUTH");
-    console.log("------------------");
     return;
   }
 
