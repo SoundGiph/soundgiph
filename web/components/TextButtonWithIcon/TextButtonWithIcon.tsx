@@ -8,7 +8,7 @@ interface TextButtonWithIconProps {
 const TextButtonWithIcon: React.FC<TextButtonWithIconProps> = ({ icon, onClick, label }) => {
   return (
     <button
-      className="btn btn-outline bg-white text-black gap-2 border-2 border-primary hover:border-2 focus:border-2 focus:border-primary mb-4 w-11/12"
+      className="btn btn-outline bg-white text-black border-2 border-primary hover:border-2 focus:border-2 focus:border-primary mb-4"
       onClick={onClick}
     >
       {icon}
